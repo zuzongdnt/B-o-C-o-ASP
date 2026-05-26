@@ -1,0 +1,188 @@
+@model IEnumerable<dienthoai.Models.TaiKhoan>
+
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+    var taiKhoans = Model?.ToList() ?? new List<dienthoai.Models.TaiKhoan>();
+    var tongTaiKhoan = ViewBag.TongTaiKhoan ?? taiKhoans.Count;
+    var hoatDong = ViewBag.TaiKhoanHoatDong ?? taiKhoans.Count(x => x.TrangThai == true);
+    var biKhoa = ViewBag.TaiKhoanBiKhoa ?? taiKhoans.Count(x => x.TrangThai != true);
+    var adminCount = ViewBag.TaiKhoanAdmin ?? taiKhoans.Count(x => (x.VaiTro ?? "").Trim() == "Admin");
+
+    string InitialOf(dienthoai.Models.TaiKhoan account)
+    {
+        var name = string.IsNullOrWhiteSpace(account.HoTen) ? account.TenDangNhap : account.HoTen;
+        return string.IsNullOrWhiteSpace(name) ? "U" : name.Trim()[0].ToString().ToUpper();
+    }
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--users">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-action="Dashboard" class="zz-admin-brand" aria-label="ZUZONG Admin Dashboard">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text"><strong>ZUZONG</strong><small>Admin Center</small></span>
+            </a>
+
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-action="Dashboard" class="zz-admin-nav__item"><span class="zz-admin-nav__index">01</span><span>Tổng quan</span></a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">02</span><span>Sản phẩm</span></a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">03</span><span>Thương hiệu</span></a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">04</span><span>Đơn hàng</span></a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">05</span><span>Đánh giá</span></a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">06</span><span>Từ cấm</span></a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item active"><span class="zz-admin-nav__index">07</span><span>Người dùng</span></a>
+            </nav>
+
+            <div class="zz-admin-sidebar__foot">
+                <span>Đang đăng nhập</span>
+                <strong>@(ViewBag.HoTenAdmin ?? "Quản trị viên")</strong>
+            </div>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Users</p>
+                    <h1 class="zz-admin-title">Quản lý người dùng</h1>
+                    <p class="zz-admin-subtitle">Theo dõi khách hàng, phân quyền admin và trạng thái hoạt động mà không hiển thị mật khẩu.</p>
+                </div>
+
+                <div class="zz-admin-actions">
+                    <a asp-action="Dashboard" class="zz-admin-chip">Dashboard</a>
+                    <a asp-action="Create" class="zz-admin-quick-btn">Tạo tài khoản</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-metrics zz-admin-user-metrics" aria-label="Thống kê tài khoản">
+                <article class="zz-admin-metric zz-admin-metric--green">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">TK</span><span class="zz-admin-metric__label">Tổng tài khoản</span></div>
+                    <strong class="zz-admin-metric__value">@tongTaiKhoan</strong>
+                    <span class="zz-admin-metric__hint">Tất cả người dùng trong hệ thống</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--blue">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">ON</span><span class="zz-admin-metric__label">Đang hoạt động</span></div>
+                    <strong class="zz-admin-metric__value">@hoatDong</strong>
+                    <span class="zz-admin-metric__hint">Có thể đăng nhập và mua hàng</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--amber">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">AD</span><span class="zz-admin-metric__label">Quản trị viên</span></div>
+                    <strong class="zz-admin-metric__value">@adminCount</strong>
+                    <span class="zz-admin-metric__hint">@biKhoa tài khoản đang bị khóa</span>
+                </article>
+            </section>
+
+            <section class="zz-admin-panel zz-admin-users-panel">
+                <div class="zz-admin-users-toolbar">
+                    <div>
+                        <p class="zz-admin-panel__eyebrow">Danh sách</p>
+                        <h2>Tài khoản khách hàng</h2>
+                    </div>
+                    <label class="zz-admin-user-search">
+                        <span>Tìm kiếm</span>
+                        <input id="zzUserSearch" type="search" placeholder="Tên, email, username..." autocomplete="off" />
+                    </label>
+                </div>
+
+                <div class="zz-admin-user-list" id="zzUserList">
+                    @foreach (var item in taiKhoans)
+                    {
+                        var displayName = string.IsNullOrWhiteSpace(item.HoTen) ? item.TenDangNhap : item.HoTen;
+                        var avatar = string.IsNullOrWhiteSpace(item.Avatar) ? "" : Url.Content("~/images/" + item.Avatar);
+                        var role = string.IsNullOrWhiteSpace(item.VaiTro) ? "User" : item.VaiTro.Trim();
+                        var isActive = item.TrangThai == true;
+                        var editUrl = Url.Action("Edit", "TaiKhoan", new { id = item.MaTaiKhoan }) ?? "#";
+                        var searchText = $"{displayName} {item.TenDangNhap} {item.Email} {role}".ToLowerInvariant();
+
+                        <article class="zz-admin-user-card" data-user-card data-search="@searchText" data-href="@editUrl" tabindex="0" role="link" aria-label="Sửa tài khoản @displayName">
+                            <div class="zz-admin-user-card__avatar">
+                                @if (!string.IsNullOrEmpty(avatar))
+                                {
+                                    <img src="@avatar" alt="@displayName" />
+                                }
+                                else
+                                {
+                                    <span>@InitialOf(item)</span>
+                                }
+                            </div>
+
+                            <div class="zz-admin-user-card__identity">
+                                <strong>@displayName</strong>
+                                <small>@("@" + item.TenDangNhap)</small>
+                            </div>
+
+                            <div class="zz-admin-user-card__meta">
+                                <span>Email</span>
+                                <strong>@(string.IsNullOrWhiteSpace(item.Email) ? "Chưa cập nhật" : item.Email)</strong>
+                            </div>
+
+                            <div class="zz-admin-user-card__meta">
+                                <span>Vai trò</span>
+                                <strong>@role</strong>
+                            </div>
+
+                            <div class="zz-admin-user-card__meta">
+                                <span>Ngày tạo</span>
+                                <strong>@(item.NgayTao?.ToString("dd/MM/yyyy") ?? "Chưa rõ")</strong>
+                            </div>
+
+                            <span class="zz-admin-user-status @(isActive ? "is-active" : "is-locked")">
+                                @(isActive ? "Hoạt động" : "Đã khóa")
+                            </span>
+
+                            <div class="zz-admin-user-actions">
+                                <a asp-action="Edit" asp-route-id="@item.MaTaiKhoan" class="zz-admin-user-action zz-admin-user-action--edit">Sửa</a>
+                                <a asp-action="Delete" asp-route-id="@item.MaTaiKhoan" class="zz-admin-user-action zz-admin-user-action--delete">Xóa</a>
+                            </div>
+                        </article>
+                    }
+                </div>
+
+                <div class="zz-admin-empty-users" id="zzUserEmpty" hidden>Không tìm thấy tài khoản phù hợp.</div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const cards = Array.from(document.querySelectorAll('[data-user-card]'));
+        const search = document.getElementById('zzUserSearch');
+        const empty = document.getElementById('zzUserEmpty');
+
+        cards.forEach(card => {
+            const openCard = () => {
+                const href = card.dataset.href;
+                if (href) window.location.href = href;
+            };
+
+            card.addEventListener('click', event => {
+                if (event.target.closest('a')) return;
+                openCard();
+            });
+
+            card.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openCard();
+                }
+            });
+        });
+
+        search?.addEventListener('input', () => {
+            const keyword = search.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const matched = !keyword || (card.dataset.search || '').includes(keyword);
+                card.hidden = !matched;
+                if (matched) visibleCount += 1;
+            });
+
+            if (empty) empty.hidden = visibleCount !== 0;
+        });
+    })();
+</script>

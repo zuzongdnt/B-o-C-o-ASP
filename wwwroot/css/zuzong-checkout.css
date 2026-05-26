@@ -1,0 +1,420 @@
+.zz-checkout-page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2.5rem 0 5rem;
+    color: var(--zz-text);
+}
+
+.zz-checkout-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.zz-checkout-eyebrow {
+    margin: 0 0 0.55rem;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+}
+
+.zz-checkout-header h1 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 680;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.zz-checkout-header span {
+    display: inline-block;
+    margin-top: 0.65rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-checkout-link,
+.zz-checkout-btn {
+    min-height: 2.85rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 750;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.zz-checkout-link {
+    padding: 0 1.15rem;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+}
+
+.zz-checkout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 1rem;
+    align-items: start;
+}
+
+.zz-checkout-panel {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.15rem;
+    padding: 1.35rem;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.11);
+}
+
+.zz-checkout-panel__head {
+    margin-bottom: 1rem;
+}
+
+.zz-checkout-panel__head span,
+.zz-checkout-info span {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.zz-checkout-panel__head h2 {
+    margin: 0.25rem 0 0;
+    color: var(--zz-text);
+    font-size: 1.35rem;
+    font-weight: 750;
+}
+
+.zz-checkout-info {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.zz-checkout-info div {
+    padding: 1rem;
+    border-radius: 0.9rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-checkout-info strong {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--zz-text);
+    line-height: 1.55;
+}
+
+.zz-checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.zz-checkout-main {
+    display: grid;
+    gap: 1rem;
+}
+
+.zz-checkout-items {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.zz-checkout-item {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0.7rem;
+    border-radius: 0.95rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-checkout-item__image {
+    width: 64px;
+    height: 64px;
+    border-radius: 0.8rem;
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+}
+
+.zz-checkout-item__image img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.zz-checkout-item__image span {
+    display: none;
+}
+
+.zz-checkout-item__image span.is-visible {
+    display: inline-flex;
+}
+
+.zz-checkout-item__info {
+    min-width: 0;
+}
+
+.zz-checkout-item__info strong,
+.zz-checkout-item__info small {
+    display: block;
+}
+
+.zz-checkout-item__info strong {
+    color: var(--zz-text);
+    font-size: 0.96rem;
+    line-height: 1.35;
+}
+
+.zz-checkout-item__info small {
+    margin-top: 0.25rem;
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-checkout-item__price {
+    color: #e00016;
+    white-space: nowrap;
+}
+
+.zz-payment-option {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    padding: 1rem;
+    border-radius: 0.95rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    cursor: pointer;
+}
+
+.zz-payment-option input {
+    margin-top: 0.2rem;
+    accent-color: var(--zz-btn-primary-bg);
+}
+
+.zz-payment-option strong,
+.zz-payment-option small {
+    display: block;
+}
+
+.zz-payment-option strong {
+    color: var(--zz-text);
+    font-size: 0.95rem;
+}
+
+.zz-payment-option small {
+    margin-top: 0.25rem;
+    color: var(--zz-text-muted);
+    line-height: 1.45;
+}
+
+.zz-bank-card,
+.zz-coupon-box,
+.zz-checkout-totals {
+    padding: 1rem;
+    border-radius: 0.95rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-bank-card span,
+.zz-bank-card small,
+.zz-coupon-box label,
+.zz-checkout-totals span {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+}
+
+.zz-bank-card strong,
+.zz-bank-card small {
+    display: block;
+}
+
+.zz-bank-card strong {
+    margin-top: 0.35rem;
+    color: var(--zz-text);
+    font-size: 1rem;
+}
+
+.zz-bank-card small {
+    margin-top: 0.2rem;
+}
+
+.zz-coupon-box {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.zz-coupon-input {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+}
+
+.zz-coupon-input input {
+    min-width: 0;
+    min-height: 2.75rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 999px;
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    font: inherit;
+    padding: 0 1rem;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.zz-coupon-input input:focus {
+    border-color: #8cff2e;
+    box-shadow: 0 0 0 4px rgba(140, 255, 46, 0.12);
+}
+
+.zz-coupon-input button {
+    min-height: 2.75rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 999px;
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    font: inherit;
+    font-weight: 750;
+    padding: 0 1rem;
+    cursor: pointer;
+}
+
+.zz-coupon-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.zz-coupon-suggestions a {
+    min-height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 760;
+}
+
+.zz-coupon-message {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.zz-coupon-message--success {
+    color: #16a34a;
+}
+
+.zz-coupon-message--error {
+    color: #ef4444;
+}
+
+.zz-checkout-totals {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.zz-checkout-totals div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.zz-checkout-totals strong {
+    color: var(--zz-text);
+    white-space: nowrap;
+}
+
+.zz-checkout-discount strong {
+    color: #e00016;
+}
+
+.zz-checkout-total {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--zz-card-border);
+}
+
+.zz-checkout-total strong {
+    color: #e00016;
+    font-size: 1.35rem;
+}
+
+.zz-checkout-btn {
+    width: 100%;
+    margin-top: 0.6rem;
+    border: 1px solid transparent;
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+}
+
+.zz-checkout-link:hover,
+.zz-checkout-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.88;
+}
+
+html.theme-light .zz-checkout-panel {
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 900px) {
+    .zz-checkout-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .zz-checkout-page {
+        padding-top: 1rem;
+    }
+
+    .zz-checkout-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .zz-checkout-link {
+        width: 100%;
+    }
+
+    .zz-checkout-item {
+        grid-template-columns: 56px minmax(0, 1fr);
+    }
+
+    .zz-checkout-item__image {
+        width: 56px;
+        height: 56px;
+    }
+
+    .zz-checkout-item__price {
+        grid-column: 1 / -1;
+    }
+
+    .zz-coupon-input {
+        grid-template-columns: 1fr;
+    }
+}

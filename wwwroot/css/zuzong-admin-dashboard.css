@@ -1,0 +1,1245 @@
+/* ============================================================
+   ZUZONG ADMIN DASHBOARD
+   Dán phần này vào cuối file custom CSS hiện tại của bạn
+   ============================================================ */
+
+.zz-admin-shell {
+    min-height: 100vh;
+    padding: 1rem;
+    background: radial-gradient(circle at 12% 10%, rgba(59, 130, 246, 0.12), transparent 28rem), radial-gradient(circle at 90% 8%, rgba(34, 197, 94, 0.12), transparent 26rem), var(--zz-bg);
+    color: var(--zz-text);
+}
+
+.zz-admin-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.zz-admin-sidebar,
+.zz-admin-topbar,
+.zz-admin-metric,
+.zz-admin-panel {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.zz-admin-sidebar {
+    position: sticky;
+    top: 1rem;
+    height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+}
+
+.zz-admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--zz-text);
+    text-decoration: none;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--zz-card-border);
+}
+
+.zz-admin-brand__mark {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #a8ff3e;
+    color: #111;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.zz-admin-brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.zz-admin-brand__text strong {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+.zz-admin-brand__text small {
+    color: var(--zz-text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.zz-admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-top: 1.25rem;
+}
+
+.zz-admin-nav__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 0.9rem;
+    border: 1px solid transparent;
+    border-radius: 0.8rem;
+    color: var(--zz-text-muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.zz-admin-nav__item:hover,
+.zz-admin-nav__item.active {
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    border-color: var(--zz-card-border);
+    transform: translateX(3px);
+}
+
+.zz-admin-nav__item.active {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.16), rgba(59, 130, 246, 0.1));
+}
+
+.zz-admin-nav__index {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--zz-input-bg);
+    color: var(--zz-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.zz-admin-sidebar__foot {
+    margin-top: auto;
+    padding: 1rem;
+    border-radius: 0.9rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.zz-admin-sidebar__foot span {
+    color: var(--zz-text-muted);
+    font-size: 0.75rem;
+}
+
+.zz-admin-sidebar__foot strong {
+    color: var(--zz-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.zz-admin-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.zz-admin-topbar {
+    border-radius: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.zz-admin-kicker,
+.zz-admin-panel__eyebrow {
+    margin: 0 0 0.45rem;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.zz-admin-title {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: clamp(1.9rem, 3vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.zz-admin-subtitle {
+    margin: 0.65rem 0 0;
+    color: var(--zz-text-muted);
+    font-size: 0.92rem;
+}
+
+.zz-admin-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.zz-admin-chip,
+.zz-admin-quick-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.7rem;
+    padding: 0 1rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.zz-admin-chip {
+    color: var(--zz-text);
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-admin-quick-btn {
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+    border: 1px solid transparent;
+    font-weight: 600;
+}
+
+.zz-admin-chip:hover,
+.zz-admin-quick-btn:hover {
+    opacity: 0.86;
+    transform: translateY(-2px);
+}
+
+.zz-admin-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.zz-admin-manage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.zz-admin-manage-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 96px;
+    padding: 1rem;
+    color: var(--zz-text);
+    text-decoration: none;
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.zz-admin-manage-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--zz-text-muted);
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-manage-card--front {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent), var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+    border-color: transparent;
+}
+
+.zz-admin-manage-card--front small {
+    color: color-mix(in srgb, var(--zz-btn-primary-text) 68%, transparent);
+}
+
+.zz-admin-manage-card--front .zz-admin-manage-card__icon {
+    color: var(--zz-btn-primary-bg);
+    background: var(--zz-btn-primary-text);
+}
+
+.zz-admin-manage-card__icon {
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #111;
+    background: #a8ff3e;
+    font-size: 0.74rem;
+    font-weight: 800;
+}
+
+.zz-admin-manage-card strong,
+.zz-admin-manage-card small {
+    display: block;
+}
+
+.zz-admin-manage-card strong {
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.zz-admin-manage-card small {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.35;
+}
+
+.zz-admin-metric {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.1rem;
+    padding: 1.2rem;
+    min-height: 150px;
+}
+
+.zz-admin-metric::after {
+    content: '';
+    position: absolute;
+    inset: auto -3rem -4rem auto;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    opacity: 0.18;
+}
+
+.zz-admin-metric--blue::after {
+    background: #3b82f6;
+}
+
+.zz-admin-metric--green::after {
+    background: #22c55e;
+}
+
+.zz-admin-metric--amber::after {
+    background: #f59e0b;
+}
+
+.zz-admin-metric__top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.zz-admin-metric__icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.zz-admin-metric__label,
+.zz-admin-metric__hint {
+    color: var(--zz-text-muted);
+    font-size: 0.8rem;
+}
+
+.zz-admin-metric__value {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: var(--zz-text);
+    font-size: clamp(1.65rem, 2.7vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
+    margin-bottom: 0.6rem;
+}
+
+.zz-admin-content-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.35fr);
+    gap: 1rem;
+}
+
+.zz-admin-panel {
+    border-radius: 1.1rem;
+    padding: 1.25rem;
+    min-width: 0;
+}
+
+.zz-admin-panel--wide {
+    grid-column: 1 / -1;
+}
+
+.zz-admin-panel__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.zz-admin-panel__head h2 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.zz-admin-status-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 1.8rem;
+    padding: 0 0.75rem;
+    border-radius: 9999px;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    color: #22c55e;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.zz-admin-status-pill--link {
+    text-decoration: none;
+}
+
+.zz-admin-quick-btn--danger {
+    background: #ff3b30;
+    color: #ffffff;
+}
+
+.zz-admin-shell--users {
+    background: radial-gradient(circle at 12% 8%, rgba(168, 255, 62, 0.11), transparent 25rem), radial-gradient(circle at 82% 10%, rgba(255, 138, 31, 0.12), transparent 27rem), var(--zz-bg);
+}
+
+.zz-admin-users-hero {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 46%), var(--zz-card-bg);
+}
+
+.zz-admin-user-metrics .zz-admin-metric {
+    min-height: 138px;
+}
+
+.zz-admin-users-panel {
+    padding: 1.1rem;
+}
+
+.zz-admin-users-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.zz-admin-users-toolbar h2 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.zz-admin-user-search {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: min(100%, 25rem);
+    min-height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 999px;
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-user-search span {
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.zz-admin-user-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--zz-text);
+    font: inherit;
+    min-width: 0;
+}
+
+.zz-admin-user-search input::placeholder {
+    color: var(--zz-text-muted);
+}
+
+.zz-admin-user-list {
+    display: grid;
+    gap: 0.72rem;
+}
+
+.zz-admin-user-card {
+    display: grid;
+    grid-template-columns: 3.3rem minmax(9rem, 1.2fr) minmax(12rem, 1.35fr) minmax(5.5rem, 0.55fr) minmax(7rem, 0.65fr) auto auto;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 5.5rem;
+    padding: 0.85rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 40%), var(--zz-card-bg);
+    color: var(--zz-text);
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.zz-admin-user-card:hover,
+.zz-admin-user-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, #a8ff3e 60%, var(--zz-card-border));
+    background: var(--zz-input-bg);
+    outline: none;
+}
+
+.zz-admin-user-card[hidden] {
+    display: none;
+}
+
+.zz-admin-user-card__avatar,
+.zz-admin-user-edit__avatar,
+.zz-admin-user-mini__avatar {
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, #a8ff3e, #ff8a1f);
+    color: #0a0a0a;
+    font-weight: 900;
+}
+
+.zz-admin-user-card__avatar {
+    width: 3.3rem;
+    height: 3.3rem;
+    border-radius: 1rem;
+}
+
+.zz-admin-user-card__avatar img,
+.zz-admin-user-edit__avatar img,
+.zz-admin-user-mini__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.zz-admin-user-card__identity,
+.zz-admin-user-card__meta {
+    min-width: 0;
+}
+
+.zz-admin-user-card__identity strong,
+.zz-admin-user-card__identity small,
+.zz-admin-user-card__meta strong,
+.zz-admin-user-card__meta span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-admin-user-card__identity strong {
+    color: var(--zz-text);
+    font-size: 0.98rem;
+    font-weight: 750;
+}
+
+.zz-admin-user-card__identity small,
+.zz-admin-user-card__meta span {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+}
+
+.zz-admin-user-card__meta strong {
+    margin-top: 0.16rem;
+    color: var(--zz-text);
+    font-size: 0.86rem;
+    font-weight: 650;
+}
+
+.zz-admin-user-status {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.zz-admin-user-status.is-active {
+    background: rgba(34, 197, 94, 0.13);
+    border: 1px solid rgba(34, 197, 94, 0.32);
+    color: #22c55e;
+}
+
+.zz-admin-user-status.is-locked {
+    background: rgba(255, 59, 48, 0.12);
+    border: 1px solid rgba(255, 59, 48, 0.32);
+    color: #ff6b61;
+}
+
+.zz-admin-user-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.45rem;
+}
+
+.zz-admin-user-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.2rem;
+    padding: 0 0.78rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.zz-admin-user-action--edit {
+    background: #ffffff;
+    color: #111111;
+}
+
+.zz-admin-user-action--delete {
+    background: rgba(255, 59, 48, 0.12);
+    border: 1px solid rgba(255, 59, 48, 0.3);
+    color: #ff6b61;
+}
+
+.zz-admin-empty-users {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.9rem;
+    background: var(--zz-input-bg);
+    color: var(--zz-text-muted);
+    text-align: center;
+}
+
+.zz-admin-users-overview {
+    padding: 1.1rem;
+}
+
+.zz-admin-user-strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.zz-admin-user-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 0.85rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.9rem;
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.zz-admin-user-mini:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, #a8ff3e 55%, var(--zz-card-border));
+}
+
+.zz-admin-user-mini__avatar {
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 0.82rem;
+}
+
+.zz-admin-user-mini__body {
+    min-width: 0;
+}
+
+.zz-admin-user-mini__body strong,
+.zz-admin-user-mini__body small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-admin-user-mini__body strong {
+    font-size: 0.88rem;
+}
+
+.zz-admin-user-mini__body small {
+    margin-top: 0.18rem;
+    color: var(--zz-text-muted);
+    font-size: 0.74rem;
+}
+
+.zz-admin-user-edit {
+    display: grid;
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.zz-admin-user-edit__profile,
+.zz-admin-delete-card {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.1rem;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.zz-admin-user-edit__profile {
+    position: sticky;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.1rem;
+}
+
+.zz-admin-user-edit__avatar {
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 1.35rem;
+    font-size: 1.7rem;
+}
+
+.zz-admin-user-edit__profile h2,
+.zz-admin-delete-card__info h2 {
+    margin: 0.2rem 0 0;
+    color: var(--zz-text);
+    font-size: 1.35rem;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.zz-admin-user-edit__profile p {
+    margin: 0;
+    color: var(--zz-text-muted);
+}
+
+.zz-admin-user-edit__safe-note {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--zz-text-muted);
+    line-height: 1.5;
+}
+
+.zz-admin-user-edit__form {
+    padding: 1.1rem;
+}
+
+.zz-admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.zz-admin-field {
+    display: grid;
+    gap: 0.42rem;
+    min-width: 0;
+}
+
+.zz-admin-field--wide {
+    grid-column: 1 / -1;
+}
+
+.zz-admin-field span {
+    color: var(--zz-text-muted);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.zz-admin-field input,
+.zz-admin-field select,
+.zz-admin-field textarea {
+    width: 100%;
+    min-height: 3.05rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.85rem;
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    padding: 0.78rem 0.9rem;
+    outline: none;
+}
+
+.zz-admin-field textarea {
+    resize: vertical;
+}
+
+.zz-admin-field input:focus,
+.zz-admin-field select:focus,
+.zz-admin-field textarea:focus {
+    border-color: color-mix(in srgb, #a8ff3e 65%, var(--zz-card-border));
+}
+
+.zz-admin-field em {
+    color: #ff6b61;
+    font-size: 0.76rem;
+    font-style: normal;
+}
+
+.zz-admin-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+
+.zz-admin-delete-card {
+    display: grid;
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.zz-admin-delete-card .zz-admin-user-edit__profile {
+    position: static;
+    box-shadow: none;
+}
+
+.zz-admin-delete-card__info {
+    padding: 1rem;
+    min-width: 0;
+}
+
+.zz-admin-delete-card__info dl {
+    display: grid;
+    gap: 0.7rem;
+    margin: 1rem 0 0;
+}
+
+.zz-admin-delete-card__info dl div {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.78rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.8rem;
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-delete-card__info dt {
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.zz-admin-delete-card__info dd {
+    margin: 0;
+    color: var(--zz-text);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.zz-admin-shell--orders {
+    background: radial-gradient(circle at 16% 8%, rgba(59, 130, 246, 0.14), transparent 26rem), radial-gradient(circle at 88% 16%, rgba(168, 255, 62, 0.1), transparent 26rem), var(--zz-bg);
+}
+
+.zz-admin-shell--reviews {
+    background: radial-gradient(circle at 18% 10%, rgba(255, 138, 31, 0.14), transparent 25rem), radial-gradient(circle at 86% 12%, rgba(59, 130, 246, 0.1), transparent 28rem), var(--zz-bg);
+}
+
+.zz-admin-shell--moderation {
+    background: radial-gradient(circle at 16% 12%, rgba(255, 59, 48, 0.12), transparent 24rem), radial-gradient(circle at 88% 12%, rgba(168, 255, 62, 0.1), transparent 27rem), var(--zz-bg);
+}
+
+.zz-admin-data-panel {
+    padding: 1.1rem;
+}
+
+.zz-admin-order-list,
+.zz-admin-review-grid,
+.zz-admin-banword-grid {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.zz-admin-order-card,
+.zz-admin-review-card,
+.zz-admin-banword-card {
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 44%), var(--zz-card-bg);
+    color: var(--zz-text);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.zz-admin-order-card:hover,
+.zz-admin-review-card:hover,
+.zz-admin-banword-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, #a8ff3e 48%, var(--zz-card-border));
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-order-card[hidden],
+.zz-admin-review-card[hidden],
+.zz-admin-banword-card[hidden] {
+    display: none;
+}
+
+.zz-admin-order-card {
+    display: grid;
+    grid-template-columns: minmax(4rem, 0.45fr) minmax(12rem, 1.2fr) minmax(11rem, 0.9fr) minmax(8rem, 0.7fr) minmax(9rem, 0.8fr) minmax(12rem, 1fr) auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem;
+}
+
+.zz-admin-order-card__id {
+    color: #a8ff3e;
+    font-size: 1.05rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.zz-admin-order-card__customer strong,
+.zz-admin-order-card__meta strong {
+    display: block;
+    color: var(--zz-text);
+    font-weight: 760;
+}
+
+.zz-admin-order-card__customer small,
+.zz-admin-order-card__meta span {
+    display: block;
+    margin-top: 0.18rem;
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-admin-order-card__money {
+    color: #ff4d5f;
+    font-size: 1rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.zz-admin-status-form {
+    min-width: 0;
+}
+
+.zz-admin-status-select {
+    width: 100%;
+    min-height: 2.55rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.75rem;
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    padding: 0 0.8rem;
+    font-weight: 800;
+    outline: none;
+}
+
+.zz-admin-status-select.is-active {
+    color: #22c55e;
+}
+
+.zz-admin-status-select.is-shipping {
+    color: #38bdf8;
+}
+
+.zz-admin-status-select.is-pending {
+    color: #f59e0b;
+}
+
+.zz-admin-status-select.is-locked {
+    color: #ff6b61;
+}
+
+.zz-admin-review-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.zz-admin-review-card {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    min-width: 0;
+}
+
+.zz-admin-review-card__top,
+.zz-admin-banword-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.zz-admin-review-stars {
+    color: #ffb020;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+}
+
+.zz-admin-review-card__content {
+    min-height: 3.2rem;
+    margin: 0;
+    color: var(--zz-text);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.55;
+}
+
+.zz-admin-review-card__image {
+    width: 100%;
+    height: 12rem;
+    border-radius: 0.85rem;
+    border: 1px solid var(--zz-card-border);
+    object-fit: cover;
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-review-card__meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.zz-admin-review-card__meta div {
+    min-width: 0;
+    padding: 0.72rem;
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.8rem;
+    background: var(--zz-input-bg);
+}
+
+.zz-admin-review-card__meta span,
+.zz-admin-banword-card__badge {
+    display: block;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.zz-admin-review-card__meta strong {
+    display: block;
+    margin-top: 0.18rem;
+    color: var(--zz-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-admin-banword-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.zz-admin-banword-card {
+    display: grid;
+    align-content: space-between;
+    gap: 0.9rem;
+    min-height: 13rem;
+    padding: 1rem;
+}
+
+.zz-admin-banword-card__word {
+    color: var(--zz-text);
+    font-size: 1.8rem;
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+}
+
+.zz-admin-banword-card__note {
+    margin: 0;
+    color: var(--zz-text-muted);
+    line-height: 1.55;
+}
+
+.zz-admin-chart-wrap {
+    position: relative;
+    min-height: 320px;
+}
+
+.zz-admin-chart-wrap--donut {
+    min-height: 300px;
+}
+
+.zz-admin-chart-wrap--wide {
+    min-height: 340px;
+}
+
+.zz-admin-chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 1280px) {
+    .zz-admin-order-card {
+        grid-template-columns: minmax(4rem, 0.35fr) minmax(12rem, 1fr) minmax(9rem, 0.75fr);
+    }
+    .zz-admin-order-card .zz-admin-user-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+    .zz-admin-review-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 991px) {
+    .zz-admin-layout {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-sidebar {
+        position: static;
+        height: auto;
+    }
+    .zz-admin-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .zz-admin-metrics,
+    .zz-admin-manage-grid,
+    .zz-admin-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-user-card {
+        grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+    }
+    .zz-admin-order-card {
+        grid-template-columns: minmax(4rem, 0.35fr) minmax(11rem, 1fr) minmax(9rem, 0.8fr);
+    }
+    .zz-admin-review-grid,
+    .zz-admin-banword-grid {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-user-card__meta {
+        display: none;
+    }
+    .zz-admin-order-card__meta {
+        display: none;
+    }
+    .zz-admin-user-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+        padding-left: 4.05rem;
+    }
+    .zz-admin-user-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .zz-admin-user-edit,
+    .zz-admin-delete-card {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-user-edit__profile {
+        position: static;
+    }
+    .zz-admin-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .zz-admin-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 575px) {
+    .zz-admin-shell {
+        padding: 0.75rem;
+    }
+    .zz-admin-sidebar,
+    .zz-admin-topbar,
+    .zz-admin-panel,
+    .zz-admin-metric {
+        border-radius: 0.95rem;
+    }
+    .zz-admin-nav {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-topbar,
+    .zz-admin-panel,
+    .zz-admin-metric {
+        padding: 1rem;
+    }
+    .zz-admin-actions,
+    .zz-admin-chip,
+    .zz-admin-quick-btn {
+        width: 100%;
+    }
+    .zz-admin-users-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .zz-admin-user-search {
+        width: 100%;
+    }
+    .zz-admin-user-card {
+        grid-template-columns: 3rem minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+    .zz-admin-order-card {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-review-card__meta {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-user-status {
+        grid-column: 2;
+    }
+    .zz-admin-user-actions {
+        padding-left: 0;
+    }
+    .zz-admin-user-strip,
+    .zz-admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .zz-admin-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .zz-admin-delete-card__info dl div {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+    .zz-admin-chart-wrap,
+    .zz-admin-chart-wrap--donut,
+    .zz-admin-chart-wrap--wide {
+        min-height: 260px;
+    }
+}

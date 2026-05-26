@@ -1,0 +1,701 @@
+@using dienthoai.Models
+@using Microsoft.EntityFrameworkCore
+@inject QuanLyDienThoaiZuzongContext _context
+@{
+    ViewData["Title"] = "Trang chủ";
+    ViewData["BodyClass"] = "page-home";
+
+    var thuongHieus = _context.ThuongHieus.ToList();
+    var tongSanPham = _context.SanPhams.Count(s => s.TrangThai == true);
+    var sanPhamNoi  = _context.SanPhams
+                              .Where(s => s.TrangThai == true)
+                              .Include(s => s.MaThuongHieuNavigation)
+                              .OrderByDescending(s => s.NgayThem)
+                              .Take(4)
+                              .ToList();
+}
+
+<section class="zz-hero">
+    <video class="zz-hero__video" autoplay loop muted playsinline
+           src="https://dl.dropboxusercontent.com/scl/fi/othov82zi5hdaircgchrc/snaptik.vn_7587810788736290055.mp4?rlkey=mna88rjx9z7g0nggm8ezozkx7&st=6yp8ymqs">
+    </video>
+    <div class="zz-hero__overlay"></div>
+
+    <div class="zz-hero__content">
+        <div class="zz-hero__glass-box">
+            <span class="zz-hero__glass-tag">Mới ra mắt</span>
+            <h2 class="zz-hero__glass-title">Xiaomi 17 Ultra <span>by Leica</span></h2>
+            <p class="zz-hero__glass-desc">Đỉnh cao nhiếp ảnh di động. Trang bị chip Snapdragon 8 Gen 4 và hệ thống camera Leica thế hệ mới.</p>
+            <a asp-controller="SanPham" asp-action="Details" asp-route-id="19" class="zz-hero__glass-btn">Xem chi tiết</a>
+        </div>
+        <div class="zz-hero-brand" aria-label="ZuzongStore">
+            <p class="zz-hero-brand__eyebrow">Điện thoại chính hãng</p>
+            <h1 class="zz-hero-brand__title">
+                <span>Zuzong</span><strong>Store</strong>
+            </h1>
+            <p class="zz-hero-brand__meta">Tư vấn đúng nhu cầu · Giá tốt mỗi ngày · Hỗ trợ nhanh</p>
+        </div>
+        
+        <p class="zz-hero__desc">
+            Mang đến những thiết bị công nghệ tốt nhất với giá cạnh tranh nhất cho bạn
+        </p>
+
+        <div class="zz-stat zz-stat--tr">
+            <div class="zz-stat__row">
+                <div class="zz-stat__divider"></div>
+                <span class="zz-stat__value">+50k</span>
+            </div>
+            <p class="zz-stat__label">Khách hàng tin tưởng</p>
+        </div>
+        <div class="zz-stat zz-stat--bl">
+            <div class="zz-stat__row">
+                <span class="zz-stat__value">+@tongSanPham</span>
+                <div class="zz-stat__divider"></div>
+            </div>
+            <p class="zz-stat__label">dòng sản phẩm</p>
+        </div>
+        <div class="zz-stat zz-stat--br">
+            @* <div class="zz-stat__row">
+                <div class="zz-stat__divider"></div>
+                <span class="zz-stat__value">+@thuongHieus.Count()</span>
+            </div> *@
+            <p class="zz-stat__label">Thương hiệu hàng đầu</p>
+        </div>
+    </div>
+    
+    <div class="zz-hero__gradient"></div>
+    <div class="zz-scroll-hint">
+        <span>scroll</span>
+        <div class="zz-scroll-hint__line"></div>
+    </div>
+</section>
+
+<section class="zz-stl-section">
+    <div class="zz-stl-grid">
+        <div class="zz-animate zz-animate--left">
+            <div class="zz-glass">
+                <span class="zz-glass__tag">camera</span>
+                <h3 class="zz-glass__title">camera đỉnh cao × leica</h3>
+                <p class="zz-glass__sub">50MP · f/1.4 · OIS · 4K/60fps</p>
+                <div class="zz-glass__divider"></div>
+                <ul class="zz-glass__specs">
+                    <li><span>chính</span><strong>50 MP · 1" sensor</strong></li>
+                    <li><span>góc rộng</span><strong>12 MP · 120°</strong></li>
+                    <li><span>zoom quang</span><strong>5× periscope</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="zz-animate zz-animate--right zz-stl-text">
+            <p class="zz-stl-text__label">tại sao chọn chúng tôi</p>
+            <h2 class="zz-stl-text__heading">
+                công nghệ<br /><span>không giới hạn</span>
+            </h2>
+            <p class="zz-stl-text__body">
+                Từ flagship cao cấp đến smartphone tầm trung, Zuzong Store mang đến
+                lựa chọn đa dạng từ hơn @thuongHieus.Count() thương hiệu hàng đầu thế giới.
+                Sản phẩm chính hãng, bảo hành đầy đủ, giao hàng toàn quốc.
+            </p>
+            <a class="zz-stl-text__link" asp-controller="SanPham" asp-action="Index">
+                xem tất cả sản phẩm →
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="zz-video-section">
+    <p class="zz-animate zz-animate--up zz-video-section__label">giới thiệu</p>
+    
+    <div id="videoIntroCarousel" class="carousel slide zz-animate zz-animate--up zz-video-slider" data-bs-ride="carousel">
+        <div class="carousel-indicators zz-video-dots">
+            <button type="button" data-bs-target="#videoIntroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#videoIntroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#videoIntroCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <div class="carousel-inner zz-video-section__wrapper">
+            <div class="carousel-item active">
+                <video class="zz-video-section__player" autoplay loop muted playsinline 
+                       src="https://dl.dropboxusercontent.com/scl/fi/gdqeoxko8xrv0dpvnz4ij/snaptik.vn_7604868775069912340.mp4?rlkey=uuqzzhx4hc4qggw44mpz1uhgi&st=w0z3d6jv">
+                </video>
+                <div class="zz-video-caption">
+                    <span>Apple flagship</span>
+                    <h3>iPhone 17 Pro Max</h3>
+                    <p>Khung titan mới, camera nâng cấp và hiệu năng A-series dành cho khách hàng thích trải nghiệm cao cấp, ổn định lâu dài.</p>
+                    <a asp-controller="SanPham" asp-action="Index" asp-route-keyword="iPhone 17 Pro Max">Khám phá ngay</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <video class="zz-video-section__player" autoplay loop muted playsinline 
+                       src="https://dl.dropboxusercontent.com/scl/fi/othov82zi5hdaircgchrc/snaptik.vn_7587810788736290055.mp4?rlkey=mna88rjx9z7g0nggm8ezozkx7&st=6yp8ymqs">
+                </video>
+                <div class="zz-video-caption">
+                    <span>Leica imaging</span>
+                    <h3>Xiaomi 17 Ultra</h3>
+                    <p>Chất ảnh Leica, màn hình sáng và sạc nhanh mạnh mẽ cho khách hàng cần một chiếc máy vừa đẹp vừa bền sức.</p>
+                    <a asp-controller="SanPham" asp-action="Index" asp-route-keyword="Xiaomi 17 Ultra">Xem dòng Xiaomi</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <video class="zz-video-section__player" autoplay loop muted playsinline 
+                       src="https://dl.dropboxusercontent.com/scl/fi/0dfrwnihhmqtlmq0vxr7x/snaptik.vn_7628169309969272084.mp4?rlkey=ktho230e5etotwdtig6o9ej7b&st=b0hxepqa">
+                </video>
+                <div class="zz-video-caption">
+                    <span>OPPO premium</span>
+                    <h3>Find X9 Ultra</h3>
+                    <p>Thiết kế sang, camera đa tiêu cự và pin tối ưu cho khách hàng muốn một flagship Android khác biệt.</p>
+                    <a asp-controller="SanPham" asp-action="Index" asp-route-keyword="Find X9 Ultra">Tìm OPPO Find</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="zz-pro-story" id="iphone17ProStory">
+    <div class="zz-pro-story__intro zz-animate zz-animate--up">
+        <p class="zz-pro-story__eyebrow">iPhone 17 Pro Max</p>
+        <h2>Ngắm nhìn cận cảnh.</h2>
+        <p>
+            Một khu vực scrollytelling dành riêng cho flagship Apple: nền tối sâu,
+            model 3D xoay theo từng điểm nhấn và các chi tiết sản phẩm được gom lại
+            gọn gàng như một màn trình diễn chuyên nghiệp.
+        </p>
+    </div>
+
+    <div class="zz-pro-story__stage">
+        <div class="zz-pro-story__rail" aria-label="Điểm nổi bật iPhone 17 Pro Max">
+            <button type="button" class="zz-pro-feature is-active" data-pro-step="0" data-pro-open-colors="true" aria-haspopup="dialog" aria-controls="iphone17ColorModal">
+                <span class="zz-pro-feature__swatch zz-pro-feature__swatch--orange"></span>
+                <span>
+                    <strong>Màu sắc</strong>
+                    <small>Cam Vũ Trụ · Bạc</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="1">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Nhôm nguyên khối</strong>
+                    <small>Khung máy liền mạch, bền và nhẹ</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="2">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Buồng hơi</strong>
+                    <small>Tản nhiệt ổn định cho hiệu năng cao</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="3">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Ceramic Shield</strong>
+                    <small>Bảo vệ mặt trước và mặt sau</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="4">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Màn hình Pro</strong>
+                    <small>Super Retina XDR · ProMotion 120Hz</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="5">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Điều Khiển Camera</strong>
+                    <small>Chụp, quay và chỉnh nhanh hơn</small>
+                </span>
+            </button>
+            <button type="button" class="zz-pro-feature" data-pro-step="6">
+                <span class="zz-pro-feature__icon">+</span>
+                <span>
+                    <strong>Nút Tác Vụ</strong>
+                    <small>Mở nhanh tác vụ yêu thích</small>
+                </span>
+            </button>
+        </div>
+
+        <div class="zz-pro-model" data-model-src="/models/iphone17promax/source/iphone17promax.glb">
+            <canvas id="zzIphoneModel" class="zz-pro-model__canvas" aria-label="Model 3D iPhone 17 Pro Max"></canvas>
+            <img class="zz-pro-model__fallback" src="~/images/ip17_promax_back.jpg" alt="iPhone 17 Pro Max" />
+            <div class="zz-pro-model__loading">đang dựng model 3D</div>
+        </div>
+
+        <div class="zz-pro-story__copy">
+            <article class="zz-pro-copy is-active" data-pro-copy="0">
+                <span>01</span>
+                <h3>Cam Vũ Trụ nổi bật trên nền tối.</h3>
+                <p>Tông cam ánh kim làm rõ khung nhôm nguyên khối, viền máy và các đường phản chiếu, giúp model 3D trông đúng chất flagship hơn khi khách đang xem chi tiết.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="1">
+                <span>02</span>
+                <h3>Thân máy liền mạch như một khối kim loại.</h3>
+                <p>Khung nhôm nguyên khối cho cảm giác chắc tay, đồng thời giữ bố cục camera và mặt lưng gọn hơn khi đặt trong khung 3D.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="2">
+                <span>03</span>
+                <h3>Hiệu năng được kể bằng chuyển động chậm rãi.</h3>
+                <p>Phần buồng hơi được nhấn bằng góc xoay nghiêng, giúp người xem liên tưởng đến khả năng duy trì hiệu năng trong thời gian dài.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="3">
+                <span>04</span>
+                <h3>Lớp bảo vệ cao cấp, nhìn gần vẫn tinh tế.</h3>
+                <p>Scrollytelling chuyển qua mặt lưng và cạnh máy để nhấn chất liệu, độ hoàn thiện và cảm giác bền bỉ của dòng Pro Max.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="4">
+                <span>05</span>
+                <h3>Màn hình lớn cho trải nghiệm xem đã mắt.</h3>
+                <p>Góc nhìn được kéo nhẹ về mặt trước, kết hợp ánh xanh mảnh để giữ đúng cảm giác Apple-style mà vẫn hợp với Zuzong Store.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="5">
+                <span>06</span>
+                <h3>Camera Control đặt đúng nơi thao tác tự nhiên.</h3>
+                <p>Cụm thông tin này làm rõ lợi ích khi chụp ảnh, quay video hoặc đổi chế độ nhanh trong những khoảnh khắc cần bắt kịp.</p>
+            </article>
+            <article class="zz-pro-copy" data-pro-copy="6">
+                <span>07</span>
+                <h3>Một nút bấm, nhiều tác vụ cá nhân.</h3>
+                <p>Nút Tác Vụ được đưa vào cuối nhịp kể như một chi tiết nhỏ nhưng hữu dụng, giúp trang không chỉ đẹp mà còn có lý do để mua.</p>
+            </article>
+        </div>
+    </div>
+
+    <div class="zz-pro-color-modal" id="iphone17ColorModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="iphone17ColorModalTitle">
+        <div class="zz-pro-color-modal__panel">
+            <button type="button" class="zz-pro-color-modal__close" aria-label="Đóng">
+                <span aria-hidden="true">×</span>
+            </button>
+
+            <div class="zz-pro-color-modal__rail">
+                <div class="zz-pro-color-card">
+                    <p class="zz-pro-color-card__title" id="iphone17ColorModalTitle">
+                        Màu. Chọn giữa hai màu nổi bật. iPhone 17 Pro Max màu <span data-color-name>Cam Vũ Trụ</span>.
+                    </p>
+                    <div class="zz-pro-color-card__swatches" aria-label="Chọn màu iPhone 17 Pro Max">
+                        <button type="button" class="zz-pro-color-swatch zz-pro-color-swatch--orange is-active" data-color-option="orange" aria-label="Cam Vũ Trụ"></button>
+                        <button type="button" class="zz-pro-color-swatch zz-pro-color-swatch--silver" data-color-option="silver" aria-label="Bạc"></button>
+                    </div>
+                </div>
+
+                <div class="zz-pro-color-modal__features" aria-label="Điểm nổi bật khi xem cận cảnh">
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Nhôm nguyên khối</button>
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Buồng hơi</button>
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Ceramic Shield</button>
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Màn hình pro sống động</button>
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Điều Khiển Camera</button>
+                    <button type="button" class="zz-pro-color-feature"><span>+</span>Nút Tác Vụ</button>
+                </div>
+            </div>
+
+            <div class="zz-pro-color-modal__model"
+                 data-orange-src="/models/iphone17promax/source/iphone17promax.glb"
+                 data-silver-src="/models/iphone17pro_silver/source/iPhone%2017%20Pro.glb">
+                <canvas id="zzIphoneColorModel" class="zz-pro-color-modal__canvas" aria-label="Model 3D iPhone 17 Pro Max phóng to"></canvas>
+                <img class="zz-pro-color-modal__fallback" src="~/images/ip17_promax_back.jpg" alt="iPhone 17 Pro Max phóng to" />
+                <div class="zz-pro-color-modal__loading">đang dựng model 3D</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="zz-stl-section">
+    <div class="zz-stl-grid">
+
+        <div class="zz-animate zz-animate--left zz-stl-text">
+            <p class="zz-stl-text__label">sản phẩm nổi bật</p>
+            <h2 class="zz-stl-text__heading">
+                hiệu năng<br /><span>vượt trội</span>
+            </h2>
+            <p class="zz-stl-text__body">
+                Những chiếc điện thoại flagship mới nhất với chip xử lý mạnh mẽ,
+                màn hình sắc nét và thời lượng pin cả ngày. Trải nghiệm công nghệ
+                đỉnh cao ngay hôm nay.
+            </p>
+            <a class="zz-stl-text__link" asp-controller="SanPham" asp-action="Index">
+                khám phá ngay →
+            </a>
+        </div>
+
+        <div class="zz-animate zz-animate--right">
+            @if (sanPhamNoi != null && sanPhamNoi.Any())
+            {
+                <div id="flagshipCarousel" class="carousel slide" data-bs-ride="carousel" style="position: relative;">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < sanPhamNoi.Count; i++)
+                        {
+                            var sp = sanPhamNoi[i];
+                            <div class="carousel-item @(i == 0 ? "active" : "")" data-bs-interval="4000">
+                                <div class="zz-glass zz-glass--product">
+                                    <span class="zz-glass__tag">
+                                        @(sp.MaThuongHieuNavigation?.TenThuongHieu?.ToLower() ?? "flagship")
+                                    </span>
+                                    <h3 class="zz-glass__title">@sp.TenSp?.ToLower()</h3>
+
+                                    @if (!string.IsNullOrEmpty(sp.HinhAnh))
+                                    {
+                                        <img class="zz-glass__img" src="~/images/@sp.HinhAnh" alt="@sp.TenSp" />
+                                    }
+                                    else
+                                    {
+                                        <div class="zz-glass__img-placeholder">📱</div>
+                                    }
+
+                                    <div class="zz-glass__divider"></div>
+                                    <div class="zz-glass__price-row">
+                                        <span class="zz-glass__price">@sp.GiaBan.ToString("N0")₫</span>
+                                        @if (sp.GiaGoc.HasValue && sp.GiaGoc > sp.GiaBan)
+                                        {
+                                            <span class="zz-glass__price-old">@sp.GiaGoc.Value.ToString("N0")₫</span>
+                                        }
+                                    </div>
+                                    <ul class="zz-glass__specs">
+                                        @if (!string.IsNullOrEmpty(sp.Ram))   { <li><span>ram</span><strong>@sp.Ram</strong></li> }
+                                        @if (!string.IsNullOrEmpty(sp.Rom))   { <li><span>rom</span><strong>@sp.Rom</strong></li> }
+                                        @if (!string.IsNullOrEmpty(sp.Chipset)){ <li><span>chip</span><strong>@sp.Chipset?.ToLower()</strong></li> }
+                                    </ul>
+                                    <a class="zz-glass__btn"
+                                       asp-controller="SanPham" asp-action="Details"
+                                       asp-route-id="@sp.MaSp">
+                                        xem chi tiết
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    @if (sanPhamNoi.Count > 1)
+                    {
+                        <button class="zz-carousel-arrow zz-carousel-arrow--left" type="button" data-bs-target="#flagshipCarousel" data-bs-slide="prev">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <button class="zz-carousel-arrow zz-carousel-arrow--right" type="button" data-bs-target="#flagshipCarousel" data-bs-slide="next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</section>
+
+<section class="zz-brands zz-animate zz-animate--up">
+    <p class="zz-brands__label">thương hiệu nổi bật</p>
+    <div class="zz-brands__list">
+        @foreach (var th in thuongHieus)
+        {
+            <a class="zz-brands__item"
+               asp-controller="SanPham" asp-action="Index"
+               asp-route-maThuongHieu="@th.MaThuongHieu">
+                @th.TenThuongHieu.ToLower()
+            </a>
+        }
+    </div>
+</section>
+<section class="zz-battery-showcase zz-animate zz-animate--up">
+    <div class="zz-battery-showcase__inner">
+        <div class="zz-battery-showcase__text">
+            <h2>
+                Thời lượng pin.<br />
+                Lập đỉnh mới.
+            </h2>
+
+            <p>
+                Thiết kế mới bên trong tạo thêm không gian đáng kể cho dung lượng pin
+                nên iPhone 17 Pro Max có <strong>thời lượng pin tốt nhất từng có trên iPhone</strong>,
+                sẵn sàng tăng ca, từ thoải mái xem video trong thời gian dài cho đến làm việc ngoài giờ.
+            </p>
+        </div>
+
+        <div class="zz-battery-showcase__image">
+            <img src="~/images/dienthoai.jpg" asp-append-version="true" alt="Thời lượng pin iPhone" />
+        </div>
+
+        <div class="zz-battery-showcase__stats">
+            <div class="zz-battery-stat">
+                <span>Thời gian xem video trên<br />iPhone 17 Pro lên đến</span>
+                <strong>31 giờ</strong>
+            </div>
+
+            <div class="zz-battery-stat">
+                <span>Thời gian xem video trên<br />iPhone 17 Pro Max lên đến</span>
+                <strong>37 giờ</strong>
+            </div>
+
+            <div class="zz-battery-stat">
+                <span>Sạc lên đến</span>
+                <strong>50% trong<br />20 phút</strong>
+                <span>với bộ tiếp hợp nguồn công suất cao</span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="zz-products">
+    <div class="zz-products__header zz-animate zz-animate--up">
+        <h2 class="zz-products__title">
+            sản phẩm<br /><span>nổi bật</span>
+        </h2>
+        <a class="zz-products__link" asp-controller="SanPham" asp-action="Index">
+            xem tất cả →
+        </a>
+    </div>
+    <div class="zz-products__grid">
+        @foreach (var sp in sanPhamNoi)
+        {
+            <a class="zz-product-card zz-animate zz-animate--up"
+               asp-controller="SanPham" asp-action="Details"
+               asp-route-id="@sp.MaSp">
+                <div class="zz-product-card__thumb">
+                    @if (!string.IsNullOrEmpty(sp.HinhAnh))
+                    {
+                        <img src="~/images/@sp.HinhAnh" alt="@sp.TenSp" />
+                    }
+                    else
+                    {
+                        <span class="zz-product-card__thumb--placeholder">📱</span>
+                    }
+                </div>
+                <span class="zz-product-card__brand">
+                    @(sp.MaThuongHieuNavigation?.TenThuongHieu?.ToLower() ?? "zuzong")
+                </span>
+                <span class="zz-product-card__name">@sp.TenSp?.ToLower()</span>
+                <span class="zz-product-card__price">@sp.GiaBan.ToString("N0")₫</span>
+            </a>
+        }
+
+        <div class="zz-promo-banner zz-animate zz-animate--up">
+            <video class="zz-video-section__player" autoplay loop muted playsinline
+               src="https://dl.dropboxusercontent.com/scl/fi/73vnql28mdlpv20pwdw6c/snaptik.vn_7521077232882699542.mp4?rlkey=cccng9f4g8rarg7izutah6jqf&st=vwdq83d4">
+            </video>
+            
+            <div class="zz-promo-banner__content">
+                <h3>trải nghiệm đỉnh cao</h3>
+                <p>Khám phá hệ sinh thái công nghệ mới</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="zz-xiaomi-evo zz-animate zz-animate--up">
+    <div class="zz-xiaomi-evo__head">
+        <h2 class="zz-xiaomi-evo__title" data-role="title">Xiaomi 17 Ultra</h2>
+
+        <div class="zz-xiaomi-evo__meta" data-role="meta">
+            CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>
+        </div>
+
+        <p class="zz-xiaomi-evo__desc" data-role="desc">
+            Chuyên gia chụp đêm. Vượt qua mọi giới hạn với camera siêu động 1-inch và zoom quang học cơ học.
+        </p>
+    </div>
+
+    <div class="zz-xiaomi-evo__stage">
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--01"
+                data-title="Xiaomi 12S Ultra"
+                data-meta='CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>'
+                data-desc="Một kỷ nguyên mới cho nhiếp ảnh di động, mang đến hình ảnh chân thực với ống kính quang học Leica Summicron.">
+            <img src="~/images/01.jpg" asp-append-version="true" alt="Xiaomi 12S Ultra" />
+        </button>
+
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--02"
+                data-title="Xiaomi 13 Ultra"
+                data-meta='CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>'
+                data-desc="Hệ thống bốn camera Leica được đồng phát triển, cho phép ghi lại khoảnh khắc mọi lúc mọi nơi.">
+            <img src="~/images/02.jpg" asp-append-version="true" alt="Xiaomi 13 Ultra" />
+        </button>
+
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--03"
+                data-title="Xiaomi 14 Ultra"
+                data-meta='CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>'
+                data-desc="Một ống kính quang học Leica Summilux hoàn toàn mới — từ ống kính đến huyền thoại.">
+            <img src="~/images/03.jpg" asp-append-version="true" alt="Xiaomi 14 Ultra" />
+        </button>
+
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--04"
+                data-title="Xiaomi 15 Ultra"
+                data-meta='CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>'
+                data-desc="Trải nghiệm nhiếp ảnh đỉnh cao với camera chính siêu nhạy 1 inch và ống kính tele siêu nét Leica 200MP.">
+            <img src="~/images/04.jpg" asp-append-version="true" alt="Xiaomi 15 Ultra" />
+        </button>
+
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--05 is-active"
+                data-title="Xiaomi 17 Ultra"
+                data-meta='CO-ENGINEERED WITH <span class="zz-xiaomi-evo__leica">Leica</span>'
+                data-desc="Chuyên gia chụp đêm. Vượt qua mọi giới hạn với camera siêu động 1-inch và zoom quang học cơ học.">
+            <img src="~/images/05.jpg" asp-append-version="true" alt="Xiaomi 17 Ultra" />
+        </button>
+
+        <button type="button"
+                class="zz-xiaomi-phone zz-xiaomi-phone--06"
+                data-title="Leica LeitzPhone"
+                data-meta='powered by Xiaomi'
+                data-desc="Một công cụ hình ảnh mang tính cách mạng. Được chế tác bởi Leica, và sức mạnh bởi Xiaomi.">
+            <img src="~/images/06.jpg" asp-append-version="true" alt="Leica LeitzPhone" />
+        </button>
+    </div>
+</section>
+<footer class="zz-footer-v2">
+    <!-- Góc accent xanh lá -->
+    <div class="zz-footer-v2__accent"></div>
+
+    <!-- Row 1: Mạng xã hội + Links -->
+    <div class="zz-footer-v2__main">
+        <div class="zz-footer-v2__socials">
+            <a class="zz-footer-v2__social-item" href="https://youtube.com" target="_blank">
+                <span class="zz-footer-v2__icon zz-footer-v2__icon--yt">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0d0d0d"/>
+                    </svg>
+                </span>
+                <span>Youtube</span>
+            </a>
+            <a class="zz-footer-v2__social-item" href="https://www.tiktok.com/@@_thinhdzuong_" target="_blank">
+                <span class="zz-footer-v2__icon zz-footer-v2__icon--tt">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.53V6.77a4.85 4.85 0 0 1-1.02-.08z"/>
+                    </svg>
+                </span>
+                <span>Tiktok</span>
+            </a>
+            <a class="zz-footer-v2__social-item" href="https://www.facebook.com/duong.nhut.thinh" target="_blank">
+                <span class="zz-footer-v2__icon zz-footer-v2__icon--fb">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                </span>
+                <span>Facebook</span>
+            </a>
+        </div>
+
+        <div class="zz-footer-v2__links">
+            <a href="#" class="zz-footer-v2__link">Faqs</a>
+            <a asp-controller="Home" asp-action="Privacy" class="zz-footer-v2__link">Điều khoản bảo mật</a>
+            <a href="#" class="zz-footer-v2__link">Điều khoản dịch vụ</a>
+            <a href="#" class="zz-footer-v2__link">Tuyên bố miễn trừ trách nhiệm</a>
+        </div>
+    </div>
+
+    <!-- Đường kẻ -->
+    <div class="zz-footer-v2__divider"></div>
+
+    <!-- Row 2: Thông tin cá nhân + Map -->
+    <div class="zz-footer-v2__info-row">
+        <div class="zz-footer-v2__about">
+            <p class="zz-footer-v2__name">Dương Nhứt Thịnh</p>
+            <p class="zz-footer-v2__meta">MSSV: 243880 &nbsp;·&nbsp; Lớp DH24TIN07</p>
+            <p class="zz-footer-v2__meta">Trường Đại học Nam Cần Thơ</p>
+            <div class="zz-footer-v2__contacts">
+                <a href="https://www.facebook.com/duong.nhut.thinh" target="_blank">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    duong.nhut.thinh
+                </a>
+                <a href="mailto:zuzong68@ggmail.com">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    zuzong68@ggmail.com
+                </a>
+                <a href="https://www.tiktok.com/@@_thinhdzuong_" target="_blank">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.53V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>
+                    @@_thinhdzuong_
+                </a>
+            </div>
+        </div>
+
+        <!-- Map: Đại học Nam Cần Thơ -->
+        <div class="zz-footer-v2__map-wrap">
+            <div class="zz-footer-v2__map-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Đại học Nam Cần Thơ
+            </div>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.1806!2d105.7285!3d10.1372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0890be5c50af1%3A0x831d9f4ae7fec43f!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOYW0gQ-G6p24gVGjGoA!5e0!3m2!1svi!2svn!4v1715000000000"
+                class="zz-footer-v2__map"
+                allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="zz-footer-v2__bottom">
+        <span>&copy; 2026 zuzong store</span>
+        <span>crafted by thịnh 🖤</span>
+    </div>
+</footer>
+@section Scripts {
+<script type="module" src="~/js/zuzong-iphone-scrolly.js" asp-append-version="true"></script>
+
+<script>
+(function () {
+    // Stagger delay cho product cards
+    document.querySelectorAll('.zz-products__grid .zz-animate').forEach(function(el, i) {
+        el.style.transitionDelay = (i * 0.1) + 's';
+    });
+
+    // Animation khi cuộn
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.zz-animate').forEach(function(el) {
+        observer.observe(el);
+    });
+
+
+    // Hover Xiaomi: trỏ vào ảnh nào thì đổi tên + mô tả phía trên
+    var xiaomiSection = document.querySelector('.zz-xiaomi-evo');
+
+    if (xiaomiSection) {
+        var titleEl = xiaomiSection.querySelector('[data-role="title"]');
+        var metaEl  = xiaomiSection.querySelector('[data-role="meta"]');
+        var descEl  = xiaomiSection.querySelector('[data-role="desc"]');
+        var phones  = xiaomiSection.querySelectorAll('.zz-xiaomi-phone');
+
+        function setActivePhone(phone) {
+            phones.forEach(function (item) {
+                item.classList.remove('is-active');
+            });
+
+            phone.classList.add('is-active');
+
+            titleEl.textContent = phone.dataset.title || '';
+            metaEl.innerHTML = phone.dataset.meta || '';
+            descEl.textContent = phone.dataset.desc || '';
+        }
+
+        phones.forEach(function (phone) {
+            phone.addEventListener('mouseenter', function () {
+                setActivePhone(phone);
+            });
+
+            phone.addEventListener('focus', function () {
+                setActivePhone(phone);
+            });
+
+            phone.addEventListener('click', function () {
+                setActivePhone(phone);
+            });
+        });
+
+        var defaultPhone = xiaomiSection.querySelector('.zz-xiaomi-phone.is-active') || phones[0];
+
+        if (defaultPhone) {
+            setActivePhone(defaultPhone);
+        }
+    }
+})();
+</script>
+}

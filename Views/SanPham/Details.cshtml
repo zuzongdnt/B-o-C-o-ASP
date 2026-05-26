@@ -1,0 +1,375 @@
+@using Microsoft.AspNetCore.Http
+@model dienthoai.Models.SanPham
+
+@{
+    ViewData["Title"] = Model.TenSp;
+    ViewData["BodyClass"] = "page-detail";
+
+    var vaiTro = Context.Session.GetString("VaiTro");
+    var currentUserId = Context.Session.GetString("MaTaiKhoan");
+    var daDangNhap = !string.IsNullOrEmpty(currentUserId);
+
+    var bienThes = ViewBag.BienThes as List<dienthoai.Models.SanPhamBienThe> ?? new List<dienthoai.Models.SanPhamBienThe>();
+    var bienTheDangChon = ViewBag.BienTheDangChon as dienthoai.Models.SanPhamBienThe;
+
+    decimal giaHienThi = bienTheDangChon != null ? bienTheDangChon.GiaBan : Model.GiaBan;
+    decimal? giaGocHienThi = bienTheDangChon?.GiaGoc ?? Model.GiaGoc;
+    int? tonKhoHienThi = bienTheDangChon?.SoLuongTon ?? Model.SoLuongTon;
+    string? anhHienThi = !string.IsNullOrEmpty(bienTheDangChon?.HinhAnh) ? bienTheDangChon.HinhAnh : Model.HinhAnh;
+
+    int discountPct = 0;
+    if (giaGocHienThi.HasValue && giaGocHienThi > giaHienThi && giaGocHienThi > 0)
+    {
+        discountPct = (int)Math.Round((1 - giaHienThi / giaGocHienThi.Value) * 100);
+    }
+
+    var danhGias = Model.DanhGia?.ToList() ?? new List<dienthoai.Models.DanhGium>();
+    double diemTb = danhGias.Any() ? danhGias.Average(d => d.SoSao ?? 0) : 0;
+
+    bool coTheDanhGia = ViewBag.CoTheDanhGia as bool? ?? false;
+    bool coQuyenPhanHoi = daDangNhap && (vaiTro == "Admin" || coTheDanhGia);
+
+    var dungLuongDangChon = bienTheDangChon?.DungLuong ?? bienThes.Select(x => x.DungLuong).FirstOrDefault();
+    var dungLuongs = bienThes.Select(x => x.DungLuong).Distinct().ToList();
+    var mauSacs = bienThes.Where(x => x.DungLuong == dungLuongDangChon).ToList();
+}
+
+<link rel="stylesheet" href="~/css/zuzong-product-detail.css" asp-append-version="true" />
+
+<div class="zz-detail-wrap zz-product-detail">
+    <nav class="zz-breadcrumb">
+        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+        <span>/</span>
+        <a asp-controller="SanPham" asp-action="Index">Sản phẩm</a>
+        @if (Model.MaThuongHieuNavigation != null)
+        {
+            <span>/</span>
+            <a asp-controller="SanPham" asp-action="Index" asp-route-maThuongHieu="@Model.MaThuongHieu">
+                @Model.MaThuongHieuNavigation.TenThuongHieu
+            </a>
+        }
+        <span>/</span>
+        <span style="color:var(--zz-text)">@Model.TenSp</span>
+    </nav>
+
+    @if (vaiTro == "Admin")
+    {
+        <div class="zz-admin-bar">
+            <span>Chế độ quản trị</span>
+            <a asp-action="Edit" asp-route-id="@Model.MaSp" class="zz-btn zz-btn--primary" style="padding:.5rem 1.25rem;font-size:.8125rem;">Chỉnh sửa</a>
+            <a asp-action="Delete" asp-route-id="@Model.MaSp" class="zz-btn-sm zz-btn-sm--danger">Xóa sản phẩm</a>
+        </div>
+    }
+
+    <div class="zz-detail-grid">
+        <div class="zz-detail-img-container">
+            <div class="zz-detail-img-wrap">
+                @if (!string.IsNullOrEmpty(anhHienThi))
+                {
+                    <img id="mainImg" src="~/images/@anhHienThi" alt="@Model.TenSp" onerror="this.src='https://via.placeholder.com/400?text=No+Image'" />
+                }
+                else
+                {
+                    <div class="zz-detail-img-placeholder">Phone</div>
+                }
+            </div>
+
+            <div class="zz-gallery">
+                @if (!string.IsNullOrEmpty(anhHienThi))
+                {
+                    <img src="~/images/@anhHienThi" class="zz-thumb active" onclick="changeMainImg(this)" />
+                }
+
+                @if (Model.HinhAnhSanPhams != null && Model.HinhAnhSanPhams.Any())
+                {
+                    foreach (var img in Model.HinhAnhSanPhams)
+                    {
+                        <img src="~/images/@img.DuongDanAnh" class="zz-thumb" onclick="changeMainImg(this)" />
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="zz-detail-info">
+            <div class="zz-detail-brand">@(Model.MaThuongHieuNavigation?.TenThuongHieu?.ToUpper() ?? "ZUZONG")</div>
+            <h1 class="zz-detail-name">@Model.TenSp</h1>
+
+            @if (danhGias.Any())
+            {
+                <div class="zz-detail-rating">
+                    <span class="zz-stars">
+                        @for (int i = 1; i <= 5; i++) { @(i <= Math.Round(diemTb) ? "★" : "☆") }
+                    </span>
+                    <span>@diemTb.ToString("F1") · @danhGias.Count đánh giá</span>
+                </div>
+            }
+
+            <div class="zz-detail-divider"></div>
+
+            <div class="zz-detail-price-block">
+                <span class="zz-detail-price">@giaHienThi.ToString("N0")₫</span>
+                @if (giaGocHienThi.HasValue && giaGocHienThi > giaHienThi)
+                {
+                    <span class="zz-detail-price-old">@giaGocHienThi.Value.ToString("N0")₫</span>
+                    <span class="zz-detail-discount">-@discountPct%</span>
+                }
+            </div>
+
+            @if (tonKhoHienThi.HasValue)
+            {
+                <div>
+                    @if (tonKhoHienThi > 0)
+                    {
+                        <span class="zz-stock-badge zz-stock-badge--in"><span class="zz-stock-dot"></span>Còn hàng</span>
+                    }
+                    else
+                    {
+                        <span class="zz-stock-badge zz-stock-badge--out"><span class="zz-stock-dot"></span>Hết hàng</span>
+                    }
+                </div>
+            }
+
+            @if (bienThes.Any())
+            {
+                <div class="zz-variant-block">
+                    <h3>Phiên bản</h3>
+                    <div class="zz-variant-grid zz-variant-grid--storage">
+                        @foreach (var dungLuong in dungLuongs)
+                        {
+                            var option = bienThes.FirstOrDefault(x => x.DungLuong == dungLuong && x.MauSac == bienTheDangChon?.MauSac)
+                                ?? bienThes.First(x => x.DungLuong == dungLuong);
+
+                            <a asp-action="Details"
+                               asp-route-id="@Model.MaSp"
+                               asp-route-maBienThe="@option.MaBienThe"
+                               class="zz-variant-option @(dungLuongDangChon == dungLuong ? "active" : "")">
+                                <span>@dungLuong</span>
+                            </a>
+                        }
+                    </div>
+
+                    <h3>Màu sắc</h3>
+                    <div class="zz-variant-grid zz-variant-grid--color">
+                        @foreach (var item in mauSacs)
+                        {
+                            <a asp-action="Details"
+                               asp-route-id="@Model.MaSp"
+                               asp-route-maBienThe="@item.MaBienThe"
+                               class="zz-variant-option zz-variant-option--color @(bienTheDangChon?.MaBienThe == item.MaBienThe ? "active" : "")">
+                                <span class="zz-color-thumb">
+                                    @if (!string.IsNullOrEmpty(item.HinhAnh))
+                                    {
+                                        <img src="~/images/@item.HinhAnh" alt="@item.MauSac" />
+                                    }
+                                    else
+                                    {
+                                        <i style="background:@(item.MaMau ?? "#ddd")"></i>
+                                    }
+                                </span>
+                                <span>
+                                    <strong>@item.MauSac</strong>
+                                    <small>@item.GiaBan.ToString("N0")đ</small>
+                                </span>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="zz-detail-specs">
+                @if (!string.IsNullOrEmpty(Model.Chipset)) { <div class="zz-spec-item"><span class="zz-spec-label">Chipset</span><span class="zz-spec-val">@Model.Chipset</span></div> }
+                @if (!string.IsNullOrEmpty(Model.Ram)) { <div class="zz-spec-item"><span class="zz-spec-label">RAM</span><span class="zz-spec-val">@Model.Ram</span></div> }
+                @if (!string.IsNullOrEmpty(Model.Rom)) { <div class="zz-spec-item"><span class="zz-spec-label">Bộ nhớ</span><span class="zz-spec-val">@Model.Rom</span></div> }
+                @if (!string.IsNullOrEmpty(Model.Pin)) { <div class="zz-spec-item"><span class="zz-spec-label">Pin</span><span class="zz-spec-val">@Model.Pin</span></div> }
+                @if (!string.IsNullOrEmpty(Model.Camera)) { <div class="zz-spec-item"><span class="zz-spec-label">Camera</span><span class="zz-spec-val">@Model.Camera</span></div> }
+                @if (!string.IsNullOrEmpty(Model.TinhTrang)) { <div class="zz-spec-item"><span class="zz-spec-label">Tình trạng</span><span class="zz-spec-val">@Model.TinhTrang</span></div> }
+                @if (!string.IsNullOrEmpty(Model.NguonGoc)) { <div class="zz-spec-item"><span class="zz-spec-label">Nguồn gốc</span><span class="zz-spec-val">@Model.NguonGoc</span></div> }
+            </div>
+
+            <div class="zz-detail-divider"></div>
+
+            @if (vaiTro != "Admin")
+            {
+                <div class="zz-detail-actions">
+                    <a asp-controller="GioHang"
+                       asp-action="ThemVaoGio"
+                       asp-route-maSp="@Model.MaSp"
+                       asp-route-maBienThe="@bienTheDangChon?.MaBienThe"
+                       class="zz-btn zz-btn--primary" style="background:var(--zz-input-bg);color:var(--zz-text);border:1px solid var(--zz-card-border);">
+                        Thêm vào giỏ
+                    </a>
+                    <a asp-controller="GioHang"
+                       asp-action="MuaNgay"
+                       asp-route-maSp="@Model.MaSp"
+                       asp-route-maBienThe="@bienTheDangChon?.MaBienThe"
+                       class="zz-btn zz-btn--primary">
+                        Mua ngay
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="zz-reviews">
+        <div class="zz-reviews-header"><h3>Đánh giá sản phẩm</h3></div>
+
+        @if (TempData["ErrorReview"] != null) { <div class="alert alert-danger" style="border-radius:1rem;">@TempData["ErrorReview"]</div> }
+        @if (TempData["SuccessReview"] != null) { <div class="alert alert-success" style="border-radius:1rem;">@TempData["SuccessReview"]</div> }
+
+        @if (daDangNhap && vaiTro != "Admin" && coTheDanhGia)
+        {
+            <div class="zz-review-form zz-review-form--first">
+                <h4>Đánh giá của bạn</h4>
+                <form asp-controller="DanhGium" asp-action="PostReview" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="MaSp" value="@Model.MaSp" />
+
+                    <div class="zz-review-compose">
+                        <div>
+                            <span class="zz-review-compose__label">Chọn số sao</span>
+                            <div class="zz-star-select">
+                                @for (int i = 5; i >= 1; i--)
+                                {
+                                    <input type="radio" name="SoSao" id="star@i" value="@i" required />
+                                    <label for="star@i" title="@i sao">★</label>
+                                }
+                            </div>
+                        </div>
+
+                        <label class="zz-review-upload">
+                            <input type="file" name="fileHinhAnh" accept="image/*" />
+                            <span>Chọn ảnh đánh giá</span>
+                            <small>JPG, PNG hoặc WEBP</small>
+                        </label>
+                    </div>
+
+                    <textarea name="NoiDung" rows="3" placeholder="Chia sẻ cảm nhận của bạn..." class="zz-input zz-custom-input w-100 mb-3" style="border-radius:.75rem;resize:none;" required></textarea>
+                    <button type="submit" class="zz-btn zz-btn--primary" style="padding:.7rem 2rem;">Gửi đánh giá</button>
+                </form>
+            </div>
+        }
+        else if (daDangNhap && vaiTro != "Admin")
+        {
+            <div class="zz-review-locked">
+                Bạn chỉ có thể đánh giá sản phẩm sau khi đơn hàng đã hoàn thành.
+            </div>
+        }
+
+        @if (danhGias.Any())
+        {
+            <div class="zz-review-summary">
+                <div class="zz-review-score">
+                    <div class="zz-review-score__num">@diemTb.ToString("F1")</div>
+                    <div class="zz-stars" style="font-size:1.1rem;">
+                        @for (int i = 1; i <= 5; i++) { @(i <= Math.Round(diemTb) ? "★" : "☆") }
+                    </div>
+                    <div class="zz-review-score__total">@danhGias.Count lượt đánh giá</div>
+                </div>
+                <div class="zz-review-bars">
+                    @for (int star = 5; star >= 1; star--)
+                    {
+                        int count = danhGias.Count(d => d.SoSao == star);
+                        int pct = danhGias.Any() ? (int)((double)count / danhGias.Count * 100) : 0;
+                        <div class="zz-review-bar-row">
+                            <span style="width:14px;text-align:right;">@star</span><span style="color:#f59e0b;font-size:.75rem;">★</span>
+                            <div class="zz-review-bar-track"><div class="zz-review-bar-fill" style="width:@pct%"></div></div>
+                            <span style="width:28px;">@count</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="zz-review-list">
+                @foreach (var dg in danhGias.OrderByDescending(d => d.NgayDanhGia))
+                {
+                    var tk = dg.MaTaiKhoanNavigation;
+                    var ten = tk?.HoTen ?? tk?.TenDangNhap ?? "Ẩn danh";
+
+                    <div class="zz-review-card">
+                        <div class="zz-review-card__top">
+                            <div class="zz-review-card__avatar">
+                                @if (!string.IsNullOrEmpty(tk?.Avatar))
+                                {
+                                    <img src="~/images/@tk.Avatar" alt="@ten" />
+                                }
+                                else
+                                {
+                                    @ten.Substring(0, 1).ToUpper()
+                                }
+                            </div>
+                            <div>
+                                <div class="zz-review-card__name">@ten</div>
+                                @if (dg.NgayDanhGia.HasValue)
+                                {
+                                    <div class="zz-review-card__date">@dg.NgayDanhGia.Value.ToString("dd/MM/yyyy HH:mm")</div>
+                                }
+                            </div>
+                            <div class="zz-review-card__stars">
+                                @for (int i = 1; i <= 5; i++) { @(i <= (dg.SoSao ?? 0) ? "★" : "☆") }
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(dg.NoiDung))
+                        {
+                            <p class="zz-review-card__text">@dg.NoiDung</p>
+                        }
+
+                        @if (!string.IsNullOrEmpty(dg.HinhAnhDg))
+                        {
+                            <img src="~/images/@dg.HinhAnhDg" class="zz-review-card__image" />
+                        }
+
+                        @if (dg.DanhGiaPhanHois != null && dg.DanhGiaPhanHois.Any(x => x.TrangThai))
+                        {
+                            <div class="zz-review-replies">
+                                @foreach (var ph in dg.DanhGiaPhanHois.Where(x => x.TrangThai).OrderBy(x => x.NgayPhanHoi))
+                                {
+                                    var nguoiPhanHoi = ph.MaTaiKhoanNavigation?.HoTen
+                                        ?? ph.MaTaiKhoanNavigation?.TenDangNhap
+                                        ?? "Người dùng";
+                                    var laAdminPhanHoi = ph.MaTaiKhoanNavigation?.VaiTro?.Trim() == "Admin";
+
+                                    <div class="zz-review-reply @(laAdminPhanHoi ? "zz-review-reply--admin" : "")">
+                                        <strong>
+                                            @nguoiPhanHoi
+                                            @if (laAdminPhanHoi)
+                                            {
+                                                <span class="zz-admin-reply-badge">Quản trị viên</span>
+                                            }
+                                        </strong>
+                                        <small>@ph.NgayPhanHoi.ToString("dd/MM/yyyy HH:mm")</small>
+                                        <p>@ph.NoiDung</p>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @if (coQuyenPhanHoi)
+                        {
+                            <form asp-controller="DanhGium" asp-action="PostUserReply" method="post" class="zz-review-reply-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="MaDanhGia" value="@dg.MaDanhGia" />
+                                <input type="hidden" name="MaSp" value="@Model.MaSp" />
+                                <input type="text" name="NoiDung" placeholder="Viết phản hồi..." required />
+                                <button type="submit">Gửi</button>
+                            </form>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeMainImg(thumb) {
+            const mainImg = document.getElementById('mainImg');
+            if (!mainImg) return;
+
+            mainImg.src = thumb.src;
+            document.querySelectorAll('.zz-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+    </script>
+}

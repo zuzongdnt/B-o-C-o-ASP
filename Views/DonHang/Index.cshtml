@@ -1,0 +1,164 @@
+@model IEnumerable<dienthoai.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+    var orders = Model?.ToList() ?? new List<dienthoai.Models.DonHang>();
+    var completed = orders.Count(x => x.TrangThaiDonHang == "Hoàn thành");
+    var pending = orders.Count(x => x.TrangThaiDonHang == "Chờ xác nhận" || x.TrangThaiDonHang == "Đang xử lý" || x.TrangThaiDonHang == "Chờ xử lý");
+    var revenue = orders.Where(x => x.TrangThaiDonHang == "Hoàn thành").Sum(x => x.TongTien);
+
+    string StatusClass(string? status)
+    {
+        return (status ?? "").Trim() switch
+        {
+            "Hoàn thành" => "is-active",
+            "Đã hủy" => "is-locked",
+            "Đang giao" => "is-shipping",
+            _ => "is-pending"
+        };
+    }
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--orders">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-brand">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text"><strong>ZUZONG</strong><small>Admin Center</small></span>
+            </a>
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-nav__item"><span class="zz-admin-nav__index">01</span><span>Tổng quan</span></a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">02</span><span>Sản phẩm</span></a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">03</span><span>Thương hiệu</span></a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item active"><span class="zz-admin-nav__index">04</span><span>Đơn hàng</span></a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">05</span><span>Đánh giá</span></a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">06</span><span>Từ cấm</span></a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item"><span class="zz-admin-nav__index">07</span><span>Người dùng</span></a>
+            </nav>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Orders</p>
+                    <h1 class="zz-admin-title">Quản lý đơn hàng</h1>
+                    <p class="zz-admin-subtitle">Theo dõi trạng thái, doanh thu và xử lý đơn hàng trong một màn hình gọn gàng.</p>
+                </div>
+                <div class="zz-admin-actions">
+                    <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-chip">Dashboard</a>
+                    <a asp-controller="GioHang" asp-action="ThanhToan" class="zz-admin-quick-btn">Mở checkout</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-metrics" aria-label="Thống kê đơn hàng">
+                <article class="zz-admin-metric zz-admin-metric--blue">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">ĐH</span><span class="zz-admin-metric__label">Tổng đơn</span></div>
+                    <strong class="zz-admin-metric__value">@orders.Count</strong>
+                    <span class="zz-admin-metric__hint">@pending đơn đang cần xử lý</span>
+                </article>
+                <article class="zz-admin-metric zz-admin-metric--green">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">DT</span><span class="zz-admin-metric__label">Doanh thu hoàn tất</span></div>
+                    <strong class="zz-admin-metric__value">@String.Format("{0:0,0} đ", revenue)</strong>
+                    <span class="zz-admin-metric__hint">@completed đơn đã hoàn thành</span>
+                </article>
+                <article class="zz-admin-metric zz-admin-metric--amber">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">TB</span><span class="zz-admin-metric__label">Giá trị trung bình</span></div>
+                    <strong class="zz-admin-metric__value">@String.Format("{0:0,0} đ", completed > 0 ? revenue / completed : 0)</strong>
+                    <span class="zz-admin-metric__hint">Tính trên đơn hoàn thành</span>
+                </article>
+            </section>
+
+            <section class="zz-admin-panel zz-admin-data-panel">
+                <div class="zz-admin-users-toolbar">
+                    <div>
+                        <p class="zz-admin-panel__eyebrow">Danh sách</p>
+                        <h2>Đơn hàng mới nhất</h2>
+                    </div>
+                    <label class="zz-admin-user-search">
+                        <span>Tìm</span>
+                        <input id="zzAdminSearch" type="search" placeholder="Mã đơn, tên, số điện thoại..." />
+                    </label>
+                </div>
+
+                <div class="zz-admin-order-list">
+                    @foreach (var item in orders)
+                    {
+                        var searchText = $"#{item.MaDonHang} {item.TenNguoiNhan} {item.SoDienThoai} {item.PhuongThucThanhToan} {item.TrangThaiDonHang}".ToLowerInvariant();
+                        var detailsUrl = Url.Action("Details", "DonHang", new { id = item.MaDonHang }) ?? "#";
+                        <article class="zz-admin-order-card" data-admin-row data-search="@searchText" data-href="@detailsUrl" tabindex="0" role="link" aria-label="Xem chi tiết đơn hàng #@item.MaDonHang">
+                            <a asp-action="Details" asp-route-id="@item.MaDonHang" class="zz-admin-order-card__id">#@item.MaDonHang</a>
+                            <div class="zz-admin-order-card__customer">
+                                <strong>@item.TenNguoiNhan</strong>
+                                <small>@item.SoDienThoai</small>
+                            </div>
+                            <div class="zz-admin-order-card__meta">
+                                <span>Ngày đặt</span>
+                                <strong>@(item.NgayDatHang?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa rõ")</strong>
+                            </div>
+                            <div class="zz-admin-order-card__meta">
+                                <span>Thanh toán</span>
+                                <strong>@(item.PhuongThucThanhToan ?? "Chưa chọn")</strong>
+                            </div>
+                            <strong class="zz-admin-order-card__money">@String.Format("{0:0,0} đ", item.TongTien)</strong>
+                            <form asp-action="CapNhatTrangThai" method="post" class="zz-admin-status-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.MaDonHang" />
+                                <select name="trangThaiMoi" class="zz-admin-status-select @StatusClass(item.TrangThaiDonHang)" onchange="this.form.submit()">
+                                    <option value="Chờ xác nhận" selected="@(item.TrangThaiDonHang == "Chờ xác nhận")">Chờ xác nhận</option>
+                                    <option value="Đang xử lý" selected="@(item.TrangThaiDonHang == "Đang xử lý")">Đang xử lý</option>
+                                    <option value="Đang giao" selected="@(item.TrangThaiDonHang == "Đang giao")">Đang giao</option>
+                                    <option value="Hoàn thành" selected="@(item.TrangThaiDonHang == "Hoàn thành")">Hoàn thành</option>
+                                    <option value="Đã hủy" selected="@(item.TrangThaiDonHang == "Đã hủy")">Đã hủy</option>
+                                </select>
+                            </form>
+                            <div class="zz-admin-user-actions">
+                                <a asp-action="Delete" asp-route-id="@item.MaDonHang" class="zz-admin-user-action zz-admin-user-action--delete">Xóa</a>
+                            </div>
+                        </article>
+                    }
+                </div>
+                <div class="zz-admin-empty-users" id="zzAdminEmpty" hidden>Không tìm thấy đơn hàng phù hợp.</div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const rows = Array.from(document.querySelectorAll('[data-admin-row]'));
+        const search = document.getElementById('zzAdminSearch');
+        const empty = document.getElementById('zzAdminEmpty');
+
+        rows.forEach(row => {
+            const openCard = () => {
+                const href = row.dataset.href;
+                if (href) window.location.href = href;
+            };
+
+            row.addEventListener('click', event => {
+                if (event.target.closest('a, button, select, input, form')) return;
+                openCard();
+            });
+
+            row.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openCard();
+                }
+            });
+        });
+
+        search?.addEventListener('input', () => {
+            const keyword = search.value.trim().toLowerCase();
+            let visible = 0;
+            rows.forEach(row => {
+                const ok = !keyword || (row.dataset.search || '').includes(keyword);
+                row.hidden = !ok;
+                if (ok) visible += 1;
+            });
+            if (empty) empty.hidden = visible !== 0;
+        });
+    })();
+</script>

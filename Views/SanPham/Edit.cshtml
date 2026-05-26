@@ -1,0 +1,224 @@
+@model dienthoai.Models.SanPham
+
+@{
+    ViewData["Title"] = "Chỉnh sửa: " + Model.TenSp;
+    var bienThes = Model.SanPhamBienThes?.OrderByDescending(x => x.LaMacDinh).ThenBy(x => x.DungLuong).ThenBy(x => x.MauSac).ToList()
+        ?? new List<dienthoai.Models.SanPhamBienThe>();
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/zuzong-product-edit.css" asp-append-version="true" />
+
+<section class="zz-edit-shell">
+    <div class="zz-edit-head">
+        <div>
+            <p class="zz-admin-kicker">Product Admin</p>
+            <h1 class="zz-admin-title">Chỉnh sửa sản phẩm</h1>
+            <p class="zz-admin-subtitle">@Model.TenSp</p>
+        </div>
+
+        <div class="zz-admin-actions">
+            <a asp-action="Details" asp-route-id="@Model.MaSp" class="zz-admin-chip">Xem chi tiết</a>
+            <a asp-action="Index" class="zz-admin-quick-btn">Trở về danh sách</a>
+        </div>
+    </div>
+
+    <div class="zz-edit-grid">
+        <form asp-action="Edit" method="post" class="zz-edit-panel zz-edit-panel--main">
+            <div asp-validation-summary="ModelOnly" class="zz-edit-alert"></div>
+            <input type="hidden" asp-for="MaSp" />
+
+            <div class="zz-edit-panel__head">
+                <div>
+                    <p class="zz-admin-panel__eyebrow">Thông tin</p>
+                    <h2>Cấu hình sản phẩm</h2>
+                </div>
+                <button type="submit" class="zz-admin-quick-btn">Lưu thông tin</button>
+            </div>
+
+            <div class="zz-edit-form-grid">
+                <div class="zz-edit-field zz-edit-field--wide">
+                    <label asp-for="TenSp">Tên sản phẩm</label>
+                    <input asp-for="TenSp" />
+                    <span asp-validation-for="TenSp"></span>
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="MaThuongHieu">Thương hiệu</label>
+                    <select asp-for="MaThuongHieu" asp-items="ViewBag.MaThuongHieu"></select>
+                    <span asp-validation-for="MaThuongHieu"></span>
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="HinhAnh">Ảnh chính</label>
+                    <input asp-for="HinhAnh" placeholder="ip17_pro_black.jpg" />
+                    <span asp-validation-for="HinhAnh"></span>
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="GiaBan">Giá bán</label>
+                    <input asp-for="GiaBan" type="number" />
+                    <span asp-validation-for="GiaBan"></span>
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="GiaGoc">Giá gốc</label>
+                    <input asp-for="GiaGoc" type="number" />
+                    <span asp-validation-for="GiaGoc"></span>
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="Chipset">Chipset</label>
+                    <input asp-for="Chipset" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="Ram">RAM</label>
+                    <input asp-for="Ram" placeholder="8GB" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="Rom">ROM mặc định</label>
+                    <input asp-for="Rom" placeholder="256GB" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="Pin">Pin</label>
+                    <input asp-for="Pin" placeholder="4676 mAh, Sạc nhanh 35W" />
+                </div>
+
+                <div class="zz-edit-field zz-edit-field--wide">
+                    <label asp-for="Camera">Camera</label>
+                    <input asp-for="Camera" placeholder="Chính 48MP & Phụ 48MP, 12MP" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="TinhTrang">Tình trạng</label>
+                    <input asp-for="TinhTrang" placeholder="Mới nguyên seal" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="NguonGoc">Nguồn gốc</label>
+                    <input asp-for="NguonGoc" placeholder="Chính hãng VN/A" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="SoLuongTon">Kho hàng</label>
+                    <input asp-for="SoLuongTon" type="number" />
+                </div>
+
+                <div class="zz-edit-field">
+                    <label asp-for="NgayThem">Ngày nhập</label>
+                    <input asp-for="NgayThem" type="date" />
+                </div>
+
+                <div class="zz-edit-toggle">
+                    <input type="checkbox" name="TrangThai" value="true" @(Model.TrangThai == true ? "checked" : "") id="TrangThaiCheck" />
+                    <input type="hidden" name="TrangThai" value="false" />
+                    <label for="TrangThaiCheck">Hiển thị trên web</label>
+                </div>
+            </div>
+        </form>
+
+        <aside class="zz-edit-panel">
+            <div class="zz-edit-preview">
+                <div class="zz-edit-preview__image">
+                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                    {
+                        <img src="~/images/@Model.HinhAnh" alt="@Model.TenSp" />
+                    }
+                    else
+                    {
+                        <span>phone</span>
+                    }
+                </div>
+                <strong>@Model.TenSp</strong>
+                <small>@Model.GiaBan.ToString("N0")đ</small>
+            </div>
+        </aside>
+    </div>
+
+    <div class="zz-edit-panel">
+        <div class="zz-edit-panel__head">
+            <div>
+                <p class="zz-admin-panel__eyebrow">Variants</p>
+                <h2>Dung lượng, màu sắc, ảnh và giá</h2>
+            </div>
+        </div>
+
+        <form asp-action="ThemBienThe" method="post" class="zz-variant-admin-form">
+            <input type="hidden" name="maSp" value="@Model.MaSp" />
+            <input name="dungLuong" placeholder="128GB" required />
+            <input name="mauSac" placeholder="Đen / Trắng / Xanh dương" required />
+            <input name="maMau" placeholder="#1f2937" />
+            <input name="giaBan" type="number" placeholder="Giá bán" required />
+            <input name="giaGoc" type="number" placeholder="Giá gốc" />
+            <input name="hinhAnh" placeholder="iphone17_den.jpg" />
+            <input name="soLuongTon" type="number" placeholder="Tồn kho" />
+            <label class="zz-inline-check"><input type="checkbox" name="laMacDinh" value="true" /> Mặc định</label>
+            <button type="submit" class="zz-admin-quick-btn">Thêm biến thể</button>
+        </form>
+
+        <div class="zz-variant-admin-list">
+            @foreach (var item in bienThes)
+            {
+                <form asp-action="SuaBienThe" method="post" class="zz-variant-admin-row">
+                    <input type="hidden" name="maSp" value="@Model.MaSp" />
+                    <input type="hidden" name="maBienThe" value="@item.MaBienThe" />
+                    <input name="dungLuong" value="@item.DungLuong" />
+                    <input name="mauSac" value="@item.MauSac" />
+                    <input name="maMau" value="@item.MaMau" />
+                    <input name="giaBan" type="number" value="@item.GiaBan.ToString("0")" />
+                    <input name="giaGoc" type="number" value="@(item.GiaGoc?.ToString("0"))" />
+                    <input name="hinhAnh" value="@item.HinhAnh" />
+                    <input name="soLuongTon" type="number" value="@item.SoLuongTon" />
+                    <label class="zz-inline-check"><input type="checkbox" name="laMacDinh" value="true" @(item.LaMacDinh ? "checked" : "") /> Mặc định</label>
+                    <label class="zz-inline-check"><input type="checkbox" name="trangThai" value="true" @(item.TrangThai ? "checked" : "") /> Bật</label>
+                    <button type="submit" class="zz-btn-sm zz-btn-sm--primary">Lưu</button>
+                    <button formaction="@Url.Action("XoaBienThe", "SanPham")" formmethod="post" type="submit" class="zz-btn-sm zz-btn-sm--danger" onclick="return confirm('Xóa biến thể này?');">Xóa</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <div class="zz-edit-panel">
+        <div class="zz-edit-panel__head">
+            <div>
+                <p class="zz-admin-panel__eyebrow">Gallery</p>
+                <h2>Bộ sưu tập ảnh</h2>
+            </div>
+        </div>
+
+        <div class="zz-edit-gallery">
+            @if (Model.HinhAnhSanPhams != null && Model.HinhAnhSanPhams.Any())
+            {
+                foreach (var img in Model.HinhAnhSanPhams)
+                {
+                    <div class="zz-edit-gallery__item">
+                        <img src="~/images/@img.DuongDanAnh" />
+                        <form asp-action="XoaAnhPhu" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này?');">
+                            <input type="hidden" name="maHinhAnh" value="@img.MaHinhAnh" />
+                            <input type="hidden" name="maSp" value="@Model.MaSp" />
+                            <button type="submit">x</button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="zz-empty-products">Sản phẩm này chưa có ảnh phụ nào.</div>
+            }
+        </div>
+
+        <form asp-action="ThemAnhPhu" method="post" enctype="multipart/form-data" class="zz-upload-row">
+            <input type="hidden" name="maSp" value="@Model.MaSp" />
+            <input type="file" name="fileHinhAnhPhu" accept="image/*" multiple required />
+            <button type="submit" class="zz-admin-quick-btn">Tải lên</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

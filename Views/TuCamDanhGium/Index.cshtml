@@ -1,0 +1,130 @@
+@model IEnumerable<dienthoai.Models.TuCamDanhGium>
+
+@{
+    ViewData["Title"] = "Quản lý từ cấm";
+    var words = Model?.OrderBy(x => x.TuKhoa).ToList() ?? new List<dienthoai.Models.TuCamDanhGium>();
+    var withNote = words.Count(x => !string.IsNullOrWhiteSpace(x.GhiChu));
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--moderation">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-brand">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text"><strong>ZUZONG</strong><small>Admin Center</small></span>
+            </a>
+
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-nav__item"><span class="zz-admin-nav__index">01</span><span>Tổng quan</span></a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">02</span><span>Sản phẩm</span></a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">03</span><span>Thương hiệu</span></a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">04</span><span>Đơn hàng</span></a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">05</span><span>Đánh giá</span></a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item active"><span class="zz-admin-nav__index">06</span><span>Từ cấm</span></a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item"><span class="zz-admin-nav__index">07</span><span>Người dùng</span></a>
+            </nav>
+
+            <div class="zz-admin-sidebar__foot">
+                <span>Moderation</span>
+                <strong>Bộ lọc đánh giá</strong>
+            </div>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Moderation</p>
+                    <h1 class="zz-admin-title">Quản lý từ cấm</h1>
+                    <p class="zz-admin-subtitle">Giữ phần đánh giá sạch hơn bằng bộ từ khóa cần kiểm duyệt trước khi hiển thị.</p>
+                </div>
+
+                <div class="zz-admin-actions">
+                    <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-chip">Đánh giá</a>
+                    <a asp-action="Create" class="zz-admin-quick-btn">Thêm từ khóa</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-metrics" aria-label="Thống kê từ cấm">
+                <article class="zz-admin-metric zz-admin-metric--green">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">TC</span><span class="zz-admin-metric__label">Tổng từ khóa</span></div>
+                    <strong class="zz-admin-metric__value">@words.Count</strong>
+                    <span class="zz-admin-metric__hint">Đang dùng để kiểm duyệt</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--blue">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">GC</span><span class="zz-admin-metric__label">Có ghi chú</span></div>
+                    <strong class="zz-admin-metric__value">@withNote</strong>
+                    <span class="zz-admin-metric__hint">Giúp admin hiểu ngữ cảnh</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--amber">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">ON</span><span class="zz-admin-metric__label">Bộ lọc</span></div>
+                    <strong class="zz-admin-metric__value">Live</strong>
+                    <span class="zz-admin-metric__hint">Áp dụng cho đánh giá mới</span>
+                </article>
+            </section>
+
+            <section class="zz-admin-panel zz-admin-data-panel">
+                <div class="zz-admin-users-toolbar">
+                    <div>
+                        <p class="zz-admin-panel__eyebrow">Danh sách</p>
+                        <h2>Từ khóa kiểm duyệt</h2>
+                    </div>
+                    <label class="zz-admin-user-search">
+                        <span>Tìm kiếm</span>
+                        <input id="zzAdminSearch" type="search" placeholder="Nhập từ khóa hoặc ghi chú..." autocomplete="off" />
+                    </label>
+                </div>
+
+                <div class="zz-admin-banword-grid">
+                    @foreach (var item in words)
+                    {
+                        var note = string.IsNullOrWhiteSpace(item.GhiChu) ? "Chưa có ghi chú" : item.GhiChu;
+                        var searchText = $"{item.TuKhoa} {note}".ToLowerInvariant();
+
+                        <article class="zz-admin-banword-card" data-admin-row data-search="@searchText">
+                            <div class="zz-admin-banword-card__top">
+                                <span class="zz-admin-banword-card__badge">Blocked</span>
+                                <span class="zz-admin-user-status is-locked">Kiểm duyệt</span>
+                            </div>
+
+                            <strong class="zz-admin-banword-card__word">@item.TuKhoa</strong>
+                            <p class="zz-admin-banword-card__note">@note</p>
+
+                            <div class="zz-admin-user-actions">
+                                <a asp-action="Edit" asp-route-id="@item.MaTu" class="zz-admin-user-action zz-admin-user-action--edit">Sửa</a>
+                                <a asp-action="Details" asp-route-id="@item.MaTu" class="zz-admin-user-action zz-admin-user-action--edit">Chi tiết</a>
+                                <a asp-action="Delete" asp-route-id="@item.MaTu" class="zz-admin-user-action zz-admin-user-action--delete">Xóa</a>
+                            </div>
+                        </article>
+                    }
+                </div>
+
+                <div class="zz-admin-empty-users" id="zzAdminEmpty" hidden>Không tìm thấy từ khóa phù hợp.</div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const rows = Array.from(document.querySelectorAll('[data-admin-row]'));
+        const search = document.getElementById('zzAdminSearch');
+        const empty = document.getElementById('zzAdminEmpty');
+
+        search?.addEventListener('input', () => {
+            const keyword = search.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const matched = !keyword || (row.dataset.search || '').includes(keyword);
+                row.hidden = !matched;
+                if (matched) visibleCount += 1;
+            });
+
+            if (empty) empty.hidden = visibleCount !== 0;
+        });
+    })();
+</script>

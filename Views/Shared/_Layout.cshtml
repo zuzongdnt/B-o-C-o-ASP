@@ -1,0 +1,544 @@
+@using dienthoai.Models
+@inject QuanLyDienThoaiZuzongContext _context
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Zuzong Store</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/zuzong-hero.css" asp-append-version="true" />
+
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('theme-light');
+        }
+    </script>
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="@(ViewData["BodyClass"])">
+
+<div class="zz-toast-container" id="zzToastContainer"></div>
+
+@{
+    var avatar      = Context.Session.GetString("Avatar");
+    var maTaiKhoan  = Context.Session.GetString("MaTaiKhoan");
+    var tenDangNhap = Context.Session.GetString("TenDangNhap");
+    var hoTen       = Context.Session.GetString("HoTen");
+    var vaiTro      = Context.Session.GetString("VaiTro");
+    var listThuongHieu = _context.ThuongHieus.ToList();
+    var brandStats = listThuongHieu
+        .Select(th => new
+        {
+            th.MaThuongHieu,
+            th.TenThuongHieu,
+            ProductCount = _context.SanPhams.Count(sp => sp.MaThuongHieu == th.MaThuongHieu && sp.TrangThai == true)
+        })
+        .OrderByDescending(th => th.ProductCount)
+        .ThenBy(th => th.TenThuongHieu)
+        .ToList();
+
+    // ── Badge giỏ hàng ──
+    int cartCount = 0;
+    if (!string.IsNullOrEmpty(maTaiKhoan))
+    {
+        int uid = int.Parse(maTaiKhoan);
+        var gh  = _context.GioHangs.FirstOrDefault(g => g.MaTaiKhoan == uid);
+        if (gh != null)
+        {
+            cartCount = _context.ChiTietGioHangs
+                .Where(c => c.MaGioHang == gh.MaGioHang)
+                .Sum(c => c.SoLuong);
+        }
+    }
+}
+
+<nav class="zz-nav" id="zzNav">
+    <a class="zz-pill zz-pill--logo" asp-controller="Home" asp-action="Index">
+        <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="zz-logo-path"
+                  d="M128 192 L128 256 L64.5 256 L32 223 L0 192 L0 128 L64 128 Z
+                     M256 192 L256 256 L192.5 256 L160 223 L128 192 L128 128 L192 128 Z
+                     M128 64  L128 128 L64.5 128 L32 95  L0 64  L0 0   L64 0  Z
+                     M256 64  L256 128 L192.5 128 L160 95 L128 64 L128 0 L192 0 Z"
+                  fill="#ffffff" />
+        </svg>
+        <span class="zz-brand">ZuzongStore</span>
+    </a>
+
+    <div class="zz-pill zz-pill--links d-none d-md-flex">
+        <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        <div class="dropdown zz-brand-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                Sản phẩm
+            </a>
+            <div class="dropdown-menu zz-brand-menu">
+                <div class="zz-brand-menu__head">
+                    <div>
+                        <span>Danh mục</span>
+                        <strong>Chọn thương hiệu</strong>
+                    </div>
+                    <a asp-controller="SanPham" asp-action="Index">Tất cả sản phẩm</a>
+                </div>
+
+                <div class="zz-brand-menu__grid">
+                    @foreach (var item in brandStats)
+                    {
+                        var brandName = string.IsNullOrWhiteSpace(item.TenThuongHieu) ? "Zuzong" : item.TenThuongHieu;
+                        <a class="zz-brand-menu__item"
+                           asp-controller="SanPham" asp-action="Index"
+                           asp-route-maThuongHieu="@item.MaThuongHieu">
+                            <span class="zz-brand-menu__mark">@brandName.Substring(0, 1).ToUpper()</span>
+                            <span>
+                                <strong>@brandName</strong>
+                                <small>@item.ProductCount sản phẩm</small>
+                            </span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        <a class="nav-link" asp-controller="Home" asp-action="Privacy">Chính sách</a>
+    </div>
+
+    <div class="zz-nav__actions d-flex align-items-center gap-2">
+
+        <!-- THEME TOGGLE -->
+        <button id="themeToggleBtn" class="zz-icon-btn" title="Đổi giao diện">
+            <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+
+        <!-- GIỎ HÀNG + BADGE -->
+        <a class="zz-cart-btn" asp-controller="GioHang" asp-action="Index">
+            🛒 <span>Giỏ hàng</span>
+            <span class="zz-cart-badge" id="zzCartBadge"
+                  style="@(cartCount > 0 ? "" : "display:none")">
+                @cartCount
+            </span>
+        </a>
+
+        <!-- USER DROPDOWN -->
+        @if (!string.IsNullOrEmpty(tenDangNhap))
+        {
+            <div class="dropdown">
+                <button class="zz-user-btn dropdown-toggle d-flex align-items-center gap-2"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="padding: 0.25rem 0.8rem 0.25rem 0.25rem;">
+                    @if (!string.IsNullOrEmpty(avatar))
+                    {
+                        <img src="~/images/@avatar" class="rounded-circle border border-secondary"
+                             width="28" height="28" style="object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <div class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center fw-bold"
+                             style="width:28px;height:28px;font-size:14px;">
+                            @(hoTen?.Substring(0, 1).ToUpper() ?? "U")
+                        </div>
+                    }
+                    <span>@hoTen?.ToLower()</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end zz-user-dropdown">
+                    @if (vaiTro == "Admin")
+                    {
+                        <li><a class="dropdown-item" asp-controller="TaiKhoan" asp-action="Dashboard">Bảng điều khiển</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="dropdown-item" asp-controller="DonHang" asp-action="LichSuDonHang">Lịch sử đơn hàng</a></li>
+                    }
+                    <li><a class="dropdown-item" asp-controller="TaiKhoan" asp-action="Details" asp-route-id="@maTaiKhoan">Quản lý tài khoản</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="TaiKhoan" asp-action="Logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <a class="zz-cta-btn" asp-controller="TaiKhoan" asp-action="Login">Đăng nhập</a>
+        }
+
+        <button class="zz-nav__toggle d-md-none"
+                data-bs-toggle="collapse" data-bs-target="#zzMobileMenu" aria-expanded="false">
+            ☰
+        </button>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="collapse" id="zzMobileMenu"
+     style="position:fixed;top:5rem;left:1rem;right:1rem;z-index:99;
+            background:rgba(18,18,18,0.97);border-radius:1rem;padding:1rem;
+            backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.1);">
+    <a class="dropdown-item" asp-controller="Home" asp-action="Index">Trang chủ</a>
+    <a class="dropdown-item" asp-controller="SanPham" asp-action="Index">Tất cả sản phẩm</a>
+    @foreach (var item in listThuongHieu)
+    {
+        <a class="dropdown-item"
+           asp-controller="SanPham" asp-action="Index"
+           asp-route-maThuongHieu="@item.MaThuongHieu">
+            @item.TenThuongHieu.ToLower()
+        </a>
+    }
+    <hr class="dropdown-divider" />
+    <a class="dropdown-item" asp-controller="Home" asp-action="Privacy">Chính sách</a>
+    @if (string.IsNullOrEmpty(tenDangNhap))
+    {
+        <a class="dropdown-item" asp-controller="TaiKhoan" asp-action="Login">Đăng nhập</a>
+    }
+    else
+    {
+        <a class="dropdown-item" asp-controller="TaiKhoan" asp-action="Details" asp-route-id="@maTaiKhoan">Tài khoản</a>
+        <a class="dropdown-item text-danger" asp-controller="TaiKhoan" asp-action="Logout">Đăng xuất</a>
+    }
+</div>
+
+<!-- BODY -->
+@if (ViewData["BodyClass"]?.ToString() == "page-home" || ViewData["BodyClass"]?.ToString() == "page-policy")
+{
+    @RenderBody()
+}
+else
+{
+    <div class="container zz-main-wrapper" style="padding-top:6rem;min-height:80vh;">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="zz-footer-v2">
+        <div class="zz-footer-v2__accent"></div>
+
+        <div class="zz-footer-v2__main">
+            <div class="zz-footer-v2__socials">
+                <a class="zz-footer-v2__social-item" href="https://youtube.com" target="_blank">
+                    <span class="zz-footer-v2__icon zz-footer-v2__icon--yt">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0d0d0d"/>
+                        </svg>
+                    </span>
+                    <span>Youtube</span>
+                </a>
+                <a class="zz-footer-v2__social-item" href="https://www.tiktok.com/@@_thinhdzuong_" target="_blank">
+                    <span class="zz-footer-v2__icon zz-footer-v2__icon--tt">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.53V6.77a4.85 4.85 0 0 1-1.02-.08z"/>
+                        </svg>
+                    </span>
+                    <span>Tiktok</span>
+                </a>
+                <a class="zz-footer-v2__social-item" href="https://www.facebook.com/duong.nhut.thinh" target="_blank">
+                    <span class="zz-footer-v2__icon zz-footer-v2__icon--fb">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                    </span>
+                    <span>Facebook</span>
+                </a>
+            </div>
+
+            <div class="zz-footer-v2__links">
+                <a href="#" class="zz-footer-v2__link">Faqs</a>
+                <a asp-controller="Home" asp-action="Privacy" class="zz-footer-v2__link">Điều khoản bảo mật</a>
+                <a href="#" class="zz-footer-v2__link">Điều khoản dịch vụ</a>
+                <a href="#" class="zz-footer-v2__link">Tuyên bố miễn trừ trách nhiệm</a>
+            </div>
+        </div>
+
+        <div class="zz-footer-v2__divider"></div>
+
+        <div class="zz-footer-v2__info-row">
+            <div class="zz-footer-v2__about">
+                <p class="zz-footer-v2__name">Dương Nhứt Thịnh</p>
+                <p class="zz-footer-v2__meta">MSSV: 243880 &nbsp;·&nbsp; Lớp DH24TIN07</p>
+                <p class="zz-footer-v2__meta">Trường Đại học Nam Cần Thơ</p>
+                <div class="zz-footer-v2__contacts">
+                    <a href="https://www.facebook.com/duong.nhut.thinh" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                        duong.nhut.thinh
+                    </a>
+                    <a href="mailto:zuzong68@gmail.com">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        zuzong68@gmail.com
+                    </a>
+                    <a href="https://www.tiktok.com/@@_thinhdzuong_" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.53V6.77a4.85 4.85 0 0 1-1.02-.08z"/>
+                        </svg>
+                        @@_thinhdzuong_
+                    </a>
+                </div>
+            </div>
+
+            <div class="zz-footer-v2__map-wrap">
+                <div class="zz-footer-v2__map-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    Đại học Nam Cần Thơ
+                </div>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.1806!2d105.7285!3d10.1372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0890be5c50af1%3A0x831d9f4ae7fec43f!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOYW0gQ-G6p24gVGjGoA!5e0!3m2!1svi!2svn!4v1715000000000"
+                    class="zz-footer-v2__map"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="zz-footer-v2__bottom">
+            <span>&copy; 2026 zuzong store</span>
+            <span>crafted by thịnh 🖤</span>
+        </div>
+    </footer>
+}
+
+<!-- AI CHAT BOX -->
+<section class="zz-chatbox" id="zzAiChat" aria-label="Tư vấn điện thoại" aria-hidden="true">
+    <div class="zz-chatbox__head">
+        <div class="zz-chatbox__avatar">AI</div>
+        <div>
+            <strong>Zuzong AI</strong>
+            <span>Gemini hỗ trợ chọn máy theo nhu cầu</span>
+        </div>
+        <button type="button" class="zz-chatbox__close" id="zzChatClose" aria-label="Đóng chat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="zz-chatbox__messages" id="zzChatMessages">
+        <div class="zz-chatbox__msg zz-chatbox__msg--bot">
+            <div class="zz-chatbox__bubble">
+                Chào bạn, mình là Zuzong AI. Bạn nói ngân sách, hãng thích dùng hoặc nhu cầu như game, camera, pin; mình sẽ lọc máy trong shop và tư vấn nhanh cho bạn.
+            </div>
+        </div>
+    </div>
+
+    <div class="zz-chatbox__suggestions">
+        <button type="button" data-chat-suggest="Tầm 5 triệu chơi game">5 triệu chơi game</button>
+        <button type="button" data-chat-suggest="Camera đẹp dưới 10 triệu">Camera dưới 10 triệu</button>
+        <button type="button" data-chat-suggest="Pin trâu cho sinh viên">Pin trâu sinh viên</button>
+        <button type="button" data-chat-suggest="Shop ở đâu?">Shop ở đâu?</button>
+        <button type="button" data-chat-suggest="Liên hệ shop như nào?">Liên hệ shop</button>
+    </div>
+
+    <form class="zz-chatbox__form" data-chat-form>
+        <input id="zzChatInput" type="text" autocomplete="off"
+               placeholder="Nhập nhu cầu của bạn..." aria-label="Nhập nhu cầu tư vấn" />
+        <button type="submit" aria-label="Gửi tin nhắn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </form>
+</section>
+
+<!-- FLOATING ACTION BUTTONS -->
+<div class="zz-fab-stack">
+    <button type="button" id="zzChatToggle" class="zz-fab zz-fab--chat"
+            title="Chat tư vấn điện thoại" aria-controls="zzAiChat" aria-expanded="false">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+            <path d="M8 9h8"></path>
+            <path d="M8 13h5"></path>
+        </svg>
+    </button>
+    <a href="https://www.facebook.com/duong.nhut.thinh"
+       target="_blank" class="zz-fab zz-fab--fb" title="Facebook của mình">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+    </a>
+    <button id="zzBackToTop" class="zz-fab zz-fab--top" title="Lên đầu trang">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/zuzong-chatbot.js" asp-append-version="true"></script>
+
+<script>
+(function () {
+    // ── Navbar fixed cho trang không phải home ──
+    var nav = document.getElementById('zzNav');
+    if (nav && !document.body.classList.contains('page-home')) {
+        nav.style.position   = 'fixed';
+        nav.style.background = 'var(--zz-nav-bg)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom   = '1px solid var(--zz-card-border)';
+    }
+
+    // ── Toggle Dark / Light Mode ──
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlEl    = document.documentElement;
+
+    const sunSVG  = `<circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+    const moonSVG = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+
+    function updateIcon(isLight) { themeIcon.innerHTML = isLight ? moonSVG : sunSVG; }
+    updateIcon(htmlEl.classList.contains('theme-light'));
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            htmlEl.classList.toggle('theme-light');
+            const isLight = htmlEl.classList.contains('theme-light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateIcon(isLight);
+        });
+    }
+
+    // ── Back To Top ──
+    const backToTopBtn = document.getElementById('zzBackToTop');
+    if (backToTopBtn) {
+        const fabStack = backToTopBtn.closest('.zz-fab-stack');
+
+        const getScrollTop = () => Math.max(
+            window.scrollY || 0,
+            document.documentElement.scrollTop || 0,
+            document.body.scrollTop || 0
+        );
+
+        const syncBackToTop = () => {
+            if (fabStack) {
+                fabStack.classList.toggle('show-top', getScrollTop() > 400);
+            }
+        };
+
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        document.addEventListener('scroll', syncBackToTop, { passive: true });
+        document.documentElement.addEventListener('scroll', syncBackToTop, { passive: true });
+        document.body.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+
+        backToTopBtn.addEventListener('click', () => {
+            const scrollOptions = { top: 0, left: 0, behavior: 'smooth' };
+            [window, document.scrollingElement, document.documentElement, document.body].forEach(target => {
+                try {
+                    target?.scrollTo(scrollOptions);
+                } catch {
+                    try { target?.scrollTo(0, 0); } catch { }
+                }
+            });
+
+            setTimeout(() => {
+                try { document.documentElement.scrollTop = 0; } catch { }
+                try { document.body.scrollTop = 0; } catch { }
+                syncBackToTop();
+            }, 450);
+        });
+    }
+    // ── TOAST SYSTEM ──
+    function zzShowToast(title, msg) {
+        var container = document.getElementById('zzToastContainer');
+        var toast = document.createElement('div');
+        toast.className = 'zz-toast';
+        toast.innerHTML = `
+            <div class="zz-toast__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <div class="zz-toast__body">
+                <div class="zz-toast__title">${title}</div>
+                <div class="zz-toast__msg">${msg}</div>
+            </div>
+            <div class="zz-toast__progress"></div>`;
+        container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
+    // ── CẬP NHẬT BADGE ──
+    function zzUpdateCartBadge(count) {
+        var badge = document.getElementById('zzCartBadge');
+        if (!badge) return;
+        badge.textContent    = count;
+        badge.style.display  = count > 0 ? 'inline-flex' : 'none';
+    }
+
+    // ── THÊM GIỎ HÀNG AJAX ──
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-them-gio]');
+        if (!btn) return;
+        e.preventDefault();
+
+        var maSp  = btn.dataset.themGio;
+        var maBienThe = btn.dataset.maBienThe || '';
+        var token = document.querySelector('input[name="__RequestVerificationToken"]');
+
+        fetch('/GioHang/ThemVaoGioAjax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token ? token.value : ''
+            },
+            body: 'maSp=' + encodeURIComponent(maSp) + '&maBienThe=' + encodeURIComponent(maBienThe)
+        })
+        .then(r => r.json())
+        .then(function (data) {
+            if (data.success) {
+                var msg = data.bienThe ? data.tenSp + ' · ' + data.bienThe : data.tenSp;
+                zzShowToast('Đã thêm vào giỏ!', msg);
+                zzUpdateCartBadge(data.soLuong);
+            } else {
+                zzShowToast('Chưa đăng nhập', data.message || 'Vui lòng đăng nhập để mua hàng');
+            }
+        })
+        .catch(function () {
+            zzShowToast('Lỗi kết nối', 'Vui lòng thử lại');
+        });
+    });
+})();
+</script>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

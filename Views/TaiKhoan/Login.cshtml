@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Đăng nhập";
+    ViewData["BodyClass"] = "page-auth";
+}
+
+<section class="zz-auth-section">
+    <video class="zz-auth__video" autoplay loop muted playsinline
+           src="https://dl.dropboxusercontent.com/scl/fi/72vure5fbyg6x4fvuumki/snaptik.vn_7591610668797676821.mp4?rlkey=6g4hmwb36lskt1t57nxzrs3jy&st=xqsxqolr">
+    </video>
+    <div class="zz-auth__overlay"></div>
+
+    <div class="zz-auth__container zz-animate zz-animate--up is-visible">
+        <div class="zz-glass zz-auth__card zz-auth__card--signin">
+            <div class="zz-auth__header">
+                <span class="zz-auth__badge">ZUZONG STORE</span>
+                <h2 class="zz-auth__title">Đăng nhập</h2>
+                <p class="zz-auth__subtitle">chào mừng trở lại với zuzong store</p>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="zz-auth__alert">@ViewBag.Error</div>
+            }
+            @if (TempData["Success"] != null)
+            {
+                <div class="zz-auth__alert zz-auth__alert--success">@TempData["Success"]</div>
+            }
+
+            <form asp-action="Login" method="post" class="zz-auth__form">
+                @Html.AntiForgeryToken()
+
+                <div class="zz-form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text" name="tenDangNhap" class="zz-input" placeholder="Nhập tài khoản..." required />
+                </div>
+
+                <div class="zz-form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" name="matKhau" class="zz-input" placeholder="Nhập mật khẩu..." required />
+                </div>
+
+                <div class="zz-auth-options">
+                    <label class="zz-auth-remember">
+                        <input type="checkbox" name="duyTriDangNhap" value="true" />
+                        <span>Duy trì đăng nhập</span>
+                    </label>
+                    <a asp-action="ForgotPassword">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="zz-auth__btn">Đăng nhập</button>
+
+                <div class="zz-auth__footer">
+                    Chưa có tài khoản?
+                    <a asp-controller="TaiKhoan" asp-action="Register">Đăng ký ngay</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

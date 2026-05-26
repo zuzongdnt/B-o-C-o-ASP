@@ -1,0 +1,385 @@
+@{
+    ViewData["Title"] = "Bảng điều khiển Admin";
+    var tongSoDon = ViewBag.TongSoDon ?? 0;
+    var doanhThu = ViewBag.DoanhThu ?? 0;
+    var giaTriTB = ViewBag.GiaTriTB ?? 0;
+    var taiKhoanMoi = ViewBag.TaiKhoanMoi as IEnumerable<dienthoai.Models.TaiKhoan> ?? Enumerable.Empty<dienthoai.Models.TaiKhoan>();
+
+    string InitialOf(dienthoai.Models.TaiKhoan account)
+    {
+        var name = string.IsNullOrWhiteSpace(account.HoTen) ? account.TenDangNhap : account.HoTen;
+        return string.IsNullOrWhiteSpace(name) ? "U" : name.Trim()[0].ToString().ToUpper();
+    }
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="zz-admin-shell">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-action="Dashboard" class="zz-admin-brand" aria-label="ZUZONG Admin Dashboard">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text">
+                    <strong>ZUZONG</strong>
+                    <small>Admin Center</small>
+                </span>
+            </a>
+
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-action="Dashboard" class="zz-admin-nav__item active">
+                    <span class="zz-admin-nav__index">01</span>
+                    <span>Tổng quan</span>
+                </a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">02</span>
+                    <span>Sản phẩm</span>
+                </a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">03</span>
+                    <span>Thương hiệu</span>
+                </a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">04</span>
+                    <span>Đơn hàng</span>
+                </a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">05</span>
+                    <span>Đánh giá</span>
+                </a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">06</span>
+                    <span>Từ cấm</span>
+                </a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">07</span>
+                    <span>Tài khoản</span>
+                </a>
+            </nav>
+
+            <div class="zz-admin-sidebar__foot">
+                <span>Đăng nhập với quyền admin</span>
+                <strong>@(ViewBag.HoTenAdmin ?? "Quản trị viên")</strong>
+            </div>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar">
+                <div>
+                    <p class="zz-admin-kicker">Dashboard</p>
+                    <h1 class="zz-admin-title">Tổng quan cửa hàng</h1>
+                    <p class="zz-admin-subtitle">Theo dõi doanh thu, đơn hàng và sản phẩm bán chạy trong một màn hình.</p>
+                </div>
+
+                <div class="zz-admin-actions">
+                    <a asp-controller="DonHang" asp-action="Index" class="zz-admin-chip">Xem đơn hàng</a>
+                    <a asp-controller="SanPham" asp-action="Index" class="zz-admin-quick-btn">Quản lý sản phẩm</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-metrics" aria-label="Chỉ số tổng quan">
+                <article class="zz-admin-metric zz-admin-metric--blue">
+                    <div class="zz-admin-metric__top">
+                        <span class="zz-admin-metric__icon">ĐH</span>
+                        <span class="zz-admin-metric__label">Tổng số đơn hàng</span>
+                    </div>
+                    <strong class="zz-admin-metric__value">@tongSoDon</strong>
+                    <span class="zz-admin-metric__hint">Tất cả đơn hàng đã ghi nhận</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--green">
+                    <div class="zz-admin-metric__top">
+                        <span class="zz-admin-metric__icon">DT</span>
+                        <span class="zz-admin-metric__label">Tổng doanh thu</span>
+                    </div>
+                    <strong class="zz-admin-metric__value">@String.Format("{0:0,0} ₫", doanhThu)</strong>
+                    <span class="zz-admin-metric__hint">Doanh thu từ các đơn hoàn tất</span>
+                </article>
+
+                <article class="zz-admin-metric zz-admin-metric--amber">
+                    <div class="zz-admin-metric__top">
+                        <span class="zz-admin-metric__icon">TB</span>
+                        <span class="zz-admin-metric__label">Giá trị trung bình</span>
+                    </div>
+                    <strong class="zz-admin-metric__value">@String.Format("{0:0,0} ₫", giaTriTB)</strong>
+                    <span class="zz-admin-metric__hint">Giá trị trung bình trên mỗi đơn</span>
+                </article>
+            </section>
+
+            <section class="zz-admin-manage-grid" aria-label="Quản lý nhanh">
+                <a asp-controller="Home" asp-action="Index" class="zz-admin-manage-card zz-admin-manage-card--front">
+                    <span class="zz-admin-manage-card__icon">UI</span>
+                    <span>
+                        <strong>Giao diện người dùng</strong>
+                        <small>Xem trang chủ như khách hàng</small>
+                    </span>
+                </a>
+
+                <a asp-controller="SanPham" asp-action="Index" asp-route-previewUser="true" class="zz-admin-manage-card zz-admin-manage-card--front">
+                    <span class="zz-admin-manage-card__icon">SHOP</span>
+                    <span>
+                        <strong>Giao diện mua hàng</strong>
+                        <small>Xem catalog có thêm giỏ hàng và mua ngay</small>
+                    </span>
+                </a>
+
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-manage-card">
+                    <span class="zz-admin-manage-card__icon">SP</span>
+                    <span>
+                        <strong>Quản lý sản phẩm</strong>
+                        <small>@(ViewBag.TongSanPham ?? 0) sản phẩm trong hệ thống</small>
+                    </span>
+                </a>
+
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-manage-card">
+                    <span class="zz-admin-manage-card__icon">TK</span>
+                    <span>
+                        <strong>Quản lý tài khoản</strong>
+                        <small>@(ViewBag.TongTaiKhoan ?? 0) tài khoản người dùng</small>
+                    </span>
+                </a>
+
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-manage-card">
+                    <span class="zz-admin-manage-card__icon">DH</span>
+                    <span>
+                        <strong>Quản lý đơn hàng</strong>
+                        <small>@(ViewBag.DonChoXuLy ?? 0) đơn đang chờ xử lý</small>
+                    </span>
+                </a>
+
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-manage-card">
+                    <span class="zz-admin-manage-card__icon">TC</span>
+                    <span>
+                        <strong>Quản lý từ cấm</strong>
+                        <small>@(ViewBag.TongTuCam ?? 0) từ khóa kiểm duyệt</small>
+                    </span>
+                </a>
+            </section>
+
+            <section class="zz-admin-panel zz-admin-users-overview" aria-label="Người dùng mới">
+                <div class="zz-admin-panel__head">
+                    <div>
+                        <p class="zz-admin-panel__eyebrow">Người dùng</p>
+                        <h2>Quản lý người dùng</h2>
+                    </div>
+                    <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-status-pill zz-admin-status-pill--link">Xem tất cả</a>
+                </div>
+
+                <div class="zz-admin-user-strip">
+                    @foreach (var account in taiKhoanMoi)
+                    {
+                        var displayName = string.IsNullOrWhiteSpace(account.HoTen) ? account.TenDangNhap : account.HoTen;
+                        var avatar = string.IsNullOrWhiteSpace(account.Avatar) ? "" : Url.Content("~/images/" + account.Avatar);
+                        var role = string.IsNullOrWhiteSpace(account.VaiTro) ? "User" : account.VaiTro.Trim();
+
+                        <a asp-controller="TaiKhoan" asp-action="Edit" asp-route-id="@account.MaTaiKhoan" class="zz-admin-user-mini">
+                            <span class="zz-admin-user-mini__avatar">
+                                @if (!string.IsNullOrEmpty(avatar))
+                                {
+                                    <img src="@avatar" alt="@displayName" />
+                                }
+                                else
+                                {
+                                    <span>@InitialOf(account)</span>
+                                }
+                            </span>
+                            <span class="zz-admin-user-mini__body">
+                                <strong>@displayName</strong>
+                                <small>@role · @(account.TrangThai == true ? "Hoạt động" : "Đã khóa")</small>
+                            </span>
+                        </a>
+                    }
+                </div>
+            </section>
+
+            <section class="zz-admin-content-grid" aria-label="Biểu đồ thống kê">
+                <article class="zz-admin-panel">
+                    <div class="zz-admin-panel__head">
+                        <div>
+                            <p class="zz-admin-panel__eyebrow">Trạng thái</p>
+                            <h2>Cơ cấu đơn hàng</h2>
+                        </div>
+                        <span class="zz-admin-status-pill">Live</span>
+                    </div>
+                    <div class="zz-admin-chart-wrap zz-admin-chart-wrap--donut">
+                        <canvas id="chartTrangThai"></canvas>
+                    </div>
+                </article>
+
+                <article class="zz-admin-panel">
+                    <div class="zz-admin-panel__head">
+                        <div>
+                            <p class="zz-admin-panel__eyebrow">Hiệu suất</p>
+                            <h2>Top 5 sản phẩm bán chạy</h2>
+                        </div>
+                    </div>
+                    <div class="zz-admin-chart-wrap">
+                        <canvas id="chartTop5"></canvas>
+                    </div>
+                </article>
+
+                <article class="zz-admin-panel zz-admin-panel--wide">
+                    <div class="zz-admin-panel__head">
+                        <div>
+                            <p class="zz-admin-panel__eyebrow">Doanh thu</p>
+                            <h2>6 tháng gần nhất</h2>
+                        </div>
+                    </div>
+                    <div class="zz-admin-chart-wrap zz-admin-chart-wrap--wide">
+                        <canvas id="chartDoanhThu"></canvas>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const lblTrangThai = @Html.Raw(ViewBag.LabelTrangThai ?? "[]");
+        const dataTrangThai = @Html.Raw(ViewBag.DataTrangThai ?? "[]");
+        const lblTop5 = @Html.Raw(ViewBag.LabelTop5 ?? "[]");
+        const dataTop5 = @Html.Raw(ViewBag.DataTop5 ?? "[]");
+        const lblDoanhThu = @Html.Raw(ViewBag.LabelDoanhThu ?? "[]");
+        const dataDoanhThu = @Html.Raw(ViewBag.DataDoanhThu ?? "[]");
+
+        const styles = getComputedStyle(document.documentElement);
+        const textColor = styles.getPropertyValue('--zz-text').trim() || '#121212';
+        const mutedColor = styles.getPropertyValue('--zz-text-muted').trim() || '#666666';
+        const borderColor = styles.getPropertyValue('--zz-card-border').trim() || 'rgba(0,0,0,.1)';
+
+        Chart.defaults.font.family = "'Readex Pro', system-ui, -apple-system, sans-serif";
+        Chart.defaults.color = mutedColor;
+
+        const axisOptions = {
+            ticks: {
+                color: mutedColor,
+                font: { size: 12 },
+                padding: 8
+            },
+            grid: {
+                color: borderColor,
+                drawBorder: false
+            },
+            border: {
+                display: false
+            }
+        };
+
+        const compactCurrency = value => {
+            return new Intl.NumberFormat('vi-VN', {
+                notation: 'compact',
+                maximumFractionDigits: 1
+            }).format(value);
+        };
+
+        new Chart(document.getElementById('chartTrangThai'), {
+            type: 'doughnut',
+            data: {
+                labels: lblTrangThai,
+                datasets: [{
+                    data: dataTrangThai,
+                    backgroundColor: ['#22c55e', '#f59e0b', '#38bdf8', '#ef4444', '#8b5cf6'],
+                    borderColor: styles.getPropertyValue('--zz-card-bg').trim() || '#fff',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '68%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            boxWidth: 8,
+                            boxHeight: 8,
+                            padding: 18,
+                            color: mutedColor
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartTop5'), {
+            type: 'bar',
+            data: {
+                labels: lblTop5,
+                datasets: [{
+                    label: 'Số lượng đã bán',
+                    data: dataTop5,
+                    backgroundColor: '#8bc34a',
+                    borderRadius: 12,
+                    maxBarThickness: 42
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        ...axisOptions,
+                        ticks: {
+                            ...axisOptions.ticks,
+                            color: textColor
+                        }
+                    },
+                    y: {
+                        ...axisOptions,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartDoanhThu'), {
+            type: 'bar',
+            data: {
+                labels: lblDoanhThu,
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: dataDoanhThu,
+                    backgroundColor: '#16a34a',
+                    borderRadius: 14,
+                    maxBarThickness: 56
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: context => `${new Intl.NumberFormat('vi-VN').format(context.parsed.y)} ₫`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ...axisOptions,
+                        ticks: {
+                            ...axisOptions.ticks,
+                            color: textColor
+                        }
+                    },
+                    y: {
+                        ...axisOptions,
+                        beginAtZero: true,
+                        ticks: {
+                            ...axisOptions.ticks,
+                            callback: compactCurrency
+                        }
+                    }
+                }
+            }
+        });
+    })();
+</script>

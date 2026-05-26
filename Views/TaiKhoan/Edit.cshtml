@@ -1,0 +1,176 @@
+﻿@model dienthoai.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Sá»­a tÃ i khoáº£n";
+    var displayName = string.IsNullOrWhiteSpace(Model.HoTen) ? Model.TenDangNhap : Model.HoTen;
+    var avatar = string.IsNullOrWhiteSpace(Model.Avatar) ? "" : Url.Content("~/images/" + Model.Avatar);
+    var initial = string.IsNullOrWhiteSpace(displayName) ? "U" : displayName.Trim()[0].ToString().ToUpper();
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--users">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-action="Dashboard" class="zz-admin-brand" aria-label="ZUZONG Admin Dashboard">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text">
+                    <strong>ZUZONG</strong>
+                    <small>Admin Center</small>
+                </span>
+            </a>
+
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-action="Dashboard" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">01</span>
+                    <span>Tá»•ng quan</span>
+                </a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">02</span>
+                    <span>Sáº£n pháº©m</span>
+                </a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">03</span>
+                    <span>ThÆ°Æ¡ng hiá»‡u</span>
+                </a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">04</span>
+                    <span>ÄÆ¡n hÃ ng</span>
+                </a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">05</span>
+                    <span>ÄÃ¡nh giÃ¡</span>
+                </a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">06</span>
+                    <span>Tá»« cáº¥m</span>
+                </a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item active">
+                    <span class="zz-admin-nav__index">07</span>
+                    <span>TÃ i khoáº£n</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Account</p>
+                    <h1 class="zz-admin-title">Sá»­a tÃ i khoáº£n</h1>
+                    <p class="zz-admin-subtitle">Cáº­p nháº­t thÃ´ng tin ngÆ°á»i dÃ¹ng. Máº­t kháº©u Ä‘Æ°á»£c giá»¯ kÃ­n vÃ  khÃ´ng hiá»ƒn thá»‹ trong trang quáº£n trá»‹.</p>
+                </div>
+
+                <div class="zz-admin-actions">
+                    <a asp-action="QuanLyNguoiDung" class="zz-admin-chip">Danh sÃ¡ch tÃ i khoáº£n</a>
+                    <a asp-action="Delete" asp-route-id="@Model.MaTaiKhoan" class="zz-admin-quick-btn zz-admin-quick-btn--danger">XÃ³a tÃ i khoáº£n</a>
+                </div>
+            </header>
+
+            <form asp-action="Edit" method="post" class="zz-admin-user-edit">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="MaTaiKhoan" />
+
+                <aside class="zz-admin-user-edit__profile">
+                    <div class="zz-admin-user-edit__avatar">
+                        @if (!string.IsNullOrEmpty(avatar))
+                        {
+                            <img src="@avatar" alt="@displayName" />
+                        }
+                        else
+                        {
+                            <span>@initial</span>
+                        }
+                    </div>
+                    <h2>@displayName</h2>
+                    <p>@("@" + Model.TenDangNhap)</p>
+                    <span class="zz-admin-user-status @(Model.TrangThai == true ? "is-active" : "is-locked")">
+                        @(Model.TrangThai == true ? "Hoáº¡t Ä‘á»™ng" : "ÄÃ£ khÃ³a")
+                    </span>
+                    <small class="zz-admin-user-edit__safe-note">KhÃ´ng render hash máº­t kháº©u trong HTML.</small>
+                </aside>
+
+                <section class="zz-admin-panel zz-admin-user-edit__form">
+                    <div class="zz-admin-users-toolbar">
+                        <div>
+                            <p class="zz-admin-panel__eyebrow">ThÃ´ng tin</p>
+                            <h2>Há»“ sÆ¡ ngÆ°á»i dÃ¹ng</h2>
+                        </div>
+                    </div>
+
+                    <div class="zz-admin-form-grid">
+                        <label class="zz-admin-field">
+                            <span>TÃªn Ä‘Äƒng nháº­p</span>
+                            <input asp-for="TenDangNhap" />
+                            <em asp-validation-for="TenDangNhap"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Há» tÃªn</span>
+                            <input asp-for="HoTen" />
+                            <em asp-validation-for="HoTen"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Email</span>
+                            <input asp-for="Email" type="email" />
+                            <em asp-validation-for="Email"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Sá»‘ Ä‘iá»‡n thoáº¡i</span>
+                            <input asp-for="SoDienThoai" />
+                            <em asp-validation-for="SoDienThoai"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Vai trÃ²</span>
+                            <select asp-for="VaiTro">
+                                <option value="User">User</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                            <em asp-validation-for="VaiTro"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Tráº¡ng thÃ¡i</span>
+                            <select asp-for="TrangThai">
+                                <option value="true">Hoáº¡t Ä‘á»™ng</option>
+                                <option value="false">KhÃ³a tÃ i khoáº£n</option>
+                            </select>
+                            <em asp-validation-for="TrangThai"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>NgÃ y táº¡o</span>
+                            <input asp-for="NgayTao" />
+                            <em asp-validation-for="NgayTao"></em>
+                        </label>
+
+                        <label class="zz-admin-field">
+                            <span>Avatar</span>
+                            <input asp-for="Avatar" placeholder="ten-file.jpg" />
+                            <em asp-validation-for="Avatar"></em>
+                        </label>
+
+                        <label class="zz-admin-field zz-admin-field--wide">
+                            <span>Äá»‹a chá»‰</span>
+                            <textarea asp-for="DiaChi" rows="4"></textarea>
+                            <em asp-validation-for="DiaChi"></em>
+                        </label>
+                    </div>
+
+                    <div class="zz-admin-form-actions">
+                        <button type="submit" class="zz-admin-quick-btn">LÆ°u thay Ä‘á»•i</button>
+                        <a asp-action="QuanLyNguoiDung" class="zz-admin-chip">Há»§y</a>
+                    </div>
+                </section>
+            </form>
+        </main>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

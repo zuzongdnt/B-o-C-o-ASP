@@ -1,0 +1,216 @@
+@using Microsoft.AspNetCore.Http
+@using dienthoai.Services
+@model dienthoai.Models.DonHang
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng #" + Model.MaDonHang;
+    ViewData["BodyClass"] = "page-orders";
+
+    var vaiTro = Context.Session.GetString("VaiTro");
+    bool coTheHuy = ViewBag.CoTheHuy as bool? ?? false;
+    var transferInfo = ViewBag.TransferInfo as BankTransferInfo;
+    var qrUrl = ViewBag.SePayQrUrl as string;
+    decimal tamTinh = ViewBag.TamTinh is decimal viewTamTinh
+        ? viewTamTinh
+        : (Model.ChiTietDonHangs?.Sum(x => x.DonGia * x.SoLuong) ?? Model.TongTien);
+    decimal giamGia = ViewBag.GiamGia is decimal viewGiamGia ? viewGiamGia : Math.Max(0, tamTinh - Model.TongTien);
+
+    string StatusClass(string? status)
+    {
+        var s = (status ?? "").Trim();
+        if (s == "Hoàn thành") return "zz-order-status--done";
+        if (s == "Đã hủy") return "zz-order-status--cancel";
+        if (s == "Đang xử lý" || s == "Chờ xử lý") return "zz-order-status--processing";
+        return "zz-order-status--pending";
+    }
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/zuzong-orders.css" asp-append-version="true" />
+}
+
+<section class="zz-orders-page">
+    <div class="zz-orders-header">
+        <div>
+            <p class="zz-orders-eyebrow">ORDER DETAIL</p>
+            <h1>Đơn hàng #@Model.MaDonHang</h1>
+            <span>@Model.NgayDatHang?.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <strong class="zz-order-status @StatusClass(Model.TrangThaiDonHang)">@Model.TrangThaiDonHang</strong>
+    </div>
+
+    @if (TempData["SuccessMsg"] != null)
+    {
+        <div class="zz-order-alert zz-order-alert--success">@TempData["SuccessMsg"]</div>
+    }
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <div class="zz-order-alert zz-order-alert--danger">@TempData["ErrorMsg"]</div>
+    }
+
+    <div class="zz-order-detail-layout">
+        <div class="zz-order-detail-main">
+            <section class="zz-order-panel">
+                <div class="zz-order-panel__head">
+                    <div>
+                        <span>Sản phẩm đã mua</span>
+                        <h2>@(Model.ChiTietDonHangs?.Sum(x => x.SoLuong) ?? 0) sản phẩm</h2>
+                    </div>
+                </div>
+
+                <div class="zz-order-product-list">
+                    @foreach (var item in Model.ChiTietDonHangs ?? new List<dienthoai.Models.ChiTietDonHang>())
+                    {
+                        var variant = item.MaBienTheNavigation;
+                        var product = item.MaSpNavigation;
+                        var image = !string.IsNullOrEmpty(variant?.HinhAnh) ? variant.HinhAnh : product?.HinhAnh;
+                        var detailUrl = Url.Action("Details", "SanPham", new { id = item.MaSp, maBienThe = item.MaBienThe }) ?? "#";
+
+                        <a href="@detailUrl" class="zz-order-product">
+                            <div class="zz-order-product__image">
+                                @if (!string.IsNullOrEmpty(image))
+                                {
+                                    <img src="@Url.Content("~/images/" + image)" alt="@product?.TenSp"
+                                         onerror="this.style.display='none';this.nextElementSibling.classList.add('is-visible');" />
+                                    <span class="zz-order-image-fallback">Phone</span>
+                                }
+                                else
+                                {
+                                    <span class="zz-order-image-fallback is-visible">Phone</span>
+                                }
+                            </div>
+
+                            <div class="zz-order-product__info">
+                                <strong>@product?.TenSp</strong>
+                                <div class="zz-order-product__variant">
+                                    @if (variant != null)
+                                    {
+                                        <span>
+                                            @if (!string.IsNullOrEmpty(variant.MaMau))
+                                            {
+                                                <i style="background:@variant.MaMau"></i>
+                                            }
+                                            @variant.MauSac
+                                        </span>
+                                        <span>@variant.DungLuong</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Phiên bản mặc định</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="zz-order-product__money">
+                                <span>SL @item.SoLuong</span>
+                                <strong>@((item.DonGia * item.SoLuong).ToString("N0"))đ</strong>
+                                <small>@item.DonGia.ToString("N0")đ / sản phẩm</small>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </section>
+
+            @if (coTheHuy)
+            {
+                <section class="zz-order-panel zz-order-cancel-panel">
+                    <div class="zz-order-panel__head">
+                        <div>
+                            <span>Hủy đơn</span>
+                            <h2>Yêu cầu hủy đơn hàng</h2>
+                        </div>
+                    </div>
+
+                    <form asp-action="HuyDon" method="post" class="zz-order-cancel-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.MaDonHang" />
+                        <textarea name="lyDoHuy" rows="3" placeholder="Nhập lý do hủy đơn..." required></textarea>
+                        <button type="submit">Hủy đơn hàng</button>
+                    </form>
+                </section>
+            }
+            else if ((Model.TrangThaiDonHang ?? "").Trim() == "Đã hủy" && !string.IsNullOrEmpty(Model.LyDoHuy))
+            {
+                <section class="zz-order-panel zz-order-cancel-panel">
+                    <div class="zz-order-panel__head">
+                        <div>
+                            <span>Lý do hủy</span>
+                            <h2>@Model.LyDoHuy</h2>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+
+        <aside class="zz-order-summary">
+            <section class="zz-order-panel">
+                <div class="zz-order-panel__head">
+                    <div>
+                        <span>Người nhận</span>
+                        <h2>@Model.TenNguoiNhan</h2>
+                    </div>
+                </div>
+
+                <div class="zz-order-info-list">
+                    <div><span>Điện thoại</span><strong>@Model.SoDienThoai</strong></div>
+                    <div><span>Địa chỉ</span><strong>@Model.DiaChiGiaoHang</strong></div>
+                    <div><span>Thanh toán</span><strong>@Model.PhuongThucThanhToan</strong></div>
+                </div>
+            </section>
+
+            @if (!string.IsNullOrWhiteSpace(qrUrl) && transferInfo != null)
+            {
+                <section class="zz-order-panel zz-order-qr-panel">
+                    <div class="zz-order-panel__head">
+                        <div>
+                            <span>QR chuyển khoản</span>
+                            <h2>SePay @transferInfo.BankName</h2>
+                        </div>
+                    </div>
+
+                    <div class="zz-order-qr">
+                        <img src="@qrUrl" alt="QR thanh toán đơn hàng #@Model.MaDonHang" />
+                    </div>
+
+                    <div class="zz-order-info-list">
+                        <div><span>Thụ hưởng</span><strong>@transferInfo.AccountName</strong></div>
+                        <div><span>Số tài khoản</span><strong>@transferInfo.AccountNumber</strong></div>
+                        <div><span>Nội dung</span><strong>THANHTOAN@Model.MaDonHang</strong></div>
+                    </div>
+                </section>
+            }
+
+            <section class="zz-order-panel">
+                <div class="zz-order-money-list">
+                    <div>
+                        <span>Tạm tính</span>
+                        <strong>@tamTinh.ToString("N0")đ</strong>
+                    </div>
+                    @if (giamGia > 0)
+                    {
+                        <div class="zz-order-money-discount">
+                            <span>Giảm giá</span>
+                            <strong>-@giamGia.ToString("N0")đ</strong>
+                        </div>
+                    }
+                    <div class="zz-order-total">
+                    <span>Tổng thanh toán</span>
+                    <strong>@Model.TongTien.ToString("N0")đ</strong>
+                    </div>
+                </div>
+            </section>
+
+            <div class="zz-order-actions">
+                @if (vaiTro == "Admin")
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.MaDonHang" class="zz-orders-primary">Cập nhật đơn</a>
+                    <a asp-action="Index" class="zz-orders-link">Về quản lý đơn</a>
+                }
+                else
+                {
+                    <a asp-action="LichSuDonHang" class="zz-orders-link">Về lịch sử đơn</a>
+                }
+            </div>
+        </aside>
+    </div>
+</section>

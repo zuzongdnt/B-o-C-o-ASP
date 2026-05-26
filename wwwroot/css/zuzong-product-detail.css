@@ -1,0 +1,892 @@
+/* ============================================================
+   ZUZONG PRODUCT DETAIL - FULL CSS
+   Äáº·t file nÃ y táº¡i: wwwroot/css/zuzong-product-detail.css
+   ============================================================ */
+
+.zz-detail-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+}
+
+.zz-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--zz-text-muted);
+    margin-bottom: 2rem;
+}
+
+.zz-breadcrumb a {
+    color: var(--zz-text-muted);
+    text-decoration: none;
+}
+
+.zz-breadcrumb a:hover {
+    color: var(--zz-text);
+}
+
+.zz-breadcrumb span {
+    opacity: 0.65;
+}
+
+.zz-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: 3.5rem;
+    align-items: start;
+    margin-bottom: 4rem;
+}
+
+.zz-detail-img-container {
+    position: sticky;
+    top: 6rem;
+    min-width: 0;
+}
+
+.zz-detail-img-wrap {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.zz-detail-img-wrap img {
+    width: 86%;
+    height: 86%;
+    max-width: 520px;
+    max-height: 520px;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.16));
+    transition: transform 0.35s ease;
+}
+
+.zz-detail-img-wrap:hover img {
+    transform: scale(1.035);
+}
+
+.zz-detail-img-placeholder {
+    font-size: 5rem;
+}
+
+.zz-gallery {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+}
+
+.zz-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 0.7rem;
+    border: 2px solid var(--zz-card-border);
+    object-fit: contain;
+    cursor: pointer;
+    background: var(--zz-card-bg);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.zz-thumb:hover,
+.zz-thumb.active {
+    border-color: #e00022;
+    transform: translateY(-2px);
+}
+
+.zz-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    min-width: 0;
+}
+
+.zz-detail-brand {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--zz-text-muted);
+}
+
+.zz-detail-name {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: clamp(1.75rem, 3vw, 2.45rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+}
+
+.zz-detail-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-stars {
+    color: #f59e0b;
+    letter-spacing: 2px;
+}
+
+.zz-detail-divider {
+    height: 1px;
+    background: var(--zz-card-border);
+}
+
+.zz-detail-price-block {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.zz-detail-price {
+    color: #df001f;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.zz-detail-price-old {
+    color: #8b8b8b;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+.zz-detail-discount {
+    background: #e00022;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.24rem 0.6rem;
+    border-radius: 0.45rem;
+}
+
+.zz-stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.36rem 0.85rem;
+    border-radius: 9999px;
+    border: 1px solid;
+}
+
+.zz-stock-badge--in {
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.32);
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.zz-stock-badge--out {
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.32);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.zz-stock-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.zz-variant-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.zz-variant-block h3 {
+    margin: 0.55rem 0 0;
+    color: var(--zz-text);
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.zz-variant-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.zz-variant-grid--storage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.zz-variant-grid--color {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.zz-variant-option {
+    position: relative;
+    min-height: 4.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 0.85rem;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.zz-variant-option:hover {
+    color: var(--zz-text);
+    transform: translateY(-2px);
+    border-color: var(--zz-text-muted);
+    background: var(--zz-input-bg);
+}
+
+.zz-variant-option.active {
+    border-color: #e00022;
+    box-shadow: 0 0 0 1px #e00022 inset;
+}
+
+.zz-variant-option.active::after {
+    content: 'âœ“';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 0 0.8rem 0 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e00022;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.zz-variant-option--color {
+    justify-content: flex-start;
+    min-height: 5.1rem;
+}
+
+.zz-color-thumb {
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: 0.55rem;
+    overflow: hidden;
+    flex: 0 0 auto;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-color-thumb img,
+.zz-color-thumb i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.zz-variant-option strong,
+.zz-variant-option small {
+    display: block;
+}
+
+.zz-variant-option strong {
+    color: var(--zz-text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.zz-variant-option small {
+    margin-top: 0.12rem;
+    color: #df001f;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.zz-detail-specs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.1rem;
+    padding: 1.25rem;
+}
+
+.zz-spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+}
+
+.zz-spec-label {
+    color: var(--zz-text-muted);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.zz-spec-val {
+    color: var(--zz-text);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.zz-detail-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.zz-detail-actions .zz-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.9rem 1rem;
+}
+
+.zz-admin-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.zz-admin-bar span {
+    margin-right: auto;
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-reviews {
+    margin-top: 1rem;
+}
+
+.zz-reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.zz-reviews-header h3 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.zz-review-summary,
+.zz-review-card,
+.zz-review-form,
+.zz-review-locked {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.25rem;
+}
+
+.zz-review-summary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+
+.zz-review-score {
+    text-align: center;
+    padding-right: 2rem;
+    border-right: 1px solid var(--zz-card-border);
+}
+
+.zz-review-score__num {
+    color: var(--zz-text);
+    font-size: 3.3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.zz-review-score__total {
+    margin-top: 0.45rem;
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-review-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.zz-review-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-review-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--zz-input-bg);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.zz-review-bar-fill {
+    height: 100%;
+    background: #f59e0b;
+}
+
+.zz-review-form {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.zz-review-form--first {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.zz-review-form h4 {
+    margin: 0 0 1.1rem;
+    color: var(--zz-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.zz-review-compose {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+}
+
+.zz-review-compose__label {
+    display: block;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+}
+
+.zz-star-select {
+    display: flex;
+    gap: 0.25rem;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.zz-star-select input {
+    display: none;
+}
+
+.zz-star-select label {
+    color: var(--zz-card-border);
+    cursor: pointer;
+    font-size: 1.55rem;
+    transition: color 0.15s ease;
+}
+
+.zz-star-select input:checked~label,
+.zz-star-select label:hover,
+.zz-star-select label:hover~label {
+    color: #f59e0b;
+}
+
+.zz-review-upload {
+    min-height: 4.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0.85rem 1rem;
+    border-radius: 0.9rem;
+    border: 1px dashed var(--zz-card-border);
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.zz-review-upload:hover {
+    border-color: var(--zz-text-muted);
+}
+
+.zz-review-upload input {
+    display: none;
+}
+
+.zz-review-upload span {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.zz-review-upload small {
+    color: var(--zz-text-muted);
+    font-size: 0.78rem;
+}
+
+.zz-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.zz-review-card {
+    padding: 1.15rem;
+}
+
+.zz-review-card__top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.zz-review-card__avatar {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    font-size: 0.85rem;
+    font-weight: 800;
+    overflow: hidden;
+}
+
+.zz-review-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.zz-review-card__name {
+    color: var(--zz-text);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.zz-review-card__date {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    margin-top: 0.1rem;
+}
+
+.zz-review-card__stars {
+    margin-left: auto;
+    color: #f59e0b;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.zz-review-card__text {
+    color: var(--zz-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 0.25rem 0 0.8rem;
+}
+
+.zz-review-card__image {
+    display: block;
+    width: min(100%, 320px);
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 0.85rem;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-input-bg);
+    padding: 0.4rem;
+    margin-top: 0.75rem;
+}
+
+.zz-review-reply {
+    margin-top: 0.9rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--zz-text);
+    border-radius: 0.75rem;
+    background: var(--zz-input-bg);
+}
+
+.zz-review-reply strong {
+    display: block;
+    color: var(--zz-text);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.zz-review-reply p {
+    margin: 0;
+    color: var(--zz-text-muted);
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.zz-review-locked {
+    padding: 1rem 1.25rem;
+    color: var(--zz-text-muted);
+    margin-top: 1.25rem;
+}
+
+@media (max-width: 900px) {
+    .zz-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .zz-detail-img-container {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .zz-detail-wrap {
+        padding: 1.5rem 1rem 4rem;
+    }
+    .zz-variant-grid--storage,
+    .zz-variant-grid--color,
+    .zz-detail-specs,
+    .zz-review-summary {
+        grid-template-columns: 1fr;
+    }
+    .zz-review-score {
+        padding: 0 0 1.5rem;
+        border-right: 0;
+        border-bottom: 1px solid var(--zz-card-border);
+    }
+    .zz-detail-actions {
+        flex-direction: column;
+    }
+    .zz-review-compose {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   DETAIL OVERRIDE - BLACK / WHITE THEME
+   Dan vao cuoi file CSS chi tiet san pham dang dung.
+   ============================================================ */
+
+.zz-variant-option.active {
+    border-color: var(--zz-text) !important;
+    box-shadow: 0 0 0 1px var(--zz-text) inset !important;
+}
+
+.zz-variant-option.active::after {
+    background: var(--zz-text) !important;
+    color: var(--zz-bg) !important;
+}
+
+.zz-thumb:hover,
+.zz-thumb.active {
+    border-color: var(--zz-text) !important;
+}
+
+.zz-detail-discount {
+    background: var(--zz-text) !important;
+    color: var(--zz-bg) !important;
+}
+
+.zz-breadcrumb,
+.zz-breadcrumb a,
+.zz-breadcrumb span {
+    text-transform: capitalize;
+}
+
+.zz-review-replies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+}
+
+.zz-review-reply {
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--zz-text);
+    border-radius: 0.75rem;
+    background: var(--zz-input-bg);
+}
+
+.zz-review-reply strong {
+    display: block;
+    color: var(--zz-text);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.zz-review-reply small {
+    display: block;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    margin-bottom: 0.35rem;
+}
+
+.zz-review-reply p {
+    margin: 0;
+    color: var(--zz-text-muted);
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.zz-review-reply-form {
+    display: flex;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+}
+
+.zz-review-reply-form input {
+    flex: 1;
+    min-height: 2.55rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    padding: 0.65rem 0.85rem;
+}
+
+.zz-review-reply-form button {
+    min-height: 2.55rem;
+    border-radius: 9999px;
+    border: 1px solid var(--zz-text);
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    padding: 0 1.15rem;
+    font-weight: 700;
+}
+
+@media (max-width: 640px) {
+    .zz-review-reply-form {
+        flex-direction: column;
+    }
+}
+
+.zz-review-reply--admin {
+    border-left-color: var(--zz-text);
+}
+
+.zz-admin-reply-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.45rem;
+    padding: 0.14rem 0.45rem;
+    border-radius: 9999px;
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    font-size: 0.68rem;
+    font-weight: 800;
+    vertical-align: middle;
+}
+
+
+
+/* VARIANT PICKER POLISH - 2026-05-22 */
+.zz-variant-option {
+    box-sizing: border-box;
+    border-radius: 1rem;
+    padding-right: 2.75rem;
+}
+
+.zz-variant-option.active::after {
+    content: "" !important;
+    top: 0.55rem !important;
+    right: 0.55rem !important;
+    width: 1.35rem !important;
+    height: 1.35rem !important;
+    border-radius: 9999px !important;
+    background: var(--zz-text) !important;
+    color: var(--zz-bg) !important;
+    font-size: 0.78rem !important;
+    line-height: 1 !important;
+    box-shadow: 0 0 0 2px var(--zz-card-bg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.zz-variant-option.active::before {
+    content: "" !important;
+    position: absolute;
+    top: 0.83rem;
+    right: 1.05rem;
+    width: 0.32rem;
+    height: 0.62rem;
+    border: solid var(--zz-bg);
+    border-width: 0 0.14rem 0.14rem 0;
+    transform: rotate(45deg);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.zz-variant-option--color {
+    min-width: 0;
+    gap: 0.85rem;
+    padding-right: 3rem;
+}
+
+.zz-variant-grid--color {
+    grid-template-columns: repeat(auto-fit, minmax(13.25rem, 1fr));
+}
+
+.zz-variant-option--color > span:last-child {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.zz-variant-option--color strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.zz-variant-option--color small {
+    overflow: visible;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    max-width: 100%;
+}
+
+@media (max-width: 640px) {
+    .zz-variant-option {
+        min-height: 4.35rem;
+        padding: 0.75rem 2.55rem 0.75rem 0.9rem;
+    }
+
+    .zz-variant-option--color {
+        min-height: 4.55rem;
+    }
+
+    .zz-color-thumb {
+        width: 2.65rem;
+        height: 2.65rem;
+    }
+}

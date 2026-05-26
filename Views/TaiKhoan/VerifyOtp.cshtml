@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Xác thực OTP";
+    ViewData["BodyClass"] = "page-auth";
+}
+
+<section class="zz-auth-section">
+    <video class="zz-auth__video" autoplay loop muted playsinline
+           src="https://dl.dropboxusercontent.com/scl/fi/ew8gm0ob8uzo4j56rvnm6/snaptik.vn_7582416233627192597.mp4?rlkey=3ygysvnzuxt1hilcec9quz2at&st=xqtweey4">
+    </video>
+    <div class="zz-auth__overlay"></div>
+
+    <div class="zz-auth__container zz-animate zz-animate--up is-visible">
+        <div class="zz-glass zz-auth__card">
+            <div class="zz-auth__header">
+                <h2 class="zz-auth__title">Xác thực OTP</h2>
+                <p class="zz-auth__subtitle">
+                    Mã 6 số đã được gửi tới email của bạn.<br/>
+                    Có hiệu lực trong <strong id="countdown">5:00</strong>
+                </p>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="zz-auth__alert">@ViewBag.Error</div>
+            }
+            @if (TempData["ResendSuccess"] != null)
+            {
+                <div class="zz-auth__alert" style="background:rgba(46,204,113,.15);color:#2ecc71">
+                    @TempData["ResendSuccess"]
+                </div>
+            }
+            @if (TempData["ResendError"] != null)
+            {
+                <div class="zz-auth__alert">@TempData["ResendError"]</div>
+            }
+
+            <form asp-action="VerifyOtp" method="post" class="zz-auth__form">
+                @Html.AntiForgeryToken()
+                <div class="zz-form-group" style="text-align:center">
+                    <input type="text" name="otpNhap" class="zz-input"
+                           maxlength="6" placeholder="_ _ _ _ _ _"
+                           style="font-size:28px;letter-spacing:12px;text-align:center"
+                           autocomplete="one-time-code" autofocus required />
+                </div>
+
+                <button type="submit" class="zz-auth__btn">Xác nhận</button>
+            </form>
+
+            <form asp-action="ResendOtp" method="post" style="text-align:center;margin-top:12px">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="zz-auth__btn" 
+                        id="btnResend"
+                        style="background:transparent;border:1px solid #ccc;color:#ccc;font-size:13px"
+                        disabled>
+                    Gửi lại mã (chờ <span id="resendTimer">60</span>s)
+                </button>
+            </form>
+
+            <div class="zz-auth__footer" style="margin-top:16px">
+                <a asp-action="Register">← Quay lại đăng ký</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+// Đếm ngược 5 phút
+let totalSecs = 300;
+const cd = document.getElementById('countdown');
+const cdInterval = setInterval(() => {
+    totalSecs--;
+    const m = Math.floor(totalSecs / 60);
+    const s = totalSecs % 60;
+    cd.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (totalSecs <= 0) {
+        clearInterval(cdInterval);
+        cd.textContent = 'Hết hạn';
+        cd.style.color = '#e74c3c';
+    }
+}, 1000);
+
+// Đếm ngược 60s để cho phép Gửi lại
+let resendSecs = 60;
+const btnResend = document.getElementById('btnResend');
+const resendTimer = document.getElementById('resendTimer');
+const resendInterval = setInterval(() => {
+    resendSecs--;
+    resendTimer.textContent = resendSecs;
+    if (resendSecs <= 0) {
+        clearInterval(resendInterval);
+        btnResend.disabled = false;
+        btnResend.innerHTML = 'Gửi lại mã OTP';
+        btnResend.style.color = '#fff';
+        btnResend.style.borderColor = '#e74c3c';
+    }
+}, 1000);
+
+// Chỉ nhận số
+document.querySelector('input[name=otpNhap]').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 6);
+});
+</script>
+}

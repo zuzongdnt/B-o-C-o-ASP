@@ -1,0 +1,321 @@
+.zz-account-page {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 2.5rem 0 5rem;
+    color: var(--zz-text);
+}
+
+.zz-account-page--compact {
+    max-width: 860px;
+}
+
+.zz-account-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.6rem;
+}
+
+.zz-account-eyebrow {
+    margin: 0 0 0.55rem;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+}
+
+.zz-account-header h1 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 680;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.zz-account-header span {
+    display: inline-block;
+    margin-top: 0.65rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-account-layout {
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);
+    gap: 1.1rem;
+    align-items: start;
+}
+
+.zz-account-profile,
+.zz-account-panel,
+.zz-account-alert {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.11);
+}
+
+.zz-account-profile {
+    position: sticky;
+    top: 7.4rem;
+    border-radius: 1.15rem;
+    padding: 1.4rem;
+    text-align: center;
+}
+
+.zz-account-avatar {
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 1rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    font-size: 3.2rem;
+    font-weight: 800;
+}
+
+.zz-account-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.zz-account-profile h2 {
+    margin: 0;
+    color: var(--zz-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.zz-account-profile p {
+    margin: 0.35rem 0 1rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-account-status {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.zz-account-status span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.85rem;
+    padding: 0 0.7rem;
+    border-radius: 999px;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.zz-avatar-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--zz-card-border);
+    text-align: left;
+}
+
+.zz-avatar-form span,
+.zz-account-field span,
+.zz-account-panel__head span {
+    color: var(--zz-text-muted);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.zz-avatar-form input,
+.zz-account-field input,
+.zz-account-field select,
+.zz-account-field textarea {
+    width: 100%;
+    margin-top: 0.45rem;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    border-radius: 0.8rem;
+    padding: 0.82rem 0.95rem;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.zz-account-field select option {
+    color: #111;
+}
+
+.zz-account-field textarea {
+    resize: vertical;
+}
+
+.zz-avatar-form input:focus,
+.zz-account-field input:focus,
+.zz-account-field select:focus,
+.zz-account-field textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.zz-avatar-form button,
+.zz-account-primary-btn,
+.zz-account-pill-btn,
+.zz-account-ghost-btn {
+    min-height: 2.75rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.zz-avatar-form button,
+.zz-account-primary-btn {
+    border: 1px solid transparent;
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+}
+
+.zz-account-pill-btn,
+.zz-account-ghost-btn {
+    padding: 0 1.15rem;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+}
+
+.zz-avatar-form button:hover,
+.zz-account-primary-btn:hover,
+.zz-account-pill-btn:hover,
+.zz-account-ghost-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.88;
+}
+
+.zz-account-panel {
+    border-radius: 1.15rem;
+    padding: 1.35rem;
+}
+
+.zz-account-panel__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.zz-account-panel__head h2 {
+    margin: 0.25rem 0 0;
+    color: var(--zz-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.zz-account-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.zz-account-field {
+    display: block;
+}
+
+.zz-account-field--wide {
+    grid-column: 1 / -1;
+}
+
+.zz-account-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+.zz-account-primary-btn {
+    padding: 0 1.35rem;
+}
+
+.zz-account-alert {
+    margin-bottom: 1rem;
+    padding: 0.95rem 1rem;
+    border-radius: 0.9rem;
+    color: var(--zz-text);
+}
+
+.zz-account-alert--success {
+    border-color: rgba(34, 197, 94, 0.28);
+    background: rgba(34, 197, 94, 0.1);
+}
+
+.zz-account-alert--danger {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.zz-password-panel {
+    max-width: 760px;
+}
+
+.zz-password-note {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 0.9rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.22);
+    color: var(--zz-text-muted);
+    font-size: 0.9rem;
+}
+
+html.theme-light .zz-account-profile,
+html.theme-light .zz-account-panel,
+html.theme-light .zz-account-alert {
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 900px) {
+    .zz-account-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .zz-account-profile {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .zz-account-page {
+        padding-top: 1rem;
+    }
+
+    .zz-account-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .zz-account-pill-btn,
+    .zz-account-primary-btn,
+    .zz-account-ghost-btn,
+    .zz-avatar-form button {
+        width: 100%;
+    }
+
+    .zz-account-grid {
+        grid-template-columns: 1fr;
+    }
+}

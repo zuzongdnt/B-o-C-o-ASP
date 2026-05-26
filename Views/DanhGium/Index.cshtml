@@ -1,0 +1,148 @@
+@model IEnumerable<dienthoai.Models.DanhGium>
+
+@{
+    ViewData["Title"] = "Quản lý đánh giá";
+    var reviews = Model?.OrderByDescending(x => x.NgayDanhGia).ToList() ?? new List<dienthoai.Models.DanhGium>();
+    var visible = reviews.Count(x => x.TrangThaiHienThi == true);
+    var hidden = reviews.Count - visible;
+    var avg = reviews.Any(x => x.SoSao.HasValue) ? reviews.Where(x => x.SoSao.HasValue).Average(x => x.SoSao!.Value) : 0;
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--reviews">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-brand">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text"><strong>ZUZONG</strong><small>Admin Center</small></span>
+            </a>
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-controller="TaiKhoan" asp-action="Dashboard" class="zz-admin-nav__item"><span class="zz-admin-nav__index">01</span><span>Tổng quan</span></a>
+                <a asp-controller="SanPham" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">02</span><span>Sản phẩm</span></a>
+                <a asp-controller="ThuongHieu" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">03</span><span>Thương hiệu</span></a>
+                <a asp-controller="DonHang" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">04</span><span>Đơn hàng</span></a>
+                <a asp-controller="DanhGium" asp-action="Index" class="zz-admin-nav__item active"><span class="zz-admin-nav__index">05</span><span>Đánh giá</span></a>
+                <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-nav__item"><span class="zz-admin-nav__index">06</span><span>Từ cấm</span></a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item"><span class="zz-admin-nav__index">07</span><span>Người dùng</span></a>
+            </nav>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Reviews</p>
+                    <h1 class="zz-admin-title">Quản lý đánh giá</h1>
+                    <p class="zz-admin-subtitle">Kiểm duyệt nội dung, ảnh đánh giá và phản hồi của khách hàng.</p>
+                </div>
+                <div class="zz-admin-actions">
+                    <a asp-controller="TuCamDanhGium" asp-action="Index" class="zz-admin-chip">Từ cấm</a>
+                    <a asp-action="Create" class="zz-admin-quick-btn">Tạo đánh giá</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-metrics" aria-label="Thống kê đánh giá">
+                <article class="zz-admin-metric zz-admin-metric--amber">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">★</span><span class="zz-admin-metric__label">Điểm trung bình</span></div>
+                    <strong class="zz-admin-metric__value">@avg.ToString("0.0")</strong>
+                    <span class="zz-admin-metric__hint">Từ @reviews.Count đánh giá</span>
+                </article>
+                <article class="zz-admin-metric zz-admin-metric--green">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">ON</span><span class="zz-admin-metric__label">Đang hiển thị</span></div>
+                    <strong class="zz-admin-metric__value">@visible</strong>
+                    <span class="zz-admin-metric__hint">Được hiển thị trên sản phẩm</span>
+                </article>
+                <article class="zz-admin-metric zz-admin-metric--blue">
+                    <div class="zz-admin-metric__top"><span class="zz-admin-metric__icon">ẨN</span><span class="zz-admin-metric__label">Đang ẩn</span></div>
+                    <strong class="zz-admin-metric__value">@hidden</strong>
+                    <span class="zz-admin-metric__hint">Cần kiểm duyệt thêm</span>
+                </article>
+            </section>
+
+            <section class="zz-admin-panel zz-admin-data-panel">
+                <div class="zz-admin-users-toolbar">
+                    <div>
+                        <p class="zz-admin-panel__eyebrow">Nội dung</p>
+                        <h2>Đánh giá mới nhất</h2>
+                    </div>
+                    <label class="zz-admin-user-search">
+                        <span>Tìm</span>
+                        <input id="zzAdminSearch" type="search" placeholder="Nội dung, sản phẩm, khách hàng..." />
+                    </label>
+                </div>
+
+                <div class="zz-admin-review-grid">
+                    @foreach (var item in reviews)
+                    {
+                        var productName = item.MaSpNavigation?.TenSp ?? $"Sản phẩm #{item.MaSp}";
+                        var userName = item.MaTaiKhoanNavigation?.HoTen ?? item.MaTaiKhoanNavigation?.TenDangNhap ?? $"TK #{item.MaTaiKhoan}";
+                        var searchText = $"{item.NoiDung} {productName} {userName}".ToLowerInvariant();
+                        var imageUrl = string.IsNullOrWhiteSpace(item.HinhAnhDg) ? "" : Url.Content("~/images/" + item.HinhAnhDg);
+                        var detailsUrl = Url.Action("Details", "DanhGium", new { id = item.MaDanhGia }) ?? "#";
+
+                        <article class="zz-admin-review-card" data-admin-row data-search="@searchText" data-href="@detailsUrl" tabindex="0" role="link" aria-label="Xem chi tiết đánh giá @item.MaDanhGia">
+                            <div class="zz-admin-review-card__top">
+                                <span class="zz-admin-review-stars">@(new string('★', Math.Max(0, Math.Min(5, item.SoSao ?? 0))))</span>
+                                <span class="zz-admin-user-status @(item.TrangThaiHienThi == true ? "is-active" : "is-locked")">
+                                    @(item.TrangThaiHienThi == true ? "Hiển thị" : "Đang ẩn")
+                                </span>
+                            </div>
+                            <p class="zz-admin-review-card__content">@(string.IsNullOrWhiteSpace(item.NoiDung) ? "Không có nội dung" : item.NoiDung)</p>
+                            @if (!string.IsNullOrEmpty(imageUrl))
+                            {
+                                <img class="zz-admin-review-card__image" src="@imageUrl" alt="Ảnh đánh giá" />
+                            }
+                            <div class="zz-admin-review-card__meta">
+                                <span>@productName</span>
+                                <strong>@userName</strong>
+                                <small>@(item.NgayDanhGia?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa rõ ngày")</small>
+                            </div>
+                            <div class="zz-admin-user-actions">
+                                <a asp-action="Delete" asp-route-id="@item.MaDanhGia" class="zz-admin-user-action zz-admin-user-action--delete">Xóa</a>
+                            </div>
+                        </article>
+                    }
+                </div>
+                <div class="zz-admin-empty-users" id="zzAdminEmpty" hidden>Không tìm thấy đánh giá phù hợp.</div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const rows = Array.from(document.querySelectorAll('[data-admin-row]'));
+        const search = document.getElementById('zzAdminSearch');
+        const empty = document.getElementById('zzAdminEmpty');
+
+        rows.forEach(row => {
+            const openCard = () => {
+                const href = row.dataset.href;
+                if (href) window.location.href = href;
+            };
+
+            row.addEventListener('click', event => {
+                if (event.target.closest('a, button, select, input, form')) return;
+                openCard();
+            });
+
+            row.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openCard();
+                }
+            });
+        });
+
+        search?.addEventListener('input', () => {
+            const keyword = search.value.trim().toLowerCase();
+            let visible = 0;
+            rows.forEach(row => {
+                const ok = !keyword || (row.dataset.search || '').includes(keyword);
+                row.hidden = !ok;
+                if (ok) visible += 1;
+            });
+            if (empty) empty.hidden = visible !== 0;
+        });
+    })();
+</script>

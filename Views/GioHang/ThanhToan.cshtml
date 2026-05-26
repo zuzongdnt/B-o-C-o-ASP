@@ -1,0 +1,171 @@
+@model dienthoai.Models.ThanhToanViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán đơn hàng";
+    var user = Model.TaiKhoan;
+    var transferInfo = ViewBag.TransferInfo as dienthoai.Services.BankTransferInfo;
+    bool isBank = Model.PhuongThucThanhToan == "BANK";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/zuzong-checkout.css" asp-append-version="true" />
+}
+
+<section class="zz-checkout-page">
+    <div class="zz-checkout-header">
+        <div>
+            <p class="zz-checkout-eyebrow">CHECKOUT</p>
+            <h1>Xác nhận đơn hàng</h1>
+            <span>Kiểm tra thông tin nhận hàng, mã giảm giá và phương thức thanh toán.</span>
+        </div>
+        <a asp-controller="TaiKhoan" asp-action="Details" asp-route-id="@user?.MaTaiKhoan" asp-route-returnUrl="checkout" class="zz-checkout-link">
+            Sửa thông tin
+        </a>
+    </div>
+
+    <div class="zz-checkout-layout">
+        <div class="zz-checkout-main">
+            <section class="zz-checkout-panel">
+                <div class="zz-checkout-panel__head">
+                    <span>Người nhận</span>
+                    <h2>@(user?.HoTen ?? "Khách hàng")</h2>
+                </div>
+
+                <div class="zz-checkout-info">
+                    <div>
+                        <span>Số điện thoại</span>
+                        <strong>@user?.SoDienThoai</strong>
+                    </div>
+                    <div>
+                        <span>Địa chỉ giao hàng</span>
+                        <strong>@user?.DiaChi</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="zz-checkout-panel">
+                <div class="zz-checkout-panel__head">
+                    <span>Giỏ hàng</span>
+                    <h2>@Model.TongSoLuong sản phẩm</h2>
+                </div>
+
+                <div class="zz-checkout-items">
+                    @foreach (var item in Model.Items)
+                    {
+                        var product = item.MaSpNavigation;
+                        var variant = item.MaBienTheNavigation;
+                        var donGia = variant?.GiaBan ?? product.GiaBan;
+                        var image = !string.IsNullOrEmpty(variant?.HinhAnh) ? variant.HinhAnh : product.HinhAnh;
+
+                        <article class="zz-checkout-item">
+                            <div class="zz-checkout-item__image">
+                                @if (!string.IsNullOrEmpty(image))
+                                {
+                                    <img src="@Url.Content("~/images/" + image)" alt="@product.TenSp"
+                                         onerror="this.style.display='none';this.nextElementSibling.classList.add('is-visible');" />
+                                    <span>Phone</span>
+                                }
+                                else
+                                {
+                                    <span class="is-visible">Phone</span>
+                                }
+                            </div>
+
+                            <div class="zz-checkout-item__info">
+                                <strong>@product.TenSp</strong>
+                                <small>
+                                    @(variant != null ? $"{variant.MauSac} - {variant.DungLuong}" : "Phiên bản mặc định")
+                                    · SL @item.SoLuong
+                                </small>
+                            </div>
+
+                            <strong class="zz-checkout-item__price">@((donGia * item.SoLuong).ToString("N0"))đ</strong>
+                        </article>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <form asp-action="ThanhToan" method="post" class="zz-checkout-panel zz-checkout-form">
+            @Html.AntiForgeryToken()
+
+            <div class="zz-checkout-panel__head">
+                <span>Phương thức</span>
+                <h2>Thanh toán</h2>
+            </div>
+
+            <label class="zz-payment-option">
+                <input type="radio" name="PhuongThucThanhToan" value="COD" checked="@(!isBank)" />
+                <span>
+                    <strong>Thanh toán khi nhận hàng</strong>
+                    <small>Kiểm tra máy trước, thanh toán sau khi nhận.</small>
+                </span>
+            </label>
+
+            <label class="zz-payment-option">
+                <input type="radio" name="PhuongThucThanhToan" value="BANK" checked="@isBank" />
+                <span>
+                    <strong>Chuyển khoản ngân hàng</strong>
+                    <small>QR SePay sẽ hiện trong chi tiết đơn sau khi xác nhận.</small>
+                </span>
+            </label>
+
+            @if (transferInfo != null)
+            {
+                <div class="zz-bank-card">
+                    <span>Tài khoản nhận chuyển khoản</span>
+                    <strong>@transferInfo.BankName · @transferInfo.AccountNumber</strong>
+                    <small>@transferInfo.AccountName</small>
+                </div>
+            }
+
+            <div class="zz-coupon-box">
+                <label for="MaGiamGia">Mã giảm giá</label>
+                <div class="zz-coupon-input">
+                    <input id="MaGiamGia" name="MaGiamGia" value="@Model.MaGiamGia" placeholder="Nhập mã giảm giá..." autocomplete="off" />
+                    <button type="submit" name="submitAction" value="apply">Áp dụng</button>
+                </div>
+
+                <div class="zz-coupon-suggestions">
+                    @foreach (var coupon in Model.GoiYMaGiamGia)
+                    {
+                        <a asp-action="ThanhToan" asp-route-maGiamGia="@coupon.Code" title="@coupon.Description">@coupon.Code</a>
+                    }
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.LoiMaGiamGia))
+                {
+                    <p class="zz-coupon-message zz-coupon-message--error">@Model.LoiMaGiamGia</p>
+                }
+                else if (!string.IsNullOrWhiteSpace(Model.ThongBaoMaGiamGia))
+                {
+                    <p class="zz-coupon-message zz-coupon-message--success">@Model.ThongBaoMaGiamGia</p>
+                }
+            </div>
+
+            <div class="zz-checkout-totals">
+                <div>
+                    <span>Tạm tính</span>
+                    <strong>@Model.TamTinh.ToString("N0")đ</strong>
+                </div>
+                <div>
+                    <span>Giao hàng</span>
+                    <strong>Miễn phí</strong>
+                </div>
+                @if (Model.GiamGia > 0)
+                {
+                    <div class="zz-checkout-discount">
+                        <span>Giảm giá @Model.MaGiamGiaDaApDung</span>
+                        <strong>-@Model.GiamGia.ToString("N0")đ</strong>
+                    </div>
+                }
+                <div class="zz-checkout-total">
+                    <span>Tổng thanh toán</span>
+                    <strong>@Model.TongThanhToan.ToString("N0")đ</strong>
+                </div>
+            </div>
+
+            <button type="submit" name="submitAction" value="order" class="zz-checkout-btn">Xác nhận đặt hàng</button>
+        </form>
+    </div>
+</section>

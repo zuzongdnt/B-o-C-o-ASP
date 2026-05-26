@@ -1,0 +1,95 @@
+﻿@model dienthoai.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "XÃ³a tÃ i khoáº£n";
+    var displayName = string.IsNullOrWhiteSpace(Model.HoTen) ? Model.TenDangNhap : Model.HoTen;
+    var avatar = string.IsNullOrWhiteSpace(Model.Avatar) ? "" : Url.Content("~/images/" + Model.Avatar);
+    var initial = string.IsNullOrWhiteSpace(displayName) ? "U" : displayName.Trim()[0].ToString().ToUpper();
+}
+
+<link rel="stylesheet" href="~/css/zuzong-admin-dashboard.css" asp-append-version="true" />
+
+<div class="zz-admin-shell zz-admin-shell--users">
+    <div class="zz-admin-layout">
+        <aside class="zz-admin-sidebar">
+            <a asp-action="Dashboard" class="zz-admin-brand" aria-label="ZUZONG Admin Dashboard">
+                <span class="zz-admin-brand__mark">Z</span>
+                <span class="zz-admin-brand__text">
+                    <strong>ZUZONG</strong>
+                    <small>Admin Center</small>
+                </span>
+            </a>
+
+            <nav class="zz-admin-nav" aria-label="Admin navigation">
+                <a asp-action="Dashboard" class="zz-admin-nav__item">
+                    <span class="zz-admin-nav__index">01</span>
+                    <span>Tá»•ng quan</span>
+                </a>
+                <a asp-controller="TaiKhoan" asp-action="QuanLyNguoiDung" class="zz-admin-nav__item active">
+                    <span class="zz-admin-nav__index">07</span>
+                    <span>TÃ i khoáº£n</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="zz-admin-main">
+            <header class="zz-admin-topbar zz-admin-users-hero">
+                <div>
+                    <p class="zz-admin-kicker">Danger zone</p>
+                    <h1 class="zz-admin-title">XÃ³a tÃ i khoáº£n</h1>
+                    <p class="zz-admin-subtitle">Kiá»ƒm tra Ä‘Ãºng ngÆ°á»i dÃ¹ng trÆ°á»›c khi xÃ³a. Trang nÃ y khÃ´ng hiá»ƒn thá»‹ máº­t kháº©u hay hash.</p>
+                </div>
+                <div class="zz-admin-actions">
+                    <a asp-action="QuanLyNguoiDung" class="zz-admin-chip">Quay láº¡i</a>
+                </div>
+            </header>
+
+            <section class="zz-admin-delete-card">
+                <div class="zz-admin-user-edit__profile">
+                    <div class="zz-admin-user-edit__avatar">
+                        @if (!string.IsNullOrEmpty(avatar))
+                        {
+                            <img src="@avatar" alt="@displayName" />
+                        }
+                        else
+                        {
+                            <span>@initial</span>
+                        }
+                    </div>
+                    <h2>@displayName</h2>
+                    <p>@("@" + Model.TenDangNhap)</p>
+                    <span class="zz-admin-user-status @(Model.TrangThai == true ? "is-active" : "is-locked")">
+                        @(Model.TrangThai == true ? "Hoáº¡t Ä‘á»™ng" : "ÄÃ£ khÃ³a")
+                    </span>
+                </div>
+
+                <div class="zz-admin-delete-card__info">
+                    <p class="zz-admin-panel__eyebrow">ThÃ´ng tin sáº½ xÃ³a</p>
+                    <h2>@displayName</h2>
+                    <dl>
+                        <div>
+                            <dt>Email</dt>
+                            <dd>@(string.IsNullOrWhiteSpace(Model.Email) ? "ChÆ°a cáº­p nháº­t" : Model.Email)</dd>
+                        </div>
+                        <div>
+                            <dt>Vai trÃ²</dt>
+                            <dd>@(string.IsNullOrWhiteSpace(Model.VaiTro) ? "User" : Model.VaiTro)</dd>
+                        </div>
+                        <div>
+                            <dt>NgÃ y táº¡o</dt>
+                            <dd>@(Model.NgayTao?.ToString("dd/MM/yyyy HH:mm") ?? "ChÆ°a rÃµ")</dd>
+                        </div>
+                    </dl>
+
+                    <form asp-action="Delete" method="post" class="zz-admin-form-actions">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="MaTaiKhoan" />
+                        <button type="submit" class="zz-admin-quick-btn zz-admin-quick-btn--danger">XÃ³a tÃ i khoáº£n</button>
+                        <a asp-action="QuanLyNguoiDung" class="zz-admin-chip">Há»§y</a>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+

@@ -1,0 +1,135 @@
+@model IEnumerable<dienthoai.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+    ViewData["BodyClass"] = "page-orders";
+    var orders = Model?.ToList() ?? new List<dienthoai.Models.DonHang>();
+
+    string StatusClass(string? status)
+    {
+        var s = (status ?? "").Trim();
+        if (s == "Hoàn thành") return "zz-order-status--done";
+        if (s == "Đã hủy") return "zz-order-status--cancel";
+        if (s == "Đang xử lý" || s == "Chờ xử lý") return "zz-order-status--processing";
+        return "zz-order-status--pending";
+    }
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/zuzong-orders.css" asp-append-version="true" />
+}
+
+<section class="zz-orders-page">
+    <div class="zz-orders-header">
+        <div>
+            <p class="zz-orders-eyebrow">ZUZONG ORDERS</p>
+            <h1>Lịch sử mua hàng</h1>
+            <span>Theo dõi trạng thái, sản phẩm và thông tin giao hàng của từng đơn.</span>
+        </div>
+        <a asp-controller="SanPham" asp-action="Index" class="zz-orders-link">Mua thêm</a>
+    </div>
+
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="zz-order-alert zz-order-alert--success">@TempData["ThongBao"]</div>
+    }
+    @if (TempData["SuccessMsg"] != null)
+    {
+        <div class="zz-order-alert zz-order-alert--success">@TempData["SuccessMsg"]</div>
+    }
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <div class="zz-order-alert zz-order-alert--danger">@TempData["ErrorMsg"]</div>
+    }
+
+    @if (!orders.Any())
+    {
+        <div class="zz-orders-empty">
+            <h2>Chưa có đơn hàng</h2>
+            <p>Khi bạn đặt mua sản phẩm, đơn hàng sẽ xuất hiện tại đây để theo dõi.</p>
+            <a asp-controller="SanPham" asp-action="Index" class="zz-orders-primary">Khám phá sản phẩm</a>
+        </div>
+    }
+    else
+    {
+        <div class="zz-orders-grid">
+            @foreach (var don in orders)
+            {
+                var productCount = don.ChiTietDonHangs?.Sum(x => x.SoLuong) ?? 0;
+                var firstItems = don.ChiTietDonHangs?.Take(3).ToList() ?? new List<dienthoai.Models.ChiTietDonHang>();
+                var detailUrl = Url.Action("Details", "DonHang", new { id = don.MaDonHang }) ?? "#";
+
+                <article class="zz-order-card" data-detail-url="@detailUrl" tabindex="0" role="link" aria-label="Xem chi tiết đơn hàng #@don.MaDonHang">
+                    <div class="zz-order-card__top">
+                        <div>
+                            <span>Đơn hàng</span>
+                            <h2>#@don.MaDonHang</h2>
+                        </div>
+                        <strong class="zz-order-status @StatusClass(don.TrangThaiDonHang)">@don.TrangThaiDonHang</strong>
+                    </div>
+
+                    <div class="zz-order-card__meta">
+                        <span>@don.NgayDatHang?.ToString("dd/MM/yyyy HH:mm")</span>
+                        <span>@productCount sản phẩm</span>
+                        <span>@don.PhuongThucThanhToan</span>
+                    </div>
+
+                    <div class="zz-order-card__products">
+                        @foreach (var item in firstItems)
+                        {
+                            var variant = item.MaBienTheNavigation;
+                            var image = !string.IsNullOrEmpty(variant?.HinhAnh)
+                                ? variant.HinhAnh
+                                : item.MaSpNavigation?.HinhAnh;
+
+                            <div class="zz-order-mini-product">
+                                @if (!string.IsNullOrEmpty(image))
+                                {
+                                    <img src="@Url.Content("~/images/" + image)" alt="@item.MaSpNavigation?.TenSp"
+                                         onerror="this.style.display='none';this.nextElementSibling.classList.add('is-visible');" />
+                                    <span class="zz-order-image-fallback">Phone</span>
+                                }
+                                else
+                                {
+                                    <span class="zz-order-image-fallback is-visible">Phone</span>
+                                }
+                                <div>
+                                    <strong>@item.MaSpNavigation?.TenSp</strong>
+                                    <small>
+                                        @(variant != null ? $"{variant.MauSac} - {variant.DungLuong}" : "Phiên bản mặc định")
+                                        · SL @item.SoLuong
+                                    </small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="zz-order-card__bottom">
+                        <span>@don.DiaChiGiaoHang</span>
+                        <strong>@don.TongTien.ToString("N0")đ</strong>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener('click', function (event) {
+            const card = event.target.closest('.zz-order-card');
+            if (!card) return;
+            const url = card.dataset.detailUrl;
+            if (url) window.location.href = url;
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const card = event.target.closest('.zz-order-card');
+            if (!card) return;
+            event.preventDefault();
+            const url = card.dataset.detailUrl;
+            if (url) window.location.href = url;
+        });
+    </script>
+}

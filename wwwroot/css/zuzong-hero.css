@@ -1,0 +1,6359 @@
+/* ============================================================
+   ZUZONG STORE â€” CUSTOM HERO CSS (Há»– TRá»¢ DARK/LIGHT MODE)
+   ============================================================ */
+
+
+/* â”€â”€ Google Font â”€â”€ */
+
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   Há»† THá»NG BIáº¾N MÃ€U Sáº®C (CSS VARIABLES)
+   ============================================================ */
+
+:root {
+    /* Máº·c Ä‘á»‹nh lÃ  Giao diá»‡n Tá»I */
+    --zz-bg: #000000;
+    --zz-text: #ffffff;
+    --zz-text-muted: rgba(255, 255, 255, 0.6);
+    --zz-card-bg: #0a0a0a;
+    --zz-card-border: rgba(255, 255, 255, 0.08);
+    --zz-nav-bg: rgba(18, 18, 18, 0.97);
+    --zz-pill-bg: rgba(23, 23, 23, 0.92);
+    --zz-input-bg: rgba(255, 255, 255, 0.05);
+    --zz-btn-primary-bg: #ffffff;
+    --zz-btn-primary-text: #000000;
+    --zz-glass-bg: rgba(255, 255, 255, 0.045);
+    --zz-hero-overlay: rgba(0, 0, 0, 0.4);
+}
+
+html.theme-light {
+    /* Khi báº­t Giao diá»‡n SÃNG */
+    --zz-bg: #f8f9fa;
+    --zz-text: #121212;
+    --zz-text-muted: #666666;
+    --zz-card-bg: #ffffff;
+    --zz-card-border: rgba(0, 0, 0, 0.1);
+    --zz-nav-bg: rgba(255, 255, 255, 0.95);
+    --zz-pill-bg: rgba(255, 255, 255, 0.9);
+    --zz-input-bg: #ffffff;
+    --zz-btn-primary-bg: #000000;
+    --zz-btn-primary-text: #ffffff;
+    --zz-glass-bg: rgba(255, 255, 255, 0.8);
+    --zz-hero-overlay: rgba(255, 255, 255, 0.2);
+}
+
+
+/* â”€â”€ Reset & Base â”€â”€ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Readex Pro', system-ui, -apple-system, sans-serif;
+    background-color: var(--zz-bg) !important;
+    /* DÃ¹ng biáº¿n thay vÃ¬ mÃ u fix cá»©ng */
+    color: var(--zz-text);
+    /* DÃ¹ng biáº¿n thay vÃ¬ mÃ u fix cá»©ng */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Äá»•i mÃ u Logo SVG khi qua giao diá»‡n sÃ¡ng */
+
+html.theme-light .zz-logo-path {
+    fill: #000000 !important;
+}
+
+
+/* â”€â”€ Táº¯t footer máº·c Ä‘á»‹nh Bootstrap â”€â”€ */
+
+body.page-home footer.footer,
+body.page-auth footer.footer {
+    display: none;
+}
+
+body.page-home header nav.navbar,
+body.page-auth header nav.navbar {
+    display: none;
+}
+
+body.page-home .container>main,
+body.page-auth .container>main {
+    padding: 0;
+    max-width: 100%;
+}
+
+body.page-home>.container,
+body.page-auth>.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+
+/* ============================================================
+   FLOATING NAVBAR
+   ============================================================ */
+
+.zz-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.zz-pill {
+    display: flex;
+    align-items: center;
+    background: var(--zz-pill-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 9999px;
+    border: 1px solid var(--zz-card-border);
+    transition: all 0.3s ease;
+}
+
+.zz-pill--logo {
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem 0.7rem 1rem;
+    text-decoration: none;
+}
+
+.zz-pill--logo .zz-brand {
+    color: var(--zz-text);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.zz-pill--logo svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+.zz-pill--links {
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.zz-pill--links a {
+    color: var(--zz-text-muted);
+    font-size: 0.875rem;
+    font-weight: 400;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.zz-pill--links a:hover {
+    color: var(--zz-text);
+}
+
+.zz-pill--links .dropdown-toggle::after {
+    display: none;
+}
+
+.zz-pill--links .dropdown-menu {
+    background: var(--zz-nav-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    backdrop-filter: blur(14px);
+    min-width: 180px;
+}
+
+.zz-pill--links .dropdown-item {
+    color: var(--zz-text-muted);
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.zz-pill--links .dropdown-item:hover {
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+}
+
+.zz-pill--links .dropdown-divider {
+    border-color: var(--zz-card-border);
+    margin: 0.35rem 0;
+}
+
+.zz-cta-btn {
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.zz-cta-btn:hover {
+    opacity: 0.8;
+}
+
+.zz-user-btn {
+    color: var(--zz-text-muted);
+    font-size: 0.875rem;
+    font-weight: 400;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.zz-user-btn:hover {
+    color: var(--zz-text);
+}
+
+.zz-user-dropdown {
+    background: var(--zz-nav-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    backdrop-filter: blur(14px);
+    min-width: 200px;
+}
+
+.zz-user-dropdown .dropdown-item {
+    color: var(--zz-text-muted);
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.zz-user-dropdown .dropdown-item:hover {
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+}
+
+.zz-user-dropdown .dropdown-item.text-danger {
+    color: #f87171;
+}
+
+.zz-user-dropdown .dropdown-item.text-danger:hover {
+    background: rgba(248, 113, 113, 0.12);
+}
+
+.zz-user-dropdown .dropdown-divider {
+    border-color: var(--zz-card-border);
+    margin: 0.35rem 0;
+}
+
+.zz-cart-btn {
+    color: var(--zz-text-muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.zz-cart-btn:hover {
+    color: var(--zz-text);
+}
+
+.zz-icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--zz-text-muted);
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zz-icon-btn:hover {
+    color: var(--zz-text);
+    background: var(--zz-input-bg);
+}
+
+.zz-nav__toggle {
+    display: none;
+    background: var(--zz-pill-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 9999px;
+    padding: 0.7rem 1rem;
+    color: var(--zz-text);
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+@media (max-width: 767px) {
+    .zz-nav {
+        padding: 1rem 1.25rem;
+    }
+    .zz-nav__toggle {
+        display: flex;
+        align-items: center;
+    }
+    .zz-pill--links {
+        display: none !important;
+    }
+}
+
+
+/* ============================================================
+   THANH TÃŒM KIáº¾M (SEARCH BAR - TRANG INDEX)
+   ============================================================ */
+
+.zz-search-container {
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 2.5rem;
+}
+
+.zz-search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.zz-search-input {
+    width: 100%;
+    padding: 0.85rem 3.5rem 0.85rem 1.5rem;
+    border-radius: 9999px;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
+}
+
+.zz-search-input::placeholder {
+    color: var(--zz-text-muted);
+}
+
+.zz-search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.zz-search-btn {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--zz-text-muted);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.zz-search-btn:hover {
+    color: var(--zz-text);
+    background: var(--zz-card-border);
+}
+
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+
+.zz-hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--zz-bg);
+    transition: background-color 0.3s ease;
+}
+
+.zz-hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   FIX: GIá»® NGUYÃŠN VIDEO Tá»I VÃ€ CHá»® TRáº®NG á»ž PHáº¦N HERO (TRÃNH Bá»Š CHÃ)
+   ============================================================ */
+
+
+/* 1. Tráº£ láº¡i lá»›p phá»§ Ä‘en má» cho video, khÃ´ng Ä‘á»ƒ biáº¿n Ä‘á»•i theo Theme sÃ¡ng */
+
+.zz-hero__overlay {
+    background: rgba(0, 0, 0, 0.4) !important;
+}
+
+
+/* 2. ÄÆ°a táº¥t cáº£ cÃ¡c chá»¯ cÃ¡i lá»›n vÃ  chá»‰ sá»‘ thá»‘ng kÃª vá» láº¡i mÃ u Tráº¯ng */
+
+.zz-hero__word,
+.zz-stat__value {
+    color: #ffffff !important;
+}
+
+
+/* 3. CÃ¡c chá»¯ mÃ´ táº£ nhá» thÃ¬ dÃ¹ng mÃ u Tráº¯ng má» (Ä‘á»™ nÃ©t 80%) */
+
+.zz-hero__desc,
+.zz-stat__label {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+
+/* 4. Tráº£ láº¡i mÃ u tráº¯ng má» cho cÃ¡c Ä‘Æ°á»ng gáº¡ch ngang (divider) */
+
+.zz-stat__divider {
+    background: rgba(255, 255, 255, 0.4) !important;
+}
+
+
+/* 5. Chá»‰nh láº¡i mÃ u tráº¯ng cho cá»¥m "SCROLL" nháº¥p nhÃ¡y á»Ÿ dÆ°á»›i cÃ¹ng */
+
+.zz-scroll-hint span {
+    color: #ffffff !important;
+}
+
+.zz-scroll-hint__line {
+    background: linear-gradient(to bottom, #ffffff, transparent) !important;
+}
+
+.zz-hero__gradient {
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12rem;
+    background: linear-gradient(to bottom, transparent, var(--zz-bg));
+    z-index: 2;
+    transition: background 0.3s ease;
+}
+
+.zz-hero__content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+}
+
+.zz-hero__word {
+    position: absolute;
+    color: var(--zz-btn-primary-bg);
+    font-weight: 60;
+    /* LÆ°u Ã½ nhá»: font-weight thÆ°á»ng lÃ  cÃ¡c sá»‘ trÃ²n trÄƒm nhÆ° 400, 600, 700... trá»« khi báº¡n Ä‘ang dÃ¹ng variable font */
+    font-size: clamp(2.5rem, 8vw, 9vw);
+    /* ÄÃ£ giáº£m tá»« (3rem, 10vw, 11vw) */
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-transform: lowercase;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.zz-hero__word--1 {
+    left: 2%;
+    top: 15%;
+}
+
+.zz-hero__word--2 {
+    right: 2%;
+    top: 35%;
+    text-align: right;
+    z-index: 3;
+}
+
+.zz-hero__word--3 {
+    left: 5%;
+    top: 55%;
+    z-index: 4;
+}
+
+@media (min-width: 768px) {
+    .zz-hero__word--1 {
+        left: 5%;
+        top: 18%;
+    }
+    .zz-hero__word--2 {
+        right: 5%;
+        top: 38%;
+    }
+    .zz-hero__word--3 {
+        left: 10%;
+        top: 58%;
+    }
+}
+
+.zz-hero__desc {
+    position: absolute;
+    left: 2%;
+    top: 48%;
+    max-width: 200px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--zz-btn-primary-bg);
+    opacity: 0.8;
+    z-index: 5;
+    transition: color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .zz-hero__desc {
+        left: 5%;
+        top: 45%;
+    }
+}
+
+.zz-hero__glass-box {
+    position: absolute;
+    bottom: 8rem;
+    right: 3rem;
+    background: var(--zz-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.5rem;
+    padding: 1.5rem 2.5rem;
+    text-align: right;
+    z-index: 5;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: floatingBox 4s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.zz-hero__glass-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    color: #ff6900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.zz-hero__glass-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--zz-text);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
+}
+
+.zz-hero__glass-title span {
+    font-weight: 300;
+    color: var(--zz-text-muted);
+    font-size: 1.2rem;
+}
+
+.zz-hero__glass-desc {
+    font-size: 0.85rem;
+    color: var(--zz-text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.zz-hero__glass-btn {
+    display: inline-block;
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    font-size: 0.8125rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: 1px solid var(--zz-card-border);
+    transition: all 0.3s ease;
+}
+
+.zz-hero__glass-btn:hover {
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    border-color: var(--zz-text);
+    transform: translateY(-2px);
+}
+
+@keyframes floatingBox {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .zz-hero__glass-box {
+        bottom: 5rem;
+        right: 5%;
+        width: 90%;
+        padding: 1.25rem;
+        text-align: center;
+    }
+}
+
+
+/* ============================================================
+   STATS & BRAND STRIP
+   ============================================================ */
+
+.zz-stat {
+    position: absolute;
+    z-index: 3;
+}
+
+.zz-stat__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.zz-stat__value {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--zz-btn-primary-bg);
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.zz-stat__divider {
+    display: none;
+    height: 1px;
+    width: 6rem;
+    background: var(--zz-card-border);
+    transition: background 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .zz-stat__divider {
+        display: block;
+    }
+}
+
+.zz-stat__label {
+    font-size: 0.8125rem;
+    color: var(--zz-btn-primary-bg);
+    opacity: 0.8;
+    margin-top: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.zz-stat--tr {
+    right: 1.5rem;
+    top: 14%;
+}
+
+.zz-stat--tr .zz-stat__row {
+    justify-content: flex-end;
+}
+
+.zz-stat--tr .zz-stat__label {
+    text-align: right;
+}
+
+.zz-stat--tr .zz-stat__divider {
+    transform: rotate(20deg);
+}
+
+.zz-stat--bl {
+    left: 1.5rem;
+    bottom: 6rem;
+}
+
+.zz-stat--bl .zz-stat__divider {
+    transform: rotate(-20deg);
+}
+
+.zz-stat--br {
+    right: 1.5rem;
+    bottom: 4rem;
+}
+
+.zz-stat--br .zz-stat__row {
+    justify-content: flex-end;
+}
+
+.zz-stat--br .zz-stat__label {
+    text-align: right;
+}
+
+.zz-stat--br .zz-stat__divider {
+    transform: rotate(-20deg);
+}
+
+@media (min-width: 768px) {
+    .zz-stat--tr {
+        right: 6rem;
+    }
+    .zz-stat--bl {
+        left: 5rem;
+        bottom: 6rem;
+    }
+    .zz-stat--br {
+        right: 5rem;
+        bottom: 5rem;
+    }
+}
+
+.zz-brands {
+    background: var(--zz-bg);
+    padding: 3rem 2.5rem;
+    border-top: 1px solid var(--zz-card-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.zz-brands__label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--zz-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+}
+
+.zz-brands__list {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.zz-brands__item {
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--zz-text-muted);
+    letter-spacing: -0.03em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.25s;
+}
+
+.zz-brands__item:hover {
+    color: var(--zz-text);
+}
+
+
+/* ============================================================
+   DANH Má»¤C Sáº¢N PHáº¨M (CATALOG & GRID)
+   ============================================================ */
+
+.zz-catalog-section,
+.zz-products {
+    background: var(--zz-bg);
+    min-height: 100vh;
+    padding: 6rem 2.5rem 5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+.zz-products {
+    padding: 4rem 2.5rem 5rem;
+    min-height: auto;
+}
+
+.zz-page-header,
+.zz-products__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem !important;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.zz-page-title,
+.zz-products__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--zz-text);
+    margin: 0;
+    line-height: 0.95;
+    transition: color 0.3s ease;
+}
+
+.zz-products__title span {
+    color: var(--zz-text-muted);
+}
+
+.zz-products__link {
+    font-size: 0.875rem;
+    color: var(--zz-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--zz-card-border);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.zz-products__link:hover {
+    color: var(--zz-text);
+    border-color: var(--zz-text);
+}
+
+.zz-btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.zz-btn--primary {
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+}
+
+.zz-btn--primary:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+
+/* THANH Sáº®P Xáº¾P */
+
+.zz-sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4.5rem !important;
+    flex-wrap: wrap;
+}
+
+.zz-sort-label {
+    font-size: 0.75rem;
+    color: var(--zz-text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.zz-sort-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.zz-sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text-muted);
+}
+
+.zz-sort-btn svg {
+    transition: all 0.2s ease;
+}
+
+.zz-sort-btn:not(.active) svg {
+    color: #d97706;
+}
+
+.zz-sort-btn:hover {
+    background: var(--zz-card-border);
+    color: var(--zz-text);
+}
+
+.zz-sort-btn.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+.zz-sort-btn.active svg {
+    color: #3b82f6;
+}
+
+
+/* Tháº» Sáº£n Pháº©m */
+
+.zz-products__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    background: transparent;
+}
+
+.zz-product-card {
+    background: var(--zz-card-bg);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.zz-product-card:hover {
+    border-color: var(--zz-text-muted);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.zz-product-card__link {
+    text-decoration: none;
+    display: block;
+    flex-grow: 1;
+}
+
+.zz-product-card__thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.zz-product-card__thumb img {
+    width: 95%;
+    height: 95%;
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out;
+}
+
+.zz-product-card:hover .zz-product-card__thumb img {
+    transform: scale(1.05);
+}
+
+.zz-product-card__thumb--placeholder {
+    font-size: 3rem;
+}
+
+.zz-product-card__brand {
+    font-size: 0.7rem;
+    color: var(--zz-text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.zz-product-card__name {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--zz-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.zz-product-card__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.zz-product-card__price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--zz-text-muted);
+    display: block;
+}
+
+.zz-product-card__price-old {
+    font-size: 0.8rem;
+    color: var(--zz-text-muted);
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.zz-product-card__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.zz-product-card__specs span {
+    font-size: 0.7rem;
+    color: var(--zz-text-muted);
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+.zz-product-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.zz-btn-sm {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0;
+    font-size: 0.8125rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.zz-btn-sm--outline {
+    background: transparent;
+    color: var(--zz-text);
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-btn-sm--outline:hover {
+    background: var(--zz-input-bg);
+    border-color: var(--zz-text-muted);
+}
+
+.zz-btn-sm--primary {
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+}
+
+.zz-btn-sm--primary:hover {
+    opacity: 0.8;
+}
+
+.zz-btn-sm--danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.zz-btn-sm--danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+@media (max-width: 768px) {
+    .zz-catalog-section {
+        padding: 5rem 1.25rem 3rem;
+    }
+    .zz-sort-buttons {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        flex-wrap: nowrap;
+    }
+    .zz-sort-btn {
+        white-space: nowrap;
+    }
+}
+
+
+/* ============================================================
+   PROMO BANNER TRONG LÆ¯á»šI Sáº¢N PHáº¨M (Trang Chá»§)
+   ============================================================ */
+
+@media (min-width: 1024px) {
+    .zz-products__grid:has(.zz-promo-banner) {
+        grid-template-columns: repeat(4, minmax(200px, 1fr)) minmax(400px, 2fr);
+    }
+}
+
+.zz-promo-banner {
+    position: relative;
+    background: #0d0d0d;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 2.5rem 2rem;
+    min-height: 350px;
+    text-decoration: none;
+    border-radius: 1.25rem;
+}
+
+@media (max-width: 1023px) {
+    .zz-promo-banner {
+        grid-column: 1 / -1;
+        min-height: 250px;
+        margin-top: 1rem;
+    }
+}
+
+.zz-promo-banner video,
+.zz-promo-banner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.65;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.zz-promo-banner:hover video,
+.zz-promo-banner:hover img {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.zz-promo-banner__content {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.zz-promo-banner__content h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+}
+
+.zz-promo-banner__content p {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ============================================================
+   GLASSMORPHISM & VIDEO SECTIONS
+   ============================================================ */
+
+.zz-stl-section {
+    background: var(--zz-bg);
+    padding: 6rem 2.5rem;
+    border-top: 1px solid var(--zz-card-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.zz-stl-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media(max-width:768px) {
+    .zz-stl-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .zz-stl-section {
+        padding: 4rem 1.5rem;
+    }
+}
+
+.zz-stl-text__label {
+    font-size: .7rem;
+    letter-spacing: .2em;
+    color: var(--zz-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.zz-stl-text__heading {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 500;
+    letter-spacing: -.04em;
+    line-height: .95;
+    color: var(--zz-text);
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.zz-stl-text__heading span {
+    color: var(--zz-text-muted);
+}
+
+.zz-stl-text__body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--zz-text-muted);
+    max-width: 420px;
+    margin-bottom: 2rem;
+}
+
+.zz-stl-text__link {
+    display: inline-block;
+    font-size: .875rem;
+    color: var(--zz-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--zz-card-border);
+    padding-bottom: 2px;
+    transition: color .2s, border-color .2s;
+}
+
+.zz-stl-text__link:hover {
+    color: var(--zz-text);
+    border-color: var(--zz-text);
+}
+
+.zz-glass {
+    background: var(--zz-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    color: var(--zz-text);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.zz-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22) 40%, rgba(255, 255, 255, .22) 60%, transparent);
+}
+
+.zz-glass__tag {
+    display: inline-block;
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--zz-text-muted);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 9999px;
+    padding: .2rem .75rem;
+    margin-bottom: 1rem;
+}
+
+.zz-glass__title {
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 500;
+    letter-spacing: -.03em;
+    line-height: 1.15;
+    color: var(--zz-text);
+    margin-bottom: .5rem;
+    transition: color 0.3s ease;
+}
+
+.zz-glass__sub {
+    font-size: .8125rem;
+    color: var(--zz-text-muted);
+    letter-spacing: .04em;
+}
+
+.zz-glass__divider {
+    height: 1px;
+    background: var(--zz-card-border);
+    margin: 1.25rem 0;
+}
+
+.zz-glass__specs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+.zz-glass__specs li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .8125rem;
+}
+
+.zz-glass__specs li span {
+    color: var(--zz-text-muted);
+    text-transform: lowercase;
+    letter-spacing: .05em;
+}
+
+.zz-glass__specs li strong {
+    color: var(--zz-text);
+    font-weight: 500;
+    font-size: .875rem;
+    transition: color 0.3s ease;
+}
+
+.zz-glass--product .zz-glass__img {
+    width: 60%;
+    max-width: 180px;
+    aspect-ratio: 1/1.5;
+    object-fit: contain;
+    display: block;
+    margin: 1rem auto;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .15));
+}
+
+.zz-glass--product .zz-glass__img-placeholder {
+    font-size: 4rem;
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.zz-glass__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: .75rem;
+    margin-bottom: .25rem;
+}
+
+.zz-glass__price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -.03em;
+    color: var(--zz-text);
+    transition: color 0.3s ease;
+}
+
+.zz-glass__price-old {
+    font-size: .875rem;
+    color: var(--zz-text-muted);
+    text-decoration: line-through;
+}
+
+.zz-glass__btn {
+    display: inline-block;
+    margin-top: 1.25rem;
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    font-size: .8125rem;
+    padding: .6rem 1.25rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: 1px solid var(--zz-card-border);
+    transition: background .2s, border-color .2s;
+}
+
+.zz-glass__btn:hover {
+    background: var(--zz-text);
+    border-color: var(--zz-text);
+    color: var(--zz-bg);
+}
+
+
+/* SLIDER MÅ¨I TÃŠN */
+
+.zz-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+}
+
+.zz-carousel-arrow:hover {
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.zz-carousel-arrow--left {
+    left: -22px;
+}
+
+.zz-carousel-arrow--right {
+    right: -22px;
+}
+
+@media (max-width: 768px) {
+    .zz-carousel-arrow--left {
+        left: -10px;
+    }
+    .zz-carousel-arrow--right {
+        right: -10px;
+    }
+    .zz-carousel-arrow {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+
+/* VIDEO SECTION */
+
+.zz-video-section {
+    background: var(--zz-bg);
+    padding: 4rem 2.5rem 5rem;
+    border-top: 1px solid var(--zz-card-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.zz-video-section__label {
+    font-size: .7rem;
+    letter-spacing: .2em;
+    color: var(--zz-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.zz-video-section__wrapper {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-card-bg);
+    max-width: 1100px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.zz-video-section__player {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    background: #000;
+}
+
+.zz-video-slider {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.zz-video-dots {
+    bottom: -40px !important;
+}
+
+.zz-video-dots button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: var(--zz-text-muted) !important;
+    opacity: 0.3;
+    border: none !important;
+    margin: 0 6px !important;
+    transition: all 0.3s ease !important;
+}
+
+.zz-video-dots button.active {
+    width: 24px !important;
+    border-radius: 4px !important;
+    background-color: var(--zz-text) !important;
+    opacity: 1;
+}
+
+@media(max-width:768px) {
+    .zz-video-section {
+        padding: 3rem 1rem 3.5rem;
+    }
+}
+
+
+/* ============================================================
+   AUTHENTICATION PAGES (LOGIN / REGISTER)
+   ============================================================ */
+
+.zz-auth-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+    background: var(--zz-bg);
+    transition: background-color 0.3s ease;
+}
+
+.zz-auth__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.zz-auth__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--zz-hero-overlay);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    pointer-events: none;
+    z-index: 2;
+    transition: background-color 0.3s ease;
+}
+
+.zz-auth__container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.zz-auth__card {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+    background: var(--zz-glass-bg) !important;
+    backdrop-filter: blur(40px) !important;
+    -webkit-backdrop-filter: blur(40px) !important;
+    border: 1px solid var(--zz-card-border) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+    border-radius: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.zz-auth__card--large {
+    max-width: 600px;
+}
+
+.zz-auth__card--signin {
+    max-width: 440px;
+}
+
+.zz-auth__header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.zz-auth__badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.8rem;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--zz-card-border);
+    background: var(--zz-input-bg);
+    color: var(--zz-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.8rem;
+}
+
+.zz-auth__title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--zz-text);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.03em;
+    transition: color 0.3s ease;
+}
+
+.zz-auth__subtitle {
+    font-size: 0.8125rem;
+    color: var(--zz-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.zz-auth__alert {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.zz-auth__alert--success {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.32);
+    color: #22c55e;
+}
+
+.zz-auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.zz-form-row {
+    display: flex;
+    gap: 1.25rem;
+    flex-direction: column;
+}
+
+@media (min-width: 600px) {
+    .zz-form-row {
+        flex-direction: row;
+    }
+    .zz-form-row .zz-form-group {
+        flex: 1;
+    }
+}
+
+.zz-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.zz-form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--zz-text);
+    opacity: 0.85;
+    transition: color 0.3s ease;
+}
+
+.zz-input {
+    width: 100%;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    color: var(--zz-text);
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.zz-input::placeholder {
+    color: var(--zz-text-muted);
+}
+
+.zz-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.zz-form-check {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.zz-form-check input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--zz-btn-primary-bg);
+    cursor: pointer;
+}
+
+.zz-form-check label {
+    font-weight: 400;
+    color: var(--zz-text-muted);
+    cursor: pointer;
+}
+
+.zz-auth-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: -0.15rem;
+}
+
+.zz-auth-options a {
+    color: var(--zz-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--zz-card-border);
+    font-size: 0.83rem;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.zz-auth-options a:hover {
+    border-color: var(--zz-text);
+    opacity: 0.82;
+}
+
+.zz-auth-remember {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.2rem;
+    margin: 0;
+    color: var(--zz-text-muted);
+    font-size: 0.84rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.zz-auth-remember input {
+    width: 1.08rem;
+    height: 1.08rem;
+    accent-color: var(--zz-btn-primary-bg);
+}
+
+.zz-form-check a {
+    color: var(--zz-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.3s ease;
+}
+
+.zz-auth__btn {
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+}
+
+.zz-auth__btn:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.zz-auth__footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--zz-text-muted);
+    margin-top: 1rem;
+}
+
+.zz-auth__footer a {
+    color: var(--zz-text);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--zz-card-border);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+    margin-left: 0.25rem;
+}
+
+.zz-auth__footer a:hover {
+    border-color: var(--zz-text);
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.zz-footer {
+    border-top: 1px solid var(--zz-card-border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--zz-bg);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.zz-footer__copy {
+    font-size: 0.8125rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-footer__link {
+    font-size: 0.8125rem;
+    color: var(--zz-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.zz-footer__link:hover {
+    color: var(--zz-text);
+}
+
+
+/* SCROLL ANIMATIONS */
+
+.zz-animate {
+    opacity: 0;
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.zz-animate--up {
+    transform: translateY(48px);
+}
+
+.zz-animate--left {
+    transform: translateX(-60px);
+}
+
+.zz-animate--right {
+    transform: translateX(60px);
+}
+
+.zz-animate.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.zz-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 5;
+    animation: scrollHintFade 2s ease-in-out infinite;
+}
+
+.zz-scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--zz-btn-primary-bg);
+    opacity: 0.6;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.zz-scroll-hint__line {
+    width: 1px;
+    height: 2.5rem;
+    background: linear-gradient(to bottom, var(--zz-btn-primary-bg), transparent);
+    animation: scrollLine 1.8s ease-in-out infinite;
+    opacity: 0.6;
+    transition: background 0.3s ease;
+}
+
+@keyframes scrollHintFade {
+    0%,
+    100% {
+        opacity: .4
+    }
+    50% {
+        opacity: 1
+    }
+}
+
+@keyframes scrollLine {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+
+/* ============================================================
+   NÃšT BACK TO TOP (LÃŠN Äáº¦U TRANG)
+   ============================================================ */
+
+.zz-back-to-top {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    border: 1px solid var(--zz-card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    /* Máº·c Ä‘á»‹nh áº©n Ä‘i */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Class Ä‘Æ°á»£c Javascript thÃªm vÃ o khi cuá»™n xuá»‘ng */
+
+.zz-back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+/* Hiá»‡u á»©ng khi rÃª chuá»™t vÃ o */
+
+.zz-back-to-top:hover {
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Responsive cho Ä‘iá»‡n thoáº¡i: NÃºt nhá» láº¡i vÃ  náº±m sÃ¡t lá» hÆ¡n */
+
+@media (max-width: 768px) {
+    .zz-back-to-top {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+    .zz-back-to-top svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+
+/* ============================================================
+   FLOATING ACTION BUTTON STACK
+   ============================================================ */
+
+.zz-fab-stack {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 999;
+}
+
+.zz-fab {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid var(--zz-card-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+
+/* FB button â€” luÃ´n hiá»‡n */
+
+.zz-fab--fb {
+    background: #1877f2;
+    color: #fff;
+    border-color: transparent;
+}
+
+.zz-fab--fb:hover {
+    background: #1461c8;
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 14px 30px rgba(24, 119, 242, 0.4);
+    color: #fff;
+}
+
+.zz-fab--chat {
+    background: #a8ff3e;
+    color: #0d0d0d;
+    border-color: transparent;
+}
+
+.zz-fab--chat:hover,
+.zz-fab--chat[aria-expanded="true"] {
+    background: #d7ff7b;
+    color: #0d0d0d;
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 14px 30px rgba(168, 255, 62, 0.28);
+}
+
+.zz-chatbox {
+    position: fixed;
+    right: 2.5rem;
+    bottom: 13.4rem;
+    z-index: 1000;
+    width: min(370px, calc(100vw - 2rem));
+    max-height: min(620px, calc(100vh - 15rem));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgba(12, 12, 12, 0.96);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 0.9rem;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(16px) scale(0.96);
+    transform-origin: right bottom;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+}
+
+.zz-chatbox.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+html.theme-light .zz-chatbox {
+    background: rgba(255, 255, 255, 0.98);
+    color: #111;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 24px 70px rgba(20, 24, 30, 0.18);
+}
+
+.zz-chatbox__head {
+    display: grid;
+    grid-template-columns: 2.35rem 1fr 2.25rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    background: linear-gradient(135deg, rgba(168, 255, 62, 0.12), rgba(24, 119, 242, 0.12));
+}
+
+html.theme-light .zz-chatbox__head {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+.zz-chatbox__avatar {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 0.55rem;
+    display: grid;
+    place-items: center;
+    background: #a8ff3e;
+    color: #0d0d0d;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.zz-chatbox__head strong,
+.zz-chatbox__head span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-chatbox__head strong {
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.zz-chatbox__head span {
+    margin-top: 0.12rem;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.74rem;
+}
+
+html.theme-light .zz-chatbox__head span {
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.zz-chatbox__close {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.zz-chatbox__close:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: rotate(8deg);
+}
+
+html.theme-light .zz-chatbox__close {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+html.theme-light .zz-chatbox__close:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.zz-chatbox__messages {
+    min-height: 13rem;
+    max-height: 20rem;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow-y: auto;
+    scrollbar-color: rgba(168, 255, 62, 0.45) transparent;
+    scrollbar-width: thin;
+}
+
+.zz-chatbox__messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.zz-chatbox__messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.zz-chatbox__messages::-webkit-scrollbar-thumb {
+    background: rgba(168, 255, 62, 0.35);
+    border-radius: 999px;
+}
+
+.zz-chatbox__msg {
+    display: flex;
+}
+
+.zz-chatbox__msg--bot {
+    justify-content: flex-start;
+}
+
+.zz-chatbox__msg--user {
+    justify-content: flex-end;
+}
+
+.zz-chatbox__bubble {
+    max-width: 100%;
+    border-radius: 0.78rem;
+    padding: 0.72rem 0.78rem;
+    background: rgba(255, 255, 255, 0.075);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.zz-chatbox__msg--user .zz-chatbox__bubble {
+    max-width: 88%;
+    background: #1877f2;
+    border-color: transparent;
+    color: #fff;
+}
+
+html.theme-light .zz-chatbox__bubble {
+    background: #f1f3f5;
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+html.theme-light .zz-chatbox__msg--user .zz-chatbox__bubble {
+    background: #1877f2;
+    color: #fff;
+}
+
+.zz-chatbox__bubble p {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.48;
+    overflow-wrap: anywhere;
+}
+
+.zz-chatbox__products {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 0.72rem;
+}
+
+.zz-chatbox__product {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.55rem;
+    min-height: 4.35rem;
+    border-radius: 0.6rem;
+    background: rgba(0, 0, 0, 0.22);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.zz-chatbox__product:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    color: inherit;
+}
+
+html.theme-light .zz-chatbox__product {
+    background: #fff;
+}
+
+html.theme-light .zz-chatbox__product:hover {
+    background: #eef4ff;
+}
+
+.zz-chatbox__product-image {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 0.55rem;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    color: #a8ff3e;
+    font-weight: 700;
+}
+
+html.theme-light .zz-chatbox__product-image {
+    background: #eef1f4;
+    color: #1461c8;
+}
+
+.zz-chatbox__product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.zz-chatbox__product-body {
+    min-width: 0;
+    display: grid;
+    gap: 0.12rem;
+}
+
+.zz-chatbox__product-body strong,
+.zz-chatbox__product-body small,
+.zz-chatbox__product-price,
+.zz-chatbox__product-body del {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-chatbox__product-body strong {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.zz-chatbox__product-body small {
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.68rem;
+}
+
+html.theme-light .zz-chatbox__product-body small {
+    color: rgba(0, 0, 0, 0.52);
+}
+
+.zz-chatbox__product-price {
+    color: #a8ff3e;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+html.theme-light .zz-chatbox__product-price {
+    color: #0f8f4d;
+}
+
+.zz-chatbox__product-body del {
+    color: rgba(255, 255, 255, 0.36);
+    font-size: 0.68rem;
+}
+
+html.theme-light .zz-chatbox__product-body del {
+    color: rgba(0, 0, 0, 0.36);
+}
+
+.zz-chatbox__suggestions {
+    display: flex;
+    gap: 0.45rem;
+    padding: 0 0.9rem 0.85rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.zz-chatbox__suggestions::-webkit-scrollbar {
+    display: none;
+}
+
+.zz-chatbox__suggestions button {
+    flex: 0 0 auto;
+    min-height: 2rem;
+    padding: 0 0.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.zz-chatbox__suggestions button:hover {
+    border-color: rgba(168, 255, 62, 0.55);
+    background: rgba(168, 255, 62, 0.1);
+    color: #fff;
+}
+
+html.theme-light .zz-chatbox__suggestions button {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.68);
+}
+
+html.theme-light .zz-chatbox__suggestions button:hover {
+    color: #111;
+}
+
+.zz-chatbox__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2.55rem;
+    gap: 0.55rem;
+    padding: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+html.theme-light .zz-chatbox__form {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+.zz-chatbox__form input {
+    width: 100%;
+    min-width: 0;
+    height: 2.55rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    color: inherit;
+    padding: 0 0.95rem;
+    font-size: 0.84rem;
+    outline: none;
+}
+
+.zz-chatbox__form input:focus {
+    border-color: rgba(168, 255, 62, 0.7);
+    box-shadow: 0 0 0 3px rgba(168, 255, 62, 0.12);
+}
+
+.zz-chatbox__form input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+html.theme-light .zz-chatbox__form input {
+    background: #f7f8fa;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+html.theme-light .zz-chatbox__form input::placeholder {
+    color: rgba(0, 0, 0, 0.42);
+}
+
+.zz-chatbox__form button {
+    width: 2.55rem;
+    height: 2.55rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #1877f2;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.zz-chatbox__form button:hover {
+    background: #1461c8;
+    transform: translateY(-1px);
+}
+
+.zz-chatbox__form button:disabled,
+.zz-chatbox__form input:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+
+/* Back-to-top â€” áº©n máº·c Ä‘á»‹nh */
+
+.zz-fab--top {
+    background: var(--zz-card-bg);
+    color: var(--zz-text);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+}
+
+.zz-fab-stack.show-top .zz-fab--top {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.zz-fab--top:hover {
+    background: var(--zz-text);
+    color: var(--zz-bg);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+    .zz-fab-stack {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+    .zz-fab {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .zz-chatbox {
+        left: 1rem;
+        right: 1rem;
+        bottom: 12rem;
+        width: auto;
+        max-height: calc(100vh - 13rem);
+    }
+
+    .zz-chatbox__messages {
+        min-height: 10rem;
+        max-height: 17rem;
+    }
+}
+
+
+/* ============================================================
+   FOOTER V2 â€” THIáº¾T Káº¾ Láº I
+   ============================================================ */
+
+.zz-footer-v2 {
+    position: relative;
+    background: #0a0a0a;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+    padding: 3rem 2.5rem 0;
+}
+
+html.theme-light .zz-footer-v2 {
+    background: #111;
+}
+
+
+/* GÃ³c accent xanh lÃ¡ (nhÆ° áº£nh) */
+
+.zz-footer-v2__accent {
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    background: conic-gradient(from 180deg at 100% 100%, #a8ff3e 0deg, #00ff88 90deg, transparent 90deg);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+
+/* â”€â”€ Row 1: Socials + Links â”€â”€ */
+
+.zz-footer-v2__main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+    .zz-footer-v2__main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.zz-footer-v2__socials {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.zz-footer-v2__social-item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+    font-weight: 400;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.zz-footer-v2__social-item:hover {
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.zz-footer-v2__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.zz-footer-v2__icon--yt {
+    background: #ff0000;
+    color: #fff;
+}
+
+.zz-footer-v2__icon--tt {
+    background: #000;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.zz-footer-v2__icon--fb {
+    background: #1877f2;
+    color: #fff;
+}
+
+.zz-footer-v2__links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.875rem;
+}
+
+.zz-footer-v2__link {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.2s;
+    width: fit-content;
+}
+
+.zz-footer-v2__link:hover {
+    color: #fff;
+}
+
+
+/* â”€â”€ Divider â”€â”€ */
+
+.zz-footer-v2__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin-bottom: 2rem;
+}
+
+
+/* â”€â”€ Row 2: About + Map â”€â”€ */
+
+.zz-footer-v2__info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .zz-footer-v2__info-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.zz-footer-v2__name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.375rem;
+}
+
+.zz-footer-v2__meta {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0.2rem;
+}
+
+.zz-footer-v2__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.zz-footer-v2__contacts a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    transition: color 0.2s;
+}
+
+.zz-footer-v2__contacts a:hover {
+    color: #a8ff3e;
+}
+
+
+/* â”€â”€ Map â”€â”€ */
+
+.zz-footer-v2__map-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.zz-footer-v2__map-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.zz-footer-v2__map {
+    width: 100%;
+    height: 180px;
+    border: 0;
+    border-radius: 0.875rem;
+    opacity: 0.85;
+    filter: grayscale(30%) brightness(0.9);
+    transition: opacity 0.3s, filter 0.3s;
+}
+
+.zz-footer-v2__map:hover {
+    opacity: 1;
+    filter: none;
+}
+
+
+/* â”€â”€ Bottom bar â”€â”€ */
+
+.zz-footer-v2__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* ============================================================
+   TRANG CHI TIáº¾T Sáº¢N PHáº¨M (DETAILS)
+   ============================================================ */
+
+.zz-product-detail {
+    margin-top: 8rem !important;
+    /* Äáº©y xuá»‘ng trÃ¡nh bá»‹ dÃ­nh thanh Menu */
+}
+
+
+/* Báº£ng thÃ´ng sá»‘ ká»¹ thuáº­t dáº¡ng lÆ°á»›i */
+
+.zz-detail-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background: var(--zz-input-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--zz-card-border);
+}
+
+.zz-spec-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.zz-spec-label {
+    font-size: 0.75rem;
+    color: var(--zz-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+}
+
+.zz-spec-val {
+    color: var(--zz-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .zz-detail-specs {
+        grid-template-columns: 1fr;
+        /* Mobile chuyá»ƒn vá» 1 cá»™t */
+    }
+}
+
+
+/* Khung nháº­p text (Input/Textarea) thÃ­ch á»©ng theme */
+
+.zz-custom-input {
+    background-color: var(--zz-bg) !important;
+    border: 1px solid var(--zz-card-border) !important;
+    color: var(--zz-text) !important;
+}
+
+.zz-custom-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    border-color: #3b82f6 !important;
+}
+
+
+/* Responsive cho báº£ng Tá»•ng há»£p Ä‘Ã¡nh giÃ¡ */
+
+@media (min-width: 768px) {
+    .border-md-end {
+        border-right: 1px solid var(--zz-card-border) !important;
+    }
+}
+
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+
+.zz-toast-container {
+    position: fixed;
+    top: 6rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+}
+
+.zz-toast {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+    background: var(--zz-nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--zz-card-border);
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    min-width: 280px;
+    max-width: 340px;
+    pointer-events: auto;
+    overflow: hidden;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.zz-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.zz-toast.hide {
+    transform: translateX(120%);
+    opacity: 0;
+}
+
+.zz-toast__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.zz-toast__body {
+    flex: 1;
+}
+
+.zz-toast__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--zz-text);
+    margin-bottom: 0.1rem;
+}
+
+.zz-toast__msg {
+    font-size: 0.775rem;
+    color: var(--zz-text-muted);
+}
+
+.zz-toast__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #22c55e;
+    border-radius: 0 0 1rem 1rem;
+    transform-origin: left;
+    animation: zzToastBar 3s linear forwards;
+}
+
+@keyframes zzToastBar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+
+/* CART BADGE */
+
+.zz-cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #22c55e;
+    color: #000;
+    font-size: 0.6rem;
+    font-weight: 700;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 9999px;
+    padding: 0 0.25rem;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+
+/* DISCOUNT BADGE */
+
+.zz-product-card__thumb {
+    position: relative;
+}
+
+.zz-discount-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: #ef4444;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+    z-index: 2;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   NAV BRAND MEGA MENU + VIDEO CAPTIONS
+   ============================================================ */
+
+.zz-brand-dropdown {
+    position: static;
+}
+
+.zz-brand-menu {
+    width: min(880px, calc(100vw - 2rem));
+    padding: 1.15rem;
+    border-radius: 1.25rem;
+    background: color-mix(in srgb, var(--zz-nav-bg) 94%, var(--zz-bg));
+    border: 1px solid var(--zz-card-border);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+}
+
+.zz-brand-menu__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.25rem 0.25rem 0.9rem;
+    margin-bottom: 0.85rem;
+    border-bottom: 1px solid var(--zz-card-border);
+}
+
+.zz-brand-menu__head span {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--zz-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.zz-brand-menu__head strong {
+    color: var(--zz-text);
+    font-size: 1.1rem;
+    font-weight: 650;
+}
+
+.zz-brand-menu__head a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.35rem;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    background: var(--zz-btn-primary-bg);
+    color: var(--zz-btn-primary-text);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.zz-brand-menu__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.zz-brand-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 0.72rem;
+    min-width: 0;
+    min-height: 4.75rem;
+    padding: 0.72rem;
+    border-radius: 1.05rem;
+    color: var(--zz-text);
+    text-decoration: none;
+    background: var(--zz-input-bg);
+    border: 1px solid var(--zz-card-border);
+    white-space: normal;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.zz-pill--links .zz-brand-menu__item {
+    padding: 0.72rem;
+    border-radius: 1.05rem;
+    white-space: normal;
+}
+
+.zz-pill--links .zz-brand-menu__head a {
+    padding: 0 0.9rem;
+    white-space: nowrap;
+}
+
+.zz-brand-menu__item:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--zz-text) 28%, var(--zz-card-border));
+    background: color-mix(in srgb, var(--zz-card-bg) 76%, var(--zz-input-bg));
+    color: var(--zz-text);
+}
+
+.zz-brand-menu__mark {
+    width: 2.45rem;
+    height: 2.45rem;
+    flex: 0 0 auto;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #a8ff3e;
+    color: #111;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.zz-brand-menu__item strong,
+.zz-brand-menu__item small {
+    display: block;
+    min-width: 0;
+}
+
+.zz-brand-menu__item strong {
+    color: var(--zz-text);
+    font-size: 0.9rem;
+    font-weight: 650;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.zz-brand-menu__item small {
+    margin-top: 0.2rem;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.zz-video-section__wrapper .carousel-item {
+    position: relative;
+}
+
+.zz-video-section__wrapper .carousel-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.22) 52%, rgba(0, 0, 0, 0.08));
+}
+
+.zz-video-caption {
+    position: absolute;
+    left: clamp(1.25rem, 5vw, 4.5rem);
+    bottom: clamp(1.25rem, 5vw, 4rem);
+    z-index: 2;
+    width: min(460px, calc(100% - 2.5rem));
+    color: #fff;
+}
+
+.zz-video-caption span {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.zz-video-caption h3 {
+    margin: 0.85rem 0 0.65rem;
+    color: #fff;
+    font-size: clamp(1.8rem, 4vw, 3.4rem);
+    font-weight: 700;
+    line-height: 0.96;
+}
+
+.zz-video-caption p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.94rem;
+    line-height: 1.65;
+}
+
+.zz-video-caption a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    margin-top: 1.1rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 750;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.zz-video-caption a:hover {
+    transform: translateY(-2px);
+    opacity: 0.88;
+}
+
+@media (max-width: 991px) {
+    .zz-brand-menu__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 820px) {
+    .zz-brand-menu__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .zz-brand-menu {
+        width: calc(100vw - 2rem);
+    }
+    .zz-brand-menu__head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .zz-brand-menu__grid {
+        grid-template-columns: 1fr;
+    }
+    .zz-video-section__wrapper .carousel-item::after {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.1));
+    }
+    .zz-video-caption {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1.25rem;
+        width: auto;
+    }
+    .zz-video-caption p {
+        display: none;
+    }
+}
+
+
+/* ============================================================
+   ZUZONG STORE - PRODUCT CARD GIá»NG MáºªU
+   DÃ¡n vÃ o cuá»‘i file custom CSS hiá»‡n táº¡i
+   ============================================================ */
+
+.zz-catalog-section--store {
+    max-width: 1880px;
+    padding-top: 7rem;
+}
+
+.zz-catalog-eyebrow {
+    margin: 0 0 0.6rem;
+    color: var(--zz-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.zz-catalog-toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: 1.8rem 0 3.25rem;
+}
+
+.zz-catalog-toolbar .zz-search-container {
+    margin-bottom: 0;
+}
+
+.zz-sort-bar--catalog {
+    justify-content: flex-end;
+    margin-bottom: 0 !important;
+    padding-top: 0.15rem;
+}
+
+.zz-sort-buttons--modern {
+    gap: 0.6rem;
+}
+
+.zz-sort-buttons--modern .zz-sort-btn {
+    min-height: 2.55rem;
+    padding: 0.55rem 1rem;
+    background: var(--zz-card-bg);
+    border-color: var(--zz-card-border);
+    color: var(--zz-text-muted);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.zz-sort-buttons--modern .zz-sort-btn svg {
+    flex: 0 0 auto;
+}
+
+.zz-sort-buttons--modern .zz-sort-btn:not(.active) svg {
+    color: var(--zz-text-muted);
+}
+
+.zz-sort-buttons--modern .zz-sort-btn:hover {
+    background: var(--zz-input-bg);
+    color: var(--zz-text);
+    transform: translateY(-2px);
+}
+
+.zz-sort-buttons--modern .zz-sort-btn.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #2563eb;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.14);
+}
+
+.zz-products__grid--store {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.55rem;
+}
+
+.zz-product-card--store {
+    position: relative;
+    min-height: 100%;
+    padding: 0.95rem 0.95rem 1rem;
+    background: #ffffff;
+    color: #171717;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+}
+
+.zz-product-card--store:hover {
+    border-color: rgba(59, 130, 246, 0.28);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.13);
+    transform: translateY(-4px);
+}
+
+html:not(.theme-light) .zz-product-card--store {
+    background: #ffffff;
+    color: #171717;
+}
+
+.zz-product-card--store .zz-product-card__link {
+    color: inherit;
+}
+
+.zz-product-card__badges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.zz-discount-badge--store {
+    position: static;
+    min-width: 6rem;
+    padding: 0.42rem 0.85rem;
+    border-radius: 0 0 0.45rem 0;
+    background: #df001f;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: 0 7px 18px rgba(223, 0, 31, 0.24);
+}
+
+.zz-installment-badge {
+    min-width: 6.7rem;
+    padding: 0.42rem 0.85rem;
+    border-radius: 0 0 0 0.45rem;
+    background: #dce8ff;
+    color: #2f72ff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.zz-product-card__thumb--store {
+    height: 220px;
+    aspect-ratio: auto;
+    margin: 1.45rem 0 0.95rem;
+    background: #fff;
+}
+
+.zz-product-card__thumb--store img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.zz-product-card__name--store {
+    display: -webkit-box;
+    min-height: 3.1rem;
+    margin: 0 0 0.55rem;
+    color: #1f1f1f;
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: 0;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.zz-product-card__price-row--store {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 0.65rem;
+}
+
+.zz-product-card__price--store {
+    color: #111111;
+    font-size: 1.18rem;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.zz-product-card__price-old--store {
+    color: #767676;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 1;
+}
+
+.zz-product-card__specs--store {
+    gap: 0.45rem;
+    margin-bottom: 0.6rem;
+}
+
+.zz-product-card__specs--store span {
+    color: #1f2937;
+    background: #fff;
+    border: 1px solid #d9dee7;
+    border-radius: 0.4rem;
+    padding: 0.22rem 0.5rem;
+    font-size: 0.78rem;
+}
+
+.zz-product-card__installment {
+    min-height: 3.05rem;
+    padding: 0.48rem 0.5rem;
+    border-radius: 0.42rem;
+    background: #f1f1f1;
+    color: #111827;
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+.zz-product-card__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.zz-product-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2rem;
+    color: #facc15;
+    white-space: nowrap;
+}
+
+.zz-product-rating strong {
+    color: #111827;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.zz-product-rating span {
+    color: #6b7280;
+    font-size: 0.78rem;
+}
+
+.zz-product-card__actions--store {
+    margin-top: 0;
+    flex: 1;
+    justify-content: flex-end;
+    gap: 0.4rem;
+}
+
+.zz-product-card__actions--store .zz-btn-sm {
+    flex: 0 1 auto;
+    min-width: 5.6rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.55rem;
+    font-size: 0.78rem;
+}
+
+.zz-product-card__actions--store .zz-btn-sm--outline {
+    color: #111111;
+    border-color: #d6d6d6;
+    background: #ffffff;
+}
+
+.zz-product-card__actions--store .zz-btn-sm--primary {
+    color: #ffffff;
+    background: #111111;
+    border: 1px solid #111111;
+}
+
+.zz-product-card__actions--store .zz-btn-sm--outline:hover {
+    color: #ffffff;
+    background: #111111;
+    border-color: #111111;
+}
+
+.zz-product-card__actions--store .zz-btn-sm--primary:hover {
+    opacity: 0.82;
+}
+
+.zz-empty-products {
+    grid-column: 1 / -1;
+    padding: 4rem 0;
+    text-align: center;
+    color: var(--zz-text-muted);
+}
+
+@media (max-width: 991px) {
+    .zz-catalog-toolbar {
+        flex-direction: column;
+        margin-bottom: 2.5rem;
+    }
+    .zz-sort-bar--catalog {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+
+/* ============================================================
+   IPHONE 17 PRO MAX 3D SCROLLYTELLING
+   ============================================================ */
+
+html.theme-light {
+    --zz-bg: #f2f4f8;
+    --zz-text: #111317;
+    --zz-text-muted: rgba(17, 19, 23, 0.62);
+    --zz-card-bg: #ffffff;
+    --zz-card-border: rgba(15, 23, 42, 0.12);
+    --zz-nav-bg: rgba(255, 255, 255, 0.88);
+    --zz-pill-bg: rgba(255, 255, 255, 0.82);
+    --zz-input-bg: rgba(15, 23, 42, 0.045);
+    --zz-glass-bg: rgba(255, 255, 255, 0.72);
+}
+
+.page-home .zz-hero__word,
+.page-home .zz-stl-text__heading,
+.page-home .zz-products__title,
+.page-home .zz-video-caption h3,
+.zz-pro-story h2,
+.zz-pro-copy h3 {
+    letter-spacing: 0 !important;
+}
+
+html.theme-light body.page-home {
+    background: linear-gradient(180deg, #eef2f7 0%, #f7f8fb 46%, #eef2f7 100%) !important;
+}
+
+html.theme-light .zz-stl-section,
+html.theme-light .zz-video-section,
+html.theme-light .zz-products,
+html.theme-light .zz-brands {
+    background: linear-gradient(180deg, #f7f8fb 0%, #eef2f7 100%);
+}
+
+html.theme-light .zz-glass,
+html.theme-light .zz-product-card,
+html.theme-light .zz-video-section__wrapper {
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+
+.zz-pro-story {
+    position: relative;
+    background: #08090b;
+    color: #ffffff;
+    padding: clamp(4.5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 3rem);
+    overflow: clip;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zz-pro-story::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(10, 132, 255, 0.12), transparent 24%), linear-gradient(90deg, rgba(255, 255, 255, 0.055), transparent 36%, rgba(10, 132, 255, 0.08));
+}
+
+.zz-pro-story__intro {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto clamp(2.25rem, 5vw, 4rem);
+}
+
+.zz-pro-story__eyebrow {
+    margin: 0 0 0.85rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.zz-pro-story__intro h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2.5rem, 6vw, 6.5rem);
+    font-weight: 720;
+    line-height: 0.98;
+}
+
+.zz-pro-story__intro p:last-child {
+    max-width: 720px;
+    margin: 1.2rem 0 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+    line-height: 1.75;
+}
+
+.zz-pro-story__stage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(230px, 330px) minmax(320px, 1fr) minmax(280px, 390px);
+    gap: clamp(1.15rem, 2.3vw, 2.35rem);
+    align-items: start;
+    max-width: 1840px;
+    margin: 0 auto;
+    padding: clamp(1rem, 2.2vw, 2.2rem);
+    background: #000000;
+    border: 1px solid rgba(10, 132, 255, 0.82);
+    border-radius: clamp(1.2rem, 2.2vw, 2rem);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 30px 100px rgba(0, 0, 0, 0.42);
+}
+
+.zz-pro-story__rail,
+.zz-pro-model {
+    position: sticky;
+    top: 6rem;
+}
+
+.zz-pro-story__rail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.72rem;
+    padding-top: clamp(1rem, 8vh, 4rem);
+}
+
+.zz-pro-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.82rem;
+    width: fit-content;
+    min-width: min(100%, 15rem);
+    min-height: 3.45rem;
+    padding: 0.62rem 1rem 0.62rem 0.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.105);
+    color: rgba(255, 255, 255, 0.9);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.24s ease, background 0.24s ease, border-color 0.24s ease, color 0.24s ease;
+}
+
+.zz-pro-feature:hover,
+.zz-pro-feature.is-active {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.17);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+.zz-pro-feature strong,
+.zz-pro-feature small {
+    display: block;
+    line-height: 1.2;
+}
+
+.zz-pro-feature strong {
+    font-size: clamp(0.88rem, 1vw, 1.02rem);
+    font-weight: 760;
+}
+
+.zz-pro-feature small {
+    margin-top: 0.2rem;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.7rem;
+}
+
+.zz-pro-feature__icon,
+.zz-pro-feature__swatch {
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #ffffff;
+    font-weight: 650;
+}
+
+.zz-pro-feature__swatch--silver {
+    background: linear-gradient(135deg, #ffffff 0%, #cfd4d8 52%, #8d959c 100%);
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.16);
+}
+
+.zz-pro-feature__swatch--orange {
+    background: linear-gradient(135deg, #ffd2a1 0%, #ff8a1f 42%, #b74607 78%, #5b1d04 100%);
+    box-shadow: inset 0 0 0 4px rgba(255, 214, 166, 0.18), 0 0 18px rgba(255, 105, 0, 0.3);
+}
+
+.zz-pro-model {
+    min-height: min(74vh, 780px);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 1.55rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 38%), #000000;
+}
+
+.zz-pro-model::before,
+.zz-pro-model::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+}
+
+.zz-pro-model::before {
+    inset: 7% 14%;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 50%;
+    transform: rotate(-18deg);
+}
+
+.zz-pro-model::after {
+    left: 18%;
+    right: 18%;
+    bottom: 11%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.8), transparent);
+    filter: blur(0.2px);
+}
+
+.zz-pro-model__canvas,
+.zz-pro-model__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.zz-pro-model__canvas {
+    z-index: 2;
+}
+
+.zz-pro-model__fallback {
+    z-index: 1;
+    object-fit: contain;
+    padding: clamp(2rem, 7vw, 5rem);
+    opacity: 0.36;
+    filter: drop-shadow(0 30px 60px rgba(255, 255, 255, 0.12));
+    transition: opacity 0.35s ease;
+}
+
+.zz-pro-story.is-model-ready .zz-pro-model__fallback {
+    opacity: 0;
+}
+
+.zz-pro-story.is-model-fallback .zz-pro-model__fallback {
+    opacity: 0.92;
+}
+
+.zz-pro-model__loading {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(1.2rem, 4vw, 2rem);
+    z-index: 3;
+    transform: translateX(-50%);
+    padding: 0.48rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.72rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.zz-pro-story__copy {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(5rem, 18vh, 10rem);
+    padding: clamp(1rem, 8vh, 4rem) 0;
+}
+
+.zz-pro-copy {
+    min-height: 48vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.38;
+    transform: translateY(18px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.zz-pro-copy.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.zz-pro-copy span {
+    color: #0a84ff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.zz-pro-copy h3 {
+    margin: 0.75rem 0 0.7rem;
+    color: #ffffff;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    font-weight: 760;
+    line-height: 1.12;
+}
+
+.zz-pro-copy p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.94rem;
+    line-height: 1.7;
+}
+
+html.theme-light .zz-pro-story {
+    background: #07080a;
+}
+
+html.theme-light .zz-pro-story__stage {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 26px 80px rgba(15, 23, 42, 0.22);
+}
+
+@media (max-width: 1180px) {
+    .zz-pro-story__stage {
+        grid-template-columns: minmax(250px, 0.9fr) minmax(320px, 1.1fr);
+    }
+    .zz-pro-story__rail {
+        grid-column: 1;
+    }
+    .zz-pro-model {
+        grid-column: 2;
+    }
+    .zz-pro-story__copy {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        padding-top: 0;
+    }
+    .zz-pro-copy {
+        min-height: auto;
+        justify-content: flex-start;
+        padding: 1.15rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.045);
+    }
+}
+
+@media (max-width: 820px) {
+    .zz-pro-story {
+        padding: 4rem 1rem;
+    }
+    .zz-pro-story__stage {
+        grid-template-columns: 1fr;
+        border-radius: 1.2rem;
+    }
+    .zz-pro-story__rail,
+    .zz-pro-model {
+        position: relative;
+        top: auto;
+    }
+    .zz-pro-story__rail {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0 0 0.5rem;
+        scroll-snap-type: x proximity;
+    }
+    .zz-pro-feature {
+        min-width: 13.25rem;
+        scroll-snap-align: start;
+    }
+    .zz-pro-feature:hover,
+    .zz-pro-feature.is-active {
+        transform: translateY(-2px);
+    }
+    .zz-pro-model {
+        min-height: 62vh;
+        grid-row: 2;
+    }
+    .zz-pro-story__copy {
+        grid-template-columns: 1fr;
+        grid-row: 3;
+    }
+}
+
+@media (max-width: 560px) {
+    .zz-pro-story__intro h2 {
+        font-size: 2.35rem;
+    }
+    .zz-pro-story__intro p:last-child {
+        font-size: 0.94rem;
+    }
+    .zz-pro-model {
+        min-height: 430px;
+    }
+}
+
+@media (max-width: 768px) {
+    .zz-catalog-section--store {
+        padding: 5.5rem 1rem 3rem;
+    }
+    .zz-products__grid--store {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+    }
+    .zz-product-card--store {
+        padding: 0.75rem;
+        border-radius: 0.95rem;
+    }
+    .zz-product-card__thumb--store {
+        height: 155px;
+        margin-top: 1.35rem;
+    }
+    .zz-discount-badge--store,
+    .zz-installment-badge {
+        min-width: auto;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.7rem;
+    }
+    .zz-product-card__name--store {
+        min-height: 2.75rem;
+        font-size: 0.9rem;
+    }
+    .zz-product-card__price--store {
+        font-size: 1rem;
+    }
+    .zz-product-card__bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+    .zz-product-card__actions--store {
+        width: 100%;
+    }
+    .zz-product-card__actions--store .zz-btn-sm {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+
+/* ============================================================
+   ZUZONG POLICY + FINAL TONE OVERRIDES
+   ============================================================ */
+
+.zz-pro-story {
+    background: #080907;
+}
+
+.zz-pro-story::before {
+    background: linear-gradient(180deg, rgba(168, 255, 62, 0.09), transparent 24%), linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 36%, rgba(255, 105, 0, 0.075));
+}
+
+.zz-pro-story__stage {
+    border-color: rgba(168, 255, 62, 0.72);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 30px 100px rgba(0, 0, 0, 0.42), 0 0 34px rgba(168, 255, 62, 0.08);
+}
+
+.zz-pro-model::after {
+    background: linear-gradient(90deg, transparent, rgba(168, 255, 62, 0.82), rgba(255, 105, 0, 0.58), transparent);
+}
+
+.zz-pro-copy span {
+    color: #a8ff3e;
+}
+
+.zz-pro-feature:hover,
+.zz-pro-feature.is-active {
+    border-color: rgba(168, 255, 62, 0.36);
+    box-shadow: inset 0 0 0 1px rgba(168, 255, 62, 0.08);
+}
+
+html.theme-light .zz-pro-story {
+    background: #f4f6f0;
+    color: #111317;
+}
+
+html.theme-light .zz-pro-story::before {
+    background: linear-gradient(180deg, rgba(168, 255, 62, 0.16), transparent 24%), linear-gradient(90deg, rgba(17, 19, 23, 0.045), transparent 38%, rgba(255, 105, 0, 0.095));
+}
+
+html.theme-light .zz-pro-story__intro h2,
+html.theme-light .zz-pro-copy h3 {
+    color: #111317;
+}
+
+html.theme-light .zz-pro-story__eyebrow,
+html.theme-light .zz-pro-story__intro p:last-child,
+html.theme-light .zz-pro-copy p {
+    color: rgba(17, 19, 23, 0.66);
+}
+
+html.theme-light .zz-pro-story__stage {
+    background: #ffffff;
+    border-color: rgba(168, 255, 62, 0.82);
+}
+
+html.theme-light .zz-pro-model {
+    background: linear-gradient(180deg, rgba(168, 255, 62, 0.08), transparent 40%), #f7f8fb;
+}
+
+html.theme-light .zz-pro-feature {
+    background: rgba(17, 19, 23, 0.06);
+    border-color: rgba(17, 19, 23, 0.08);
+    color: #111317;
+}
+
+html.theme-light .zz-pro-feature small {
+    color: rgba(17, 19, 23, 0.58);
+}
+
+html.theme-light .zz-pro-feature__icon {
+    border-color: rgba(17, 19, 23, 0.28);
+    color: #111317;
+}
+
+body.page-policy {
+    margin-bottom: 0;
+    background: #080907 !important;
+}
+
+body.page-policy .zz-nav {
+    position: fixed;
+    background: rgba(8, 9, 7, 0.76);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+html.theme-light body.page-policy {
+    background: #f3f5f0 !important;
+}
+
+html.theme-light body.page-policy .zz-nav {
+    background: rgba(255, 255, 255, 0.82);
+    border-bottom-color: rgba(17, 19, 23, 0.08);
+}
+
+.zz-policy-hero {
+    position: relative;
+    min-height: 420vh;
+    background: #080907;
+    overflow: clip;
+}
+
+.zz-policy-visual {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: #080907;
+}
+
+.zz-policy-visual__canvas,
+.zz-policy-visual__fallback,
+.zz-policy-visual__shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.zz-policy-visual__canvas,
+.zz-policy-visual__fallback {
+    object-fit: cover;
+}
+
+.zz-policy-visual__fallback {
+    opacity: 0.7;
+}
+
+.zz-policy-visual__canvas {
+    z-index: 1;
+}
+
+.zz-policy-visual__shade {
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(8, 9, 7, 0.9) 0%, rgba(8, 9, 7, 0.68) 34%, rgba(8, 9, 7, 0.18) 68%, rgba(8, 9, 7, 0.82) 100%), linear-gradient(180deg, rgba(8, 9, 7, 0.78), transparent 18%, transparent 72%, #080907 100%);
+}
+
+.zz-policy-hero__copy {
+    position: absolute;
+    left: clamp(1.25rem, 5vw, 5rem);
+    top: clamp(7rem, 16vh, 10rem);
+    z-index: 3;
+    width: min(720px, calc(100% - 2.5rem));
+    color: #ffffff;
+}
+
+.zz-policy-kicker {
+    margin: 0 0 0.85rem;
+    color: #a8ff3e;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.zz-policy-hero__copy h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(3rem, 7.5vw, 7.75rem);
+    font-weight: 780;
+    line-height: 0.95;
+    letter-spacing: 0;
+}
+
+.zz-policy-hero__copy p:not(.zz-policy-kicker) {
+    width: min(620px, 100%);
+    margin: 1.35rem 0 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+    line-height: 1.75;
+}
+
+.zz-policy-hero__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    width: min(680px, 100%);
+    margin-top: 2rem;
+}
+
+.zz-policy-hero__metrics span {
+    min-height: 5rem;
+    padding: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.74);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+.zz-policy-hero__metrics strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #a8ff3e;
+    font-size: 1.05rem;
+}
+
+.zz-policy-story {
+    position: relative;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: minmax(1rem, 1fr) minmax(0, 780px) minmax(1rem, 1fr);
+    gap: 0;
+    margin-top: -220vh;
+    padding-bottom: 18vh;
+    pointer-events: none;
+}
+
+.zz-policy-chapter {
+    grid-column: 2;
+    min-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.28;
+    transform: translateY(24px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    color: #ffffff;
+}
+
+.zz-policy-chapter.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.zz-policy-chapter span {
+    color: #a8ff3e;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.zz-policy-chapter h2 {
+    margin: 0.85rem 0 0.95rem;
+    color: #ffffff;
+    font-size: clamp(2rem, 4vw, 4.4rem);
+    font-weight: 760;
+    line-height: 1.02;
+    letter-spacing: 0;
+}
+
+.zz-policy-chapter p {
+    width: min(620px, 100%);
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: clamp(0.98rem, 1.25vw, 1.08rem);
+    line-height: 1.78;
+}
+
+.zz-policy-trust {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 5rem);
+    background: #080907;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zz-policy-trust h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2rem, 4.4vw, 5rem);
+    font-weight: 760;
+    line-height: 1.02;
+    letter-spacing: 0;
+}
+
+.zz-policy-trust__grid {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.zz-policy-trust__item {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.34fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding: 1.2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zz-policy-trust__item strong {
+    color: #ffffff;
+    font-size: 1.05rem;
+}
+
+.zz-policy-trust__item span {
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.65;
+}
+
+.zz-policy-trust__cta {
+    grid-column: 1 / -1;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.8rem;
+    padding: 0 1.15rem;
+    border-radius: 999px;
+    background: #a8ff3e;
+    color: #111;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 800;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.zz-policy-trust__cta:hover {
+    color: #111;
+    opacity: 0.86;
+    transform: translateY(-2px);
+}
+
+html.theme-light .zz-policy-hero,
+html.theme-light .zz-policy-visual,
+html.theme-light .zz-policy-trust {
+    background: #f3f5f0;
+}
+
+html.theme-light .zz-policy-visual__shade {
+    background: linear-gradient(90deg, rgba(243, 245, 240, 0.92) 0%, rgba(243, 245, 240, 0.68) 34%, rgba(243, 245, 240, 0.16) 68%, rgba(243, 245, 240, 0.85) 100%), linear-gradient(180deg, rgba(243, 245, 240, 0.78), transparent 18%, transparent 72%, #f3f5f0 100%);
+}
+
+html.theme-light .zz-policy-hero__copy,
+html.theme-light .zz-policy-hero__copy h1,
+html.theme-light .zz-policy-chapter,
+html.theme-light .zz-policy-chapter h2,
+html.theme-light .zz-policy-trust,
+html.theme-light .zz-policy-trust h2,
+html.theme-light .zz-policy-trust__item strong {
+    color: #111317;
+}
+
+html.theme-light .zz-policy-hero__copy p:not(.zz-policy-kicker),
+html.theme-light .zz-policy-chapter p,
+html.theme-light .zz-policy-trust__item span {
+    color: rgba(17, 19, 23, 0.68);
+}
+
+html.theme-light .zz-policy-hero__metrics span {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(17, 19, 23, 0.1);
+    color: rgba(17, 19, 23, 0.68);
+}
+
+html.theme-light .zz-policy-trust {
+    border-top-color: rgba(17, 19, 23, 0.1);
+}
+
+html.theme-light .zz-policy-trust__item {
+    border-top-color: rgba(17, 19, 23, 0.1);
+}
+
+@media (max-width: 900px) {
+    .zz-policy-hero__metrics {
+        grid-template-columns: 1fr;
+        width: min(420px, 100%);
+    }
+    .zz-policy-story {
+        margin-top: -250vh;
+        grid-template-columns: 1rem minmax(0, 1fr) 1rem;
+    }
+    .zz-policy-chapter {
+        min-height: 72vh;
+    }
+    .zz-policy-trust {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .zz-policy-hero__copy {
+        top: 6.5rem;
+        left: 1rem;
+        width: calc(100% - 2rem);
+    }
+    .zz-policy-hero__copy h1 {
+        font-size: 2.75rem;
+    }
+    .zz-policy-hero__metrics span {
+        min-height: auto;
+    }
+    .zz-policy-chapter h2 {
+        font-size: 2rem;
+    }
+    .zz-policy-trust__item {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+}
+
+
+/* ============================================================
+   LIQUID GLASS POLISH + PRIVACY SCROLL FIX
+   ============================================================ */
+
+:root {
+    --zz-liquid-light: rgba(255, 255, 255, 0.54);
+    --zz-liquid-light-strong: rgba(255, 255, 255, 0.68);
+    --zz-liquid-light-border: rgba(255, 255, 255, 0.68);
+    --zz-liquid-light-shadow: 0 20px 60px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    --zz-liquid-dark: rgba(12, 12, 12, 0.48);
+    --zz-liquid-dark-border: rgba(255, 255, 255, 0.18);
+}
+
+html.theme-light {
+    --zz-nav-bg: rgba(255, 255, 255, 0.44);
+    --zz-pill-bg: rgba(255, 255, 255, 0.5);
+    --zz-glass-bg: rgba(255, 255, 255, 0.42);
+    --zz-input-bg: rgba(255, 255, 255, 0.42);
+    --zz-card-border: rgba(15, 23, 42, 0.08);
+}
+
+.zz-pill,
+.zz-icon-btn,
+.zz-cart-btn,
+.zz-user-btn,
+.zz-cta-btn,
+.zz-hero__glass-box,
+.zz-user-dropdown,
+.zz-pill--links .dropdown-menu,
+.zz-auth__card,
+.zz-auth__badge,
+.zz-input {
+    backdrop-filter: blur(28px) saturate(175%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(175%) !important;
+}
+
+html.theme-light .zz-pill,
+html.theme-light .zz-icon-btn,
+html.theme-light .zz-cart-btn,
+html.theme-light .zz-user-btn,
+html.theme-light .zz-cta-btn,
+html.theme-light .zz-hero__glass-box,
+html.theme-light .zz-user-dropdown,
+html.theme-light .zz-pill--links .dropdown-menu,
+html.theme-light .zz-auth__card,
+html.theme-light #zzMobileMenu {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.28)), radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.95), transparent 34%) !important;
+    border: 1px solid var(--zz-liquid-light-border) !important;
+    box-shadow: var(--zz-liquid-light-shadow) !important;
+}
+
+html.theme-light .zz-pill--links,
+html.theme-light .zz-pill--logo {
+    min-height: 4rem;
+}
+
+html.theme-light .zz-pill--links a,
+html.theme-light .zz-cart-btn,
+html.theme-light .zz-user-btn {
+    color: rgba(14, 17, 22, 0.66);
+}
+
+html.theme-light .zz-pill--links a:hover,
+html.theme-light .zz-cart-btn:hover,
+html.theme-light .zz-user-btn:hover {
+    color: #0e1116;
+    background: rgba(255, 255, 255, 0.32);
+}
+
+html.theme-light .zz-icon-btn {
+    width: 3.15rem;
+    height: 3.15rem;
+    color: #0e1116;
+}
+
+html.theme-light .zz-cta-btn,
+html.theme-light .zz-auth__btn {
+    background: linear-gradient(135deg, rgba(18, 20, 24, 0.92), rgba(18, 20, 24, 0.76)) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+html.theme-light .zz-hero__glass-box {
+    color: #101317;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.24)), radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.86), transparent 38%) !important;
+}
+
+html.theme-light .zz-hero__glass-title,
+html.theme-light .zz-hero__glass-btn {
+    color: #101317;
+}
+
+html.theme-light .zz-hero__glass-desc,
+html.theme-light .zz-hero__glass-title span {
+    color: rgba(16, 19, 23, 0.62);
+}
+
+html.theme-light .zz-hero__glass-btn {
+    background: rgba(255, 255, 255, 0.36);
+    border-color: rgba(16, 19, 23, 0.12);
+}
+
+html.theme-light .zz-user-dropdown .dropdown-item,
+html.theme-light .zz-pill--links .dropdown-item,
+html.theme-light #zzMobileMenu .dropdown-item {
+    color: rgba(16, 19, 23, 0.68);
+}
+
+html.theme-light .zz-user-dropdown .dropdown-item:hover,
+html.theme-light .zz-pill--links .dropdown-item:hover,
+html.theme-light #zzMobileMenu .dropdown-item:hover {
+    color: #101317;
+    background: rgba(255, 255, 255, 0.42);
+}
+
+html.theme-light .zz-auth__overlay {
+    background: linear-gradient(135deg, rgba(246, 248, 244, 0.58), rgba(246, 248, 244, 0.2)), rgba(255, 255, 255, 0.12);
+}
+
+html.theme-light .zz-auth__card {
+    border-radius: 1.8rem;
+}
+
+html.theme-light .zz-input {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(15, 23, 42, 0.09);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.zz-policy-hero {
+    min-height: auto;
+    overflow: visible;
+}
+
+.zz-policy-visual {
+    z-index: 0;
+}
+
+.zz-policy-story {
+    margin-top: -100vh;
+    padding-top: 112vh;
+    padding-bottom: 24vh;
+}
+
+html.theme-light .zz-policy-visual__shade {
+    background: linear-gradient(90deg, rgba(247, 249, 245, 0.78) 0%, rgba(247, 249, 245, 0.5) 32%, rgba(247, 249, 245, 0.06) 66%, rgba(247, 249, 245, 0.58) 100%), linear-gradient(180deg, rgba(247, 249, 245, 0.42), transparent 20%, transparent 70%, rgba(247, 249, 245, 0.72) 100%);
+}
+
+html.theme-light .zz-policy-chapter {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+html.theme-light .zz-policy-chapter p {
+    color: rgba(17, 19, 23, 0.72);
+}
+
+html.theme-light .zz-policy-hero__metrics span {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.24));
+    border-color: rgba(255, 255, 255, 0.62);
+    box-shadow: 0 16px 44px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 900px) {
+    .zz-policy-story {
+        margin-top: -100vh;
+        padding-top: 108vh;
+    }
+}
+
+
+/* ============================================================
+   IPHONE 17 STORY - BLACK / WHITE THEME
+   Dán cuối file CSS
+   ============================================================ */
+
+
+/* Dark mode mặc định */
+
+#iphone17ProStory.zz-pro-story {
+    background: radial-gradient(circle at 78% 12%, rgba(255, 255, 255, 0.08), transparent 34%), linear-gradient(135deg, #000000 0%, #070707 55%, #111111 100%) !important;
+    color: #ffffff;
+}
+
+#iphone17ProStory.zz-pro-story::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 26%), linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 38%, rgba(255, 255, 255, 0.08)) !important;
+}
+
+#iphone17ProStory .zz-pro-story__intro h2,
+#iphone17ProStory .zz-pro-copy h3 {
+    color: #ffffff;
+}
+
+#iphone17ProStory .zz-pro-story__intro p,
+#iphone17ProStory .zz-pro-copy p,
+#iphone17ProStory .zz-pro-feature small {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+#iphone17ProStory .zz-pro-story__eyebrow,
+#iphone17ProStory .zz-pro-copy span {
+    color: #ffffff !important;
+}
+
+#iphone17ProStory .zz-pro-story__stage {
+    background: #020202 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 30px 100px rgba(0, 0, 0, 0.55), 0 0 36px rgba(255, 255, 255, 0.08) !important;
+}
+
+#iphone17ProStory .zz-pro-feature {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+#iphone17ProStory .zz-pro-feature:hover,
+#iphone17ProStory .zz-pro-feature.is-active {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+}
+
+#iphone17ProStory .zz-pro-feature__icon {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+#iphone17ProStory .zz-pro-feature__swatch--orange {
+    background: linear-gradient(135deg, #ffffff, #9b9b9b, #111111) !important;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+}
+
+#iphone17ProStory .zz-pro-model {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%), #050505 !important;
+}
+
+#iphone17ProStory .zz-pro-model::after {
+    background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.85), rgba(190, 190, 190, 0.55), transparent) !important;
+}
+
+#iphone17ProStory .zz-pro-model__loading {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+
+/* Light mode */
+
+html.theme-light #iphone17ProStory.zz-pro-story {
+    background: radial-gradient(circle at 82% 10%, rgba(0, 0, 0, 0.06), transparent 34%), linear-gradient(135deg, #ffffff 0%, #f7f7f7 52%, #ededed 100%) !important;
+    color: #050505;
+}
+
+html.theme-light #iphone17ProStory.zz-pro-story::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.055), transparent 24%), linear-gradient(90deg, rgba(0, 0, 0, 0.05), transparent 38%, rgba(0, 0, 0, 0.07)) !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-story__intro h2,
+html.theme-light #iphone17ProStory .zz-pro-copy h3 {
+    color: #050505;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-story__intro p,
+html.theme-light #iphone17ProStory .zz-pro-copy p,
+html.theme-light #iphone17ProStory .zz-pro-feature small {
+    color: rgba(0, 0, 0, 0.62);
+}
+
+html.theme-light #iphone17ProStory .zz-pro-story__eyebrow,
+html.theme-light #iphone17ProStory .zz-pro-copy span {
+    color: #050505 !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-story__stage {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.16) !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04) inset, 0 30px 90px rgba(0, 0, 0, 0.12), 0 0 28px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-feature {
+    background: rgba(0, 0, 0, 0.045);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #050505;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-feature:hover,
+html.theme-light #iphone17ProStory .zz-pro-feature.is-active {
+    background: rgba(0, 0, 0, 0.09);
+    border-color: rgba(0, 0, 0, 0.28) !important;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-feature__icon {
+    color: #050505;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+html.theme-light #iphone17ProStory .zz-pro-feature__swatch--orange {
+    background: linear-gradient(135deg, #111111, #999999, #ffffff) !important;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.16);
+}
+
+html.theme-light #iphone17ProStory .zz-pro-model {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.045), transparent 42%), #f7f7f7 !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-model::after {
+    background: linear-gradient( 90deg, transparent, rgba(0, 0, 0, 0.75), rgba(120, 120, 120, 0.45), transparent) !important;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-model__loading {
+    color: rgba(0, 0, 0, 0.68);
+}
+
+
+/* ============================================================
+   IPHONE STORY - ORANGE COLOR ICON ONLY
+   Chỉ đổi icon màu sắc, không đổi nút active
+   ============================================================ */
+
+#iphone17ProStory .zz-pro-feature__swatch--orange,
+html.theme-light #iphone17ProStory .zz-pro-feature__swatch--orange {
+    background: linear-gradient(135deg, #ffd3a1 0%, #ff8a1f 45%, #ff6900 100%) !important;
+    border: 1px solid rgba(255, 105, 0, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 0 18px rgba(255, 105, 0, 0.35) !important;
+}
+
+
+/* ============================================================
+   IPHONE STORY INTRO - APPLE BLACK TITLE STYLE
+   Giao diện giống ảnh: nền đen + chữ trắng lớn
+   ============================================================ */
+
+#iphone17ProStory.zz-pro-story {
+    background: #000000 !important;
+    color: #ffffff;
+    padding-top: 0 !important;
+}
+
+#iphone17ProStory.zz-pro-story::before {
+    display: none !important;
+}
+
+#iphone17ProStory .zz-pro-story__intro {
+    width: 100%;
+    max-width: 1540px;
+    min-height: clamp(300px, 38vw, 470px);
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 7vw, 9rem);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+#iphone17ProStory .zz-pro-story__eyebrow,
+#iphone17ProStory .zz-pro-story__intro>p {
+    display: none !important;
+}
+
+#iphone17ProStory .zz-pro-story__intro h2 {
+    margin: 0;
+    max-width: none;
+    color: #f5f5f7 !important;
+    font-size: clamp(3rem, 5.4vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+
+/* Giữ phần stage bên dưới vẫn nối tiếp nền đen */
+
+#iphone17ProStory .zz-pro-story__stage {
+    margin-top: 0 !important;
+}
+
+
+/* Light mode: nền trắng, chữ đen */
+
+html.theme-light #iphone17ProStory.zz-pro-story {
+    background: #ffffff !important;
+    color: #111111;
+}
+
+html.theme-light #iphone17ProStory .zz-pro-story__intro h2 {
+    color: #111111 !important;
+}
+
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    #iphone17ProStory .zz-pro-story__intro {
+        min-height: 260px;
+        padding: 0 1.25rem;
+    }
+    #iphone17ProStory .zz-pro-story__intro h2 {
+        font-size: clamp(2.6rem, 13vw, 4rem);
+        letter-spacing: -0.05em;
+    }
+}
+
+
+/* ============================================================
+   IPHONE STORY COLOR ZOOM MODAL
+   ============================================================ */
+
+html.zz-pro-color-modal-open,
+html.zz-pro-color-modal-open body {
+    overflow: hidden;
+}
+
+.zz-pro-color-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    display: none;
+    place-items: center;
+    padding: clamp(0.75rem, 2vw, 2rem);
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.zz-pro-color-modal.is-open {
+    display: grid;
+}
+
+.zz-pro-color-modal__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(260px, 34rem) minmax(0, 1fr);
+    width: min(100%, 118rem);
+    min-height: min(84vh, 62rem);
+    overflow: hidden;
+    border-radius: clamp(1.2rem, 2vw, 2.15rem);
+    background: #000000;
+    box-shadow: 0 36px 120px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.zz-pro-color-modal__panel::before {
+    content: "";
+    position: absolute;
+    inset: 3.5rem 34% auto auto;
+    width: min(42vw, 42rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 138, 31, 0.13);
+    pointer-events: none;
+}
+
+.zz-pro-color-modal[data-active-color="silver"] .zz-pro-color-modal__panel::before {
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.zz-pro-color-modal__close {
+    position: absolute;
+    top: clamp(1rem, 1.6vw, 1.7rem);
+    right: clamp(1rem, 1.6vw, 1.7rem);
+    z-index: 8;
+    width: 3rem;
+    height: 3rem;
+    display: inline-grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.13);
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 650;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.zz-pro-color-modal__close:hover {
+    transform: scale(1.04);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.zz-pro-color-modal__rail {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1rem, 1.6vw, 1.4rem);
+    min-width: 0;
+    padding: clamp(4.5rem, 6vw, 8rem) clamp(1.1rem, 4vw, 4.4rem);
+}
+
+.zz-pro-color-card {
+    width: min(100%, 34rem);
+    padding: clamp(1.35rem, 2.4vw, 2.25rem);
+    border-radius: 1.65rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.zz-pro-color-card__title {
+    margin: 0;
+    color: #f5f5f7;
+    font-size: clamp(1.05rem, 1.55vw, 1.45rem);
+    font-weight: 760;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.zz-pro-color-card__swatches {
+    display: flex;
+    gap: 0.9rem;
+    margin-top: 1.25rem;
+}
+
+.zz-pro-color-swatch {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.zz-pro-color-swatch.is-active {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 3px #0a84ff, 0 0 0 7px rgba(255, 255, 255, 0.12);
+}
+
+.zz-pro-color-swatch--orange {
+    background: linear-gradient(135deg, #ffd1a0 0%, #ff8a1f 42%, #b94407 100%);
+}
+
+.zz-pro-color-swatch--silver {
+    background: linear-gradient(135deg, #ffffff 0%, #e9e9e3 38%, #8e9498 100%);
+}
+
+.zz-pro-color-modal__features {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    min-width: 0;
+}
+
+.zz-pro-color-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 3.6rem;
+    padding: 0.78rem 1.25rem 0.78rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #f5f5f7;
+    font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+    font-weight: 760;
+    white-space: nowrap;
+}
+
+.zz-pro-color-feature span {
+    width: 1.75rem;
+    height: 1.75rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.zz-pro-color-modal__model {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: inherit;
+    overflow: hidden;
+}
+
+.zz-pro-color-modal__canvas,
+.zz-pro-color-modal__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.zz-pro-color-modal__canvas {
+    z-index: 2;
+}
+
+.zz-pro-color-modal__fallback {
+    z-index: 1;
+    object-fit: contain;
+    object-position: 72% center;
+    padding: clamp(3rem, 6vw, 6.5rem) clamp(1rem, 5vw, 5rem);
+    opacity: 0.2;
+    filter: drop-shadow(0 42px 78px rgba(255, 138, 31, 0.24));
+    transition: opacity 0.28s ease;
+}
+
+.zz-pro-color-modal.is-model-ready .zz-pro-color-modal__fallback {
+    opacity: 0;
+}
+
+.zz-pro-color-modal.is-model-fallback .zz-pro-color-modal__fallback {
+    opacity: 0.92;
+}
+
+.zz-pro-color-modal__loading {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(1.1rem, 2vw, 1.8rem);
+    z-index: 5;
+    transform: translateX(-50%);
+    display: none;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.zz-pro-color-modal__loading.is-visible {
+    display: inline-flex;
+}
+
+@media (max-width: 980px) {
+    .zz-pro-color-modal {
+        padding: 0;
+    }
+
+    .zz-pro-color-modal__panel {
+        width: 100%;
+        min-height: 100dvh;
+        border-radius: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .zz-pro-color-modal__rail {
+        width: 100%;
+        overflow: hidden;
+        padding: 5.25rem 1rem 0.85rem;
+    }
+
+    .zz-pro-color-card {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 1.2rem;
+    }
+
+    .zz-pro-color-modal__features {
+        width: 100%;
+        max-width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 0.35rem;
+        scrollbar-width: none;
+    }
+
+    .zz-pro-color-modal__features::-webkit-scrollbar {
+        display: none;
+    }
+
+    .zz-pro-color-feature {
+        flex: 0 0 auto;
+        max-width: calc(100vw - 2rem);
+        min-height: 3.2rem;
+    }
+
+    .zz-pro-color-modal__model {
+        min-height: 58dvh;
+    }
+}
+
+@media (max-width: 560px) {
+    .zz-pro-color-modal__close {
+        width: 2.65rem;
+        height: 2.65rem;
+        font-size: 1.75rem;
+    }
+
+    .zz-pro-color-card__title {
+        font-size: 1rem;
+    }
+
+    .zz-pro-color-swatch {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+
+/* ============================================================
+   BATTERY SHOWCASE - IPHONE STYLE
+   Ảnh: wwwroot/images/dienthoai.jpg
+   ============================================================ */
+
+.zz-battery-showcase {
+    position: relative;
+    overflow: hidden;
+    background: #000000;
+    color: #f5f5f7;
+    padding: clamp(4rem, 7vw, 7rem) 0;
+}
+
+.zz-battery-showcase__inner {
+    position: relative;
+    width: min(92rem, calc(100% - 2rem));
+    min-height: clamp(720px, 64vw, 960px);
+    margin: 0 auto;
+}
+
+.zz-battery-showcase__text {
+    position: relative;
+    z-index: 3;
+    width: min(27rem, 100%);
+    padding-left: clamp(0rem, 2vw, 1rem);
+}
+
+.zz-battery-showcase__text h2 {
+    margin: 0 0 1.25rem;
+    color: #f5f5f7;
+    font-size: clamp(2.8rem, 4.4vw, 5.2rem);
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: -0.055em;
+}
+
+.zz-battery-showcase__text p {
+    margin: 0;
+    color: rgba(245, 245, 247, 0.72);
+    font-size: clamp(1rem, 1.15vw, 1.16rem);
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+.zz-battery-showcase__text strong {
+    color: #ffffff;
+    font-weight: 850;
+}
+
+.zz-battery-showcase__image {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.zz-battery-showcase__image img {
+    width: min(100%, 88rem);
+    height: auto;
+    max-height: 82vh;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    filter: drop-shadow(0 40px 90px rgba(0, 0, 0, 0.65));
+}
+
+.zz-battery-showcase__stats {
+    position: absolute;
+    z-index: 3;
+    left: clamp(1rem, 6vw, 6rem);
+    right: clamp(1rem, 6vw, 6rem);
+    bottom: clamp(1rem, 3vw, 3rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 4vw, 5rem);
+    align-items: start;
+}
+
+.zz-battery-stat {
+    max-width: 17rem;
+}
+
+.zz-battery-stat span {
+    display: block;
+    color: rgba(245, 245, 247, 0.62);
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.zz-battery-stat strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #ff6900;
+    font-size: clamp(1.35rem, 1.65vw, 2rem);
+    font-weight: 850;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+
+/* Light mode vẫn giữ section kiểu Apple đen như ảnh */
+
+html.theme-light .zz-battery-showcase {
+    background: #000000;
+    color: #f5f5f7;
+}
+
+html.theme-light .zz-battery-showcase__text h2 {
+    color: #f5f5f7;
+}
+
+html.theme-light .zz-battery-showcase__text p {
+    color: rgba(245, 245, 247, 0.72);
+}
+
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .zz-battery-showcase__inner {
+        min-height: 760px;
+    }
+    .zz-battery-showcase__image {
+        align-items: center;
+        justify-content: center;
+        opacity: 0.9;
+    }
+    .zz-battery-showcase__image img {
+        width: 115%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .zz-battery-showcase {
+        padding: 3.5rem 0 3rem;
+    }
+    .zz-battery-showcase__inner {
+        width: calc(100% - 1.25rem);
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .zz-battery-showcase__text {
+        width: 100%;
+        padding: 0 0.75rem;
+    }
+    .zz-battery-showcase__text h2 {
+        font-size: clamp(2.4rem, 12vw, 3.8rem);
+    }
+    .zz-battery-showcase__image {
+        position: relative;
+        inset: auto;
+        display: block;
+        margin: 0 -0.5rem;
+    }
+    .zz-battery-showcase__image img {
+        width: 100%;
+        max-height: none;
+    }
+    .zz-battery-showcase__stats {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+        padding: 0 0.75rem;
+    }
+    .zz-battery-stat {
+        max-width: none;
+    }
+}
+
+
+/* ============================================================
+   XIAOMI / LEICA HOVER LINEUP - CLEAN VERSION
+   Gọn hơn, ảnh gần nhau, không đè chữ
+   Ảnh: wwwroot/images/01.jpg -> 06.jpg
+   ============================================================ */
+
+.zz-xiaomi-evo {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.045), transparent 34%), linear-gradient(180deg, #000000 0%, #000000 70%, #040404 100%);
+    color: #ffffff;
+    padding: clamp(4rem, 5vw, 5.5rem) 0 0;
+    min-height: clamp(720px, 54vw, 900px);
+}
+
+.zz-xiaomi-evo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 0.065), transparent 18%), linear-gradient(180deg, transparent 0%, transparent 74%, rgba(255, 255, 255, 0.03) 100%);
+    opacity: 0.75;
+}
+
+.zz-xiaomi-evo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 18%;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 70%, #000000 100%);
+    pointer-events: none;
+    z-index: 6;
+}
+
+
+/* Header */
+
+.zz-xiaomi-evo__head {
+    position: relative;
+    z-index: 10;
+    width: min(88rem, calc(100% - 2rem));
+    margin: 0 auto;
+    text-align: center;
+    min-height: clamp(180px, 17vw, 260px);
+}
+
+.zz-xiaomi-evo__title {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2.7rem, 4.2vw, 5rem);
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: -0.055em;
+}
+
+.zz-xiaomi-evo__meta {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 1.6rem;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: clamp(0.68rem, 0.8vw, 0.9rem);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.zz-xiaomi-evo__leica {
+    min-width: 1.65rem;
+    height: 1.65rem;
+    padding: 0 0.42rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e30613;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-family: Georgia, serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: -0.04em;
+    box-shadow: 0 0 18px rgba(227, 6, 19, 0.34);
+}
+
+.zz-xiaomi-evo__desc {
+    margin: clamp(1.6rem, 2.4vw, 2.5rem) auto 0;
+    max-width: 44rem;
+    min-height: 3.8rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: clamp(1rem, 1.25vw, 1.55rem);
+    font-weight: 500;
+    line-height: 1.28;
+    letter-spacing: -0.03em;
+}
+
+
+/* Stage ảnh */
+
+.zz-xiaomi-evo__stage {
+    position: relative;
+    z-index: 4;
+    width: min(96rem, calc(100% - 2rem));
+    height: clamp(390px, 33vw, 580px);
+    margin: clamp(0.5rem, 1.2vw, 1.5rem) auto 0;
+    overflow: visible;
+}
+
+
+/* Button ảnh */
+
+.zz-xiaomi-evo .zz-xiaomi-phone {
+    position: absolute;
+    bottom: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1);
+    transform-origin: center bottom;
+    transition: transform 0.32s ease, filter 0.32s ease, opacity 0.32s ease;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none !important;
+    filter: drop-shadow(0 28px 55px rgba(0, 0, 0, 0.76));
+}
+
+
+/* Ảnh gần nhau nhưng không quá bự */
+
+.zz-xiaomi-evo .zz-xiaomi-phone--01 {
+    left: 2%;
+    width: 20%;
+    z-index: 1;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--02 {
+    left: 17%;
+    width: 20%;
+    z-index: 2;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--03 {
+    left: 32%;
+    width: 20%;
+    z-index: 3;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--04 {
+    left: 47%;
+    width: 20%;
+    z-index: 4;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--05 {
+    left: 62%;
+    width: 20.5%;
+    z-index: 5;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--06 {
+    left: 77%;
+    width: 20.5%;
+    z-index: 6;
+}
+
+
+/* Mặc định */
+
+.zz-xiaomi-evo .zz-xiaomi-phone {
+    opacity: 0.94;
+    filter: brightness(0.96);
+}
+
+
+/* Active chỉ sáng hơn, không tự nhảy lên */
+
+.zz-xiaomi-evo .zz-xiaomi-phone.is-active {
+    opacity: 1;
+    filter: brightness(1.02);
+    transform: translateY(0) scale(1);
+}
+
+
+/* Hover mới nổi nhẹ */
+
+.zz-xiaomi-evo .zz-xiaomi-phone:hover,
+.zz-xiaomi-evo .zz-xiaomi-phone:focus-visible {
+    opacity: 1;
+    filter: brightness(1.07);
+    transform: translateY(-14px) scale(1.035);
+    z-index: 20;
+    outline: none;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone:hover img,
+.zz-xiaomi-evo .zz-xiaomi-phone:focus-visible img {
+    filter: drop-shadow(0 38px 66px rgba(0, 0, 0, 0.86));
+}
+
+
+/* Text đổi mượt */
+
+.zz-xiaomi-evo__title,
+.zz-xiaomi-evo__meta,
+.zz-xiaomi-evo__desc {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+
+/* Light mode vẫn giữ đen giống Xiaomi */
+
+html.theme-light .zz-xiaomi-evo {
+    background: radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.045), transparent 34%), linear-gradient(180deg, #000000 0%, #000000 70%, #040404 100%);
+    color: #ffffff;
+}
+
+html.theme-light .zz-xiaomi-evo__title {
+    color: #ffffff;
+}
+
+html.theme-light .zz-xiaomi-evo__meta {
+    color: rgba(255, 255, 255, 0.74);
+}
+
+html.theme-light .zz-xiaomi-evo__desc {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+
+/* Tablet */
+
+@media (max-width: 1199px) {
+    .zz-xiaomi-evo {
+        min-height: 760px;
+    }
+    .zz-xiaomi-evo__head {
+        min-height: 230px;
+    }
+    .zz-xiaomi-evo__stage {
+        width: min(82rem, calc(100% - 1.5rem));
+        height: 450px;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--01 {
+        left: 1%;
+        width: 21%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--02 {
+        left: 16%;
+        width: 21%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--03 {
+        left: 31%;
+        width: 21%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--04 {
+        left: 46%;
+        width: 21%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--05 {
+        left: 61%;
+        width: 21.5%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--06 {
+        left: 76%;
+        width: 21.5%;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 767px) {
+    .zz-xiaomi-evo {
+        min-height: auto;
+        padding: 3.2rem 0 2rem;
+    }
+    .zz-xiaomi-evo__head {
+        width: calc(100% - 1.25rem);
+        min-height: auto;
+    }
+    .zz-xiaomi-evo__title {
+        font-size: clamp(2.1rem, 10vw, 3.2rem);
+    }
+    .zz-xiaomi-evo__desc {
+        margin-top: 1.25rem;
+        min-height: auto;
+        font-size: 1rem;
+    }
+    .zz-xiaomi-evo__stage {
+        width: 100%;
+        height: auto;
+        margin-top: 2rem;
+        padding: 0 0.75rem 1rem;
+        display: flex;
+        align-items: flex-end;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .zz-xiaomi-evo__stage::-webkit-scrollbar {
+        display: none;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone {
+        position: relative;
+        left: auto !important;
+        bottom: auto;
+        width: 42vw !important;
+        min-width: 165px;
+        max-width: 220px;
+        flex: 0 0 auto;
+        margin-left: -25vw;
+        transform: translateY(0) scale(1);
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone:first-child {
+        margin-left: 0;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone:hover,
+    .zz-xiaomi-evo .zz-xiaomi-phone:focus-visible {
+        transform: translateY(-8px) scale(1.025);
+    }
+}
+
+@media (max-width: 767px) {
+    .zz-xiaomi-evo {
+        min-height: auto;
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+    }
+    .zz-xiaomi-evo__head {
+        width: calc(100% - 1.25rem);
+    }
+    .zz-xiaomi-evo__title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+    .zz-xiaomi-evo__desc {
+        margin-top: 1.25rem;
+        min-height: auto;
+        font-size: 1rem;
+    }
+    .zz-xiaomi-evo__stage {
+        width: 100%;
+        height: auto;
+        margin-top: 2rem;
+        padding: 0 0.75rem 1rem;
+        display: flex;
+        align-items: flex-end;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .zz-xiaomi-evo__stage::-webkit-scrollbar {
+        display: none;
+    }
+    .zz-xiaomi-phone {
+        position: relative;
+        left: auto !important;
+        bottom: auto;
+        width: 40vw !important;
+        min-width: 160px;
+        max-width: 220px;
+        flex: 0 0 auto;
+        margin-left: -24vw;
+        transform: translateY(0) scale(1);
+    }
+    .zz-xiaomi-phone:first-child {
+        margin-left: 0;
+    }
+    .zz-xiaomi-phone--05 {
+        margin-top: -1rem;
+    }
+    .zz-xiaomi-phone:hover,
+    .zz-xiaomi-phone:focus-visible,
+    .zz-xiaomi-phone.is-active {
+        transform: translateY(-10px) scale(1.03) !important;
+    }
+}
+
+
+/* ============================================================
+   XIAOMI / LEICA HOVER LINEUP - LOWER PHONES VERSION
+   Ảnh gần nhau, không che chữ, phần dưới bị cắt nhẹ cho đẹp
+   ============================================================ */
+
+.zz-xiaomi-evo {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.045), transparent 34%), linear-gradient(180deg, #000000 0%, #000000 70%, #040404 100%);
+    color: #ffffff;
+    padding: clamp(4rem, 5vw, 5.5rem) 0 0;
+    min-height: clamp(760px, 58vw, 940px);
+}
+
+
+/* Ánh nền nhẹ */
+
+.zz-xiaomi-evo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 0.06), transparent 18%), linear-gradient(180deg, transparent 0%, transparent 74%, rgba(255, 255, 255, 0.03) 100%);
+    opacity: 0.75;
+}
+
+
+/* Lớp che phía dưới để tạo cảm giác section/footer che điện thoại */
+
+.zz-xiaomi-evo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 9rem;
+    background: linear-gradient( 180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 38%, rgba(0, 0, 0, 0.82) 72%, #000000 100%);
+    pointer-events: none;
+    z-index: 8;
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.zz-xiaomi-evo__head {
+    position: relative;
+    z-index: 12;
+    width: min(88rem, calc(100% - 2rem));
+    margin: 0 auto;
+    text-align: center;
+    min-height: 250px;
+}
+
+.zz-xiaomi-evo__title {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2.6rem, 4.2vw, 5rem);
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: -0.055em;
+}
+
+.zz-xiaomi-evo__meta {
+    margin-top: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 1.6rem;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: clamp(0.68rem, 0.8vw, 0.9rem);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.zz-xiaomi-evo__leica {
+    min-width: 1.65rem;
+    height: 1.65rem;
+    padding: 0 0.42rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e30613;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-family: Georgia, serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: -0.04em;
+    box-shadow: 0 0 18px rgba(227, 6, 19, 0.34);
+}
+
+.zz-xiaomi-evo__desc {
+    margin: 1.6rem auto 0;
+    max-width: 44rem;
+    min-height: 4.4rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: clamp(1rem, 1.2vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.28;
+    letter-spacing: -0.03em;
+}
+
+
+/* =========================
+   Stage ảnh
+   ========================= */
+
+.zz-xiaomi-evo__stage {
+    position: relative;
+    z-index: 4;
+    width: min(94rem, calc(100% - 2rem));
+    height: clamp(410px, 34vw, 560px);
+    margin: 2.4rem auto 0;
+    transform: translateY(48px);
+    /* HẠ CẢ CỤM ĐIỆN THOẠI XUỐNG */
+    overflow: visible;
+}
+
+
+/* button ảnh */
+
+.zz-xiaomi-evo .zz-xiaomi-phone {
+    position: absolute;
+    bottom: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transform-origin: center bottom;
+    transition: transform 0.32s ease, filter 0.32s ease, opacity 0.32s ease;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(0 28px 55px rgba(0, 0, 0, 0.76));
+}
+
+
+/* Ảnh đứng gần nhau hơn, vừa phải */
+
+.zz-xiaomi-evo .zz-xiaomi-phone--01 {
+    left: 2%;
+    width: 19%;
+    z-index: 1;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--02 {
+    left: 16%;
+    width: 19%;
+    z-index: 2;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--03 {
+    left: 30%;
+    width: 19%;
+    z-index: 3;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--04 {
+    left: 44%;
+    width: 19%;
+    z-index: 4;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--05 {
+    left: 58%;
+    width: 19.5%;
+    z-index: 5;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone--06 {
+    left: 72%;
+    width: 19.5%;
+    z-index: 6;
+}
+
+
+/* Trạng thái thường */
+
+.zz-xiaomi-evo .zz-xiaomi-phone {
+    opacity: 0.95;
+    filter: brightness(0.97);
+}
+
+
+/* Active chỉ đổi nội dung, không nhảy lên */
+
+.zz-xiaomi-evo .zz-xiaomi-phone.is-active {
+    opacity: 1;
+    filter: brightness(1.02);
+    transform: translateY(0) scale(1);
+}
+
+
+/* Hover mới nổi nhẹ */
+
+.zz-xiaomi-evo .zz-xiaomi-phone:hover,
+.zz-xiaomi-evo .zz-xiaomi-phone:focus-visible {
+    opacity: 1;
+    filter: brightness(1.08);
+    transform: translateY(-12px) scale(1.03);
+    z-index: 20;
+    outline: none;
+}
+
+.zz-xiaomi-evo .zz-xiaomi-phone:hover img,
+.zz-xiaomi-evo .zz-xiaomi-phone:focus-visible img {
+    filter: drop-shadow(0 38px 66px rgba(0, 0, 0, 0.86));
+}
+
+
+/* Text đổi mượt */
+
+.zz-xiaomi-evo__title,
+.zz-xiaomi-evo__meta,
+.zz-xiaomi-evo__desc {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+
+/* Light mode vẫn giữ nền đen */
+
+html.theme-light .zz-xiaomi-evo {
+    background: radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.045), transparent 34%), linear-gradient(180deg, #000000 0%, #000000 70%, #040404 100%);
+    color: #ffffff;
+}
+
+html.theme-light .zz-xiaomi-evo__title {
+    color: #ffffff;
+}
+
+html.theme-light .zz-xiaomi-evo__meta {
+    color: rgba(255, 255, 255, 0.74);
+}
+
+html.theme-light .zz-xiaomi-evo__desc {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+
+/* =========================
+   Tablet
+   ========================= */
+
+@media (max-width: 1199px) {
+    .zz-xiaomi-evo {
+        min-height: 760px;
+    }
+    .zz-xiaomi-evo__head {
+        min-height: 230px;
+    }
+    .zz-xiaomi-evo__stage {
+        width: min(82rem, calc(100% - 1.5rem));
+        height: 430px;
+        transform: translateY(40px);
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--01 {
+        left: 1%;
+        width: 20%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--02 {
+        left: 15%;
+        width: 20%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--03 {
+        left: 29%;
+        width: 20%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--04 {
+        left: 43%;
+        width: 20%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--05 {
+        left: 57%;
+        width: 20.5%;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone--06 {
+        left: 71%;
+        width: 20.5%;
+    }
+}
+
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 767px) {
+    .zz-xiaomi-evo {
+        min-height: auto;
+        padding: 3.2rem 0 2rem;
+    }
+    .zz-xiaomi-evo__head {
+        width: calc(100% - 1.25rem);
+        min-height: auto;
+    }
+    .zz-xiaomi-evo__title {
+        font-size: clamp(2.1rem, 10vw, 3.2rem);
+    }
+    .zz-xiaomi-evo__desc {
+        margin-top: 1.25rem;
+        min-height: auto;
+        font-size: 1rem;
+    }
+    .zz-xiaomi-evo__stage {
+        width: 100%;
+        height: auto;
+        margin-top: 1.8rem;
+        padding: 0 0.75rem 2.2rem;
+        transform: none;
+        display: flex;
+        align-items: flex-end;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .zz-xiaomi-evo__stage::-webkit-scrollbar {
+        display: none;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone {
+        position: relative;
+        left: auto !important;
+        bottom: auto;
+        width: 42vw !important;
+        min-width: 165px;
+        max-width: 220px;
+        flex: 0 0 auto;
+        margin-left: -25vw;
+        transform: translateY(0) scale(1);
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone:first-child {
+        margin-left: 0;
+    }
+    .zz-xiaomi-evo .zz-xiaomi-phone:hover,
+    .zz-xiaomi-evo .zz-xiaomi-phone:focus-visible {
+        transform: translateY(-8px) scale(1.025);
+    }
+    .zz-xiaomi-evo::after {
+        height: 6rem;
+    }
+}
+
+/* ============================================================
+   HOME HERO BRAND REFRESH - 2026-05-22
+   ============================================================ */
+
+.zz-pill--logo .zz-brand {
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.zz-hero-brand {
+    position: absolute;
+    left: 5%;
+    top: 19%;
+    z-index: 6;
+    max-width: 760px;
+    color: #ffffff;
+    text-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+}
+
+.zz-hero-brand__eyebrow {
+    margin: 0 0 0.75rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.zz-hero-brand__title {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    color: #ffffff;
+    font-size: 7rem;
+    font-weight: 850;
+    line-height: 0.9;
+    letter-spacing: 0;
+}
+
+.zz-hero-brand__title span,
+.zz-hero-brand__title strong {
+    display: inline-block;
+    letter-spacing: 0;
+}
+
+.zz-hero-brand__title strong {
+    color: #a8ff3e;
+    font-weight: 850;
+    text-shadow: 0 0 28px rgba(168, 255, 62, 0.22), 0 24px 70px rgba(0, 0, 0, 0.7);
+}
+
+.zz-hero-brand__meta {
+    max-width: 540px;
+    margin: 1.1rem 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.55;
+    letter-spacing: 0;
+}
+
+.page-home .zz-hero__desc {
+    left: 5.2%;
+    top: 55%;
+    max-width: 360px;
+    font-size: 0.98rem;
+    font-weight: 650;
+    letter-spacing: 0;
+}
+
+.page-home .zz-hero__glass-box {
+    right: 3.2rem;
+    bottom: 7.25rem;
+    width: min(430px, 31vw);
+    min-width: 300px;
+    text-align: left;
+    border-radius: 1.15rem;
+}
+
+.page-home .zz-hero__glass-title,
+.page-home .zz-hero__glass-desc,
+.page-home .zz-hero__glass-tag,
+.page-home .zz-hero__glass-btn {
+    letter-spacing: 0;
+}
+
+.page-home .zz-stat--tr {
+    top: 16.5%;
+    right: 5.2rem;
+}
+
+@media (min-width: 1400px) {
+    .zz-hero-brand__title {
+        font-size: 8.4rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .zz-hero-brand {
+        top: 17%;
+    }
+
+    .zz-hero-brand__title {
+        font-size: 5.2rem;
+    }
+
+    .page-home .zz-hero__desc {
+        top: 49%;
+    }
+
+    .page-home .zz-hero__glass-box {
+        right: 1.5rem;
+        width: min(390px, 44vw);
+    }
+}
+
+@media (max-width: 767px) {
+    .zz-nav {
+        padding: 0.75rem 0.85rem;
+        gap: 0.45rem;
+    }
+
+    .zz-pill--logo {
+        max-width: 11.6rem;
+        gap: 0.42rem;
+        padding: 0.58rem 0.75rem 0.58rem 0.65rem;
+    }
+
+    .zz-pill--logo svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .zz-pill--logo .zz-brand {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.78rem;
+    }
+
+    .zz-nav__actions {
+        gap: 0.35rem !important;
+        margin-left: auto;
+    }
+
+    .zz-icon-btn,
+    .zz-nav__toggle {
+        width: 2.35rem;
+        height: 2.35rem;
+        padding: 0;
+    }
+
+    .zz-cart-btn {
+        position: relative;
+        min-width: 2.35rem;
+        height: 2.35rem;
+        justify-content: center;
+        padding: 0;
+        font-size: 1rem;
+    }
+
+    .zz-cart-btn > span:not(.zz-cart-badge) {
+        display: none;
+    }
+
+    .zz-cart-badge {
+        position: absolute;
+        top: -0.25rem;
+        right: -0.25rem;
+    }
+
+    .zz-cta-btn {
+        padding: 0.62rem 0.9rem;
+        font-size: 0.78rem;
+    }
+
+    #zzMobileMenu {
+        top: 4.45rem !important;
+        left: 0.85rem !important;
+        right: 0.85rem !important;
+    }
+
+    .zz-hero {
+        height: 100svh;
+        min-height: 720px;
+    }
+
+    .zz-hero__video {
+        object-position: 58% center;
+    }
+
+    .zz-hero__overlay {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.42) 44%, rgba(0, 0, 0, 0.88) 100%) !important;
+    }
+
+    .zz-hero-brand {
+        left: 1.15rem;
+        right: 1.15rem;
+        top: 6.4rem;
+        max-width: none;
+    }
+
+    .zz-hero-brand__eyebrow {
+        margin-bottom: 0.55rem;
+        font-size: 0.74rem;
+    }
+
+    .zz-hero-brand__title {
+        display: block;
+        font-size: 3.35rem;
+        line-height: 0.92;
+    }
+
+    .zz-hero-brand__title strong {
+        display: block;
+        font-size: 2.75rem;
+    }
+
+    .zz-hero-brand__meta {
+        max-width: 17rem;
+        margin-top: 0.8rem;
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+
+    .page-home .zz-hero__desc {
+        left: 1.15rem;
+        right: 1.15rem;
+        top: 19.8rem;
+        max-width: 18rem;
+        font-size: 0.84rem;
+        line-height: 1.5;
+    }
+
+    .page-home .zz-hero__glass-box {
+        left: 1rem;
+        right: 1rem;
+        bottom: 6.45rem;
+        width: auto;
+        min-width: 0;
+        max-width: none;
+        padding: 1rem;
+        text-align: left;
+        border-radius: 1rem;
+        animation: none;
+    }
+
+    .zz-hero__glass-title {
+        font-size: 1.35rem;
+    }
+
+    .zz-hero__glass-title span {
+        font-size: 0.95rem;
+    }
+
+    .zz-hero__glass-desc {
+        margin-bottom: 1rem;
+        font-size: 0.78rem;
+    }
+
+    .zz-hero__glass-btn {
+        padding: 0.58rem 1rem;
+    }
+
+    .page-home .zz-stat--tr {
+        top: auto;
+        right: 1rem;
+        bottom: 2rem;
+    }
+
+    .page-home .zz-stat--bl {
+        left: 1rem;
+        bottom: 2rem;
+    }
+
+    .page-home .zz-stat--br,
+    .page-home .zz-scroll-hint {
+        display: none;
+    }
+
+    .page-home .zz-stat__value {
+        font-size: 1.7rem;
+    }
+
+    .page-home .zz-stat__label {
+        font-size: 0.7rem;
+    }
+
+    .page-home .zz-stat__divider {
+        display: none !important;
+    }
+
+    .zz-fab-stack {
+        right: 0.85rem;
+        bottom: 0.85rem;
+        gap: 0.55rem;
+    }
+
+    .zz-chatbox {
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 9.6rem;
+        width: auto;
+        max-height: calc(100svh - 11rem);
+    }
+}
+
+@media (max-width: 380px) {
+    .zz-nav .zz-cta-btn {
+        display: none;
+    }
+
+    .zz-pill--logo {
+        max-width: 10.75rem;
+    }
+
+    .zz-hero-brand__title {
+        font-size: 3rem;
+    }
+
+    .zz-hero-brand__title strong {
+        font-size: 2.45rem;
+    }
+}
+/* ============================================================
+   MOBILE OVERFLOW POLISH - 2026-05-22
+   ============================================================ */
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+@media (max-width: 767px) {
+    .page-home .zz-animate--left,
+    .page-home .zz-animate--right {
+        transform: translateY(32px);
+    }
+
+    .page-home .zz-animate.is-visible {
+        transform: translate(0, 0);
+    }
+
+    .page-home .zz-stl-section,
+    .page-home .zz-video-section,
+    .page-home .zz-products,
+    .page-home .zz-brands,
+    .page-home #iphone17ProStory {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    #iphone17ProStory .zz-pro-story__rail {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    #iphone17ProStory .zz-pro-feature {
+        min-width: min(13.25rem, 78vw);
+    }
+}
+/* ============================================================
+   ZUZONGSTORE SINGLE LINE FIT - 2026-05-22
+   ============================================================ */
+
+.zz-hero-brand__title {
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    font-size: 6rem;
+}
+
+.zz-hero-brand__title strong {
+    font-size: inherit;
+}
+
+@media (min-width: 1400px) {
+    .zz-hero-brand__title {
+        font-size: 7.4rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .zz-hero-brand__title {
+        font-size: 4.65rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .zz-hero-brand__title {
+        display: flex;
+        flex-wrap: nowrap;
+        font-size: 2.72rem;
+        line-height: 1;
+    }
+
+    .zz-hero-brand__title strong {
+        display: inline-block;
+        font-size: inherit;
+    }
+
+    .zz-hero-brand__meta {
+        margin-top: 0.7rem;
+    }
+
+    .page-home .zz-hero__desc {
+        top: 16.8rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .zz-hero-brand__title {
+        font-size: 2.4rem;
+    }
+
+    .zz-hero-brand__title strong {
+        font-size: inherit;
+    }
+}
+/* ============================================================
+   BACK TO TOP SCROLL FIX - 2026-05-22
+   ============================================================ */
+
+html,
+body {
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+@supports not (overflow: clip) {
+    html,
+    body {
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+}

@@ -1,0 +1,151 @@
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    ViewData["BodyClass"] = "page-auth";
+}
+
+<section class="zz-auth-section">
+    <video class="zz-auth__video" autoplay loop muted playsinline
+           src="https://dl.dropboxusercontent.com/scl/fi/ew8gm0ob8uzo4j56rvnm6/snaptik.vn_7582416233627192597.mp4?rlkey=3ygysvnzuxt1hilcec9quz2at&st=xqtweey4">
+    </video>
+    <div class="zz-auth__overlay"></div>
+
+    <div class="zz-auth__container zz-animate zz-animate--up is-visible">
+        <div class="zz-glass zz-auth__card zz-auth__card--large">
+            <div class="zz-auth__header">
+                <h2 class="zz-auth__title">Đăng ký</h2>
+                <p class="zz-auth__subtitle">trở thành thành viên của zuzong store</p>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="zz-auth__alert">@ViewBag.Error</div>
+            }
+
+            <form asp-action="Register" method="post" class="zz-auth__form" id="registerForm">
+                
+@Html.AntiForgeryToken()
+                <div class="zz-form-row">
+                    <div class="zz-form-group">
+                        <label>Họ và Tên <span class="text-danger">*</span></label>
+                        <input type="text" name="hoTen" class="zz-input" 
+                               placeholder="Nhập họ tên đầy đủ..." required />
+                    </div>
+                    <div class="zz-form-group">
+                        <label>Tên đăng nhập <span class="text-danger">*</span></label>
+                        <input type="text" name="tenDangNhap" class="zz-input" 
+                               placeholder="Viết liền không dấu..." required />
+                    </div>
+                </div>
+
+                <div class="zz-form-row">
+                    <div class="zz-form-group">
+                        <label>Mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" name="matKhau" id="matKhau" class="zz-input" 
+                               placeholder="Tối thiểu 8 ký tự..." required />
+                        <!-- Thanh độ mạnh mật khẩu -->
+                        <div class="zz-password-strength" id="strengthBar">
+                            <div class="zz-strength-fill" id="strengthFill"></div>
+                        </div>
+                        <small id="strengthText" class="zz-strength-text"></small>
+                    </div>
+                    <div class="zz-form-group">
+                        <label>Nhập lại mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" name="xacNhanMatKhau" id="xacNhanMatKhau" 
+                               class="zz-input" placeholder="Nhập lại mật khẩu..." required />
+                        <small id="matchText" class="zz-strength-text"></small>
+                    </div>
+                </div>
+
+                <div class="zz-form-group">
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="zz-input" 
+                           placeholder="abc@gmail.com" required />
+                    <small style="color:#aaa">📧 Mã OTP xác thực sẽ được gửi tới email này</small>
+                </div>
+
+                <div class="zz-form-group zz-form-check">
+                    <input type="checkbox" id="checkDieuKhoan" name="dongYDieuKhoan" required>
+                    <label for="checkDieuKhoan">
+                        Tôi đồng ý với 
+                        <a asp-controller="Home" asp-action="Privacy" target="_blank">
+                            Điều khoản và Chính sách bảo mật
+                        </a>
+                    </label>
+                </div>
+
+                <button type="submit" class="zz-auth__btn" id="btnDangKy">
+                    Gửi mã xác thực OTP
+                </button>
+
+                <div class="zz-auth__footer">
+                    Đã có tài khoản? 
+                    <a asp-controller="TaiKhoan" asp-action="Login">Đăng nhập tại đây</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<style>
+.zz-password-strength {
+    height: 6px; background: #333; border-radius: 4px; margin-top: 6px; overflow: hidden;
+}
+.zz-strength-fill {
+    height: 100%; width: 0; border-radius: 4px;
+    transition: width 0.4s ease, background 0.4s ease;
+}
+.zz-strength-text { font-size: 12px; margin-top: 4px; display: block; }
+</style>
+<script>
+const matKhauInput = document.getElementById('matKhau');
+const xacNhanInput = document.getElementById('xacNhanMatKhau');
+const fill = document.getElementById('strengthFill');
+const text = document.getElementById('strengthText');
+const matchText = document.getElementById('matchText');
+
+function checkStrength(pw) {
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[a-z]/.test(pw)) score++;
+    if (/\d/.test(pw)) score++;
+  if (/[@@$!%*?&#^()\-_+=]/.test(pw)) score++;
+    return score;
+}
+
+matKhauInput.addEventListener('input', function () {
+    const pw = this.value;
+    const score = checkStrength(pw);
+    const pct = (score / 5) * 100;
+    const colors = ['', '#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#27ae60'];
+    const labels = ['', 'Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'];
+    fill.style.width = pct + '%';
+    fill.style.background = colors[score] || '#333';
+    text.textContent = pw.length ? labels[score] : '';
+    text.style.color = colors[score];
+});
+
+xacNhanInput.addEventListener('input', function () {
+    if (this.value === matKhauInput.value) {
+        matchText.textContent = '✓ Mật khẩu khớp';
+        matchText.style.color = '#2ecc71';
+    } else {
+        matchText.textContent = '✗ Mật khẩu không khớp';
+        matchText.style.color = '#e74c3c';
+    }
+});
+
+document.getElementById('registerForm').addEventListener('submit', function (e) {
+    const pw = matKhauInput.value;
+    if (checkStrength(pw) < 5) {
+        e.preventDefault();
+        alert('Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (tối thiểu 8 ký tự)!');
+    }
+    if (pw !== xacNhanInput.value) {
+        e.preventDefault();
+        alert('Mật khẩu nhập lại không khớp!');
+    }
+});
+</script>
+}

@@ -1,0 +1,153 @@
+@using Microsoft.AspNetCore.Http
+@model dienthoai.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Quản lý tài khoản";
+    ViewData["BodyClass"] = "page-account";
+
+    var currentUserId = Context.Session.GetString("MaTaiKhoan");
+    bool isOwner = currentUserId == Model.MaTaiKhoan.ToString();
+    string returnUrl = ViewBag.ReturnUrl as string ?? "";
+
+    var addressParts = (Model.DiaChi ?? "")
+        .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+        .ToList();
+    string tinhThanh = addressParts.Count >= 1 ? addressParts.Last() : "";
+    string quanHuyen = addressParts.Count >= 2 ? addressParts[^2] : "";
+    string diaChiCuThe = addressParts.Count >= 3 ? string.Join(", ", addressParts.Take(addressParts.Count - 2)) : "";
+
+    var tinhThanhList = new[]
+    {
+        "An Giang","Bà Rịa - Vũng Tàu","Bắc Giang","Bắc Kạn","Bạc Liêu","Bắc Ninh","Bến Tre","Bình Định",
+        "Bình Dương","Bình Phước","Bình Thuận","Cà Mau","Cần Thơ","Cao Bằng","Đà Nẵng","Đắk Lắk",
+        "Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Nội","Hà Tĩnh",
+        "Hải Dương","Hải Phòng","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum",
+        "Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình",
+        "Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị",
+        "Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa","Thừa Thiên Huế",
+        "Tiền Giang","TP. Hồ Chí Minh","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"
+    };
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/zuzong-account.css" asp-append-version="true" />
+}
+
+<section class="zz-account-page">
+    @if (TempData["SuccessMsg"] != null)
+    {
+        <div class="zz-account-alert zz-account-alert--success">@TempData["SuccessMsg"]</div>
+    }
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <div class="zz-account-alert zz-account-alert--danger">@TempData["ErrorMsg"]</div>
+    }
+
+    <div class="zz-account-header">
+        <div>
+            <p class="zz-account-eyebrow">ZUZONG ACCOUNT</p>
+            <h1>Quản lý tài khoản</h1>
+            <span>Cập nhật thông tin cá nhân và địa chỉ giao hàng tại Việt Nam.</span>
+        </div>
+        @if (isOwner)
+        {
+            <a asp-action="ChangePassword" asp-route-id="@Model.MaTaiKhoan" class="zz-account-pill-btn">Đổi mật khẩu</a>
+        }
+    </div>
+
+    <div class="zz-account-layout">
+        <aside class="zz-account-profile">
+            <div class="zz-account-avatar">
+                @if (!string.IsNullOrEmpty(Model.Avatar))
+                {
+                    <img src="~/images/@Model.Avatar" alt="@Model.HoTen" />
+                }
+                else
+                {
+                    <span>@(Model.HoTen?.Substring(0, 1).ToUpper() ?? "U")</span>
+                }
+            </div>
+
+            <h2>@(Model.HoTen ?? Model.TenDangNhap)</h2>
+            <p>@("@" + Model.TenDangNhap)</p>
+            <div class="zz-account-status">
+                <span>@Model.VaiTro</span>
+                <span>@(Model.TrangThai == true ? "Đang hoạt động" : "Bị khóa")</span>
+            </div>
+
+            @if (isOwner)
+            {
+                <form asp-action="UpdateAvatar" method="post" enctype="multipart/form-data" class="zz-avatar-form">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="MaTaiKhoan" value="@Model.MaTaiKhoan" />
+                    <label>
+                        <span>Ảnh đại diện</span>
+                        <input type="file" name="fileAvatar" accept="image/*" required />
+                    </label>
+                    <button type="submit">Tải ảnh lên</button>
+                </form>
+            }
+        </aside>
+
+        <div class="zz-account-main">
+            <form asp-action="UpdateProfile" method="post" class="zz-account-panel">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="MaTaiKhoan" value="@Model.MaTaiKhoan" />
+                <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                <div class="zz-account-panel__head">
+                    <div>
+                        <span>Thông tin giao hàng</span>
+                        <h2>Hồ sơ nhận hàng</h2>
+                    </div>
+                </div>
+
+                <div class="zz-account-grid">
+                    <label class="zz-account-field">
+                        <span>Họ và tên</span>
+                        <input type="text" name="hoTen" value="@Model.HoTen" required @(isOwner ? "" : "readonly") />
+                    </label>
+
+                    <label class="zz-account-field">
+                        <span>Email</span>
+                        <input type="email" name="email" value="@Model.Email" required @(isOwner ? "" : "readonly") />
+                    </label>
+
+                    <label class="zz-account-field">
+                        <span>Số điện thoại</span>
+                        <input type="tel" name="soDienThoai" value="@Model.SoDienThoai" placeholder="0901234567" required @(isOwner ? "" : "readonly") />
+                    </label>
+
+                    <label class="zz-account-field">
+                        <span>Tỉnh / Thành phố</span>
+                        <select name="tinhThanh" required @(isOwner ? "" : "disabled")>
+                            <option value="">Chọn tỉnh / thành phố</option>
+                            @foreach (var item in tinhThanhList)
+                            {
+                                <option value="@item" selected="@(item == tinhThanh)">@item</option>
+                            }
+                        </select>
+                    </label>
+
+                    <label class="zz-account-field">
+                        <span>Quận / Huyện / Thành phố thuộc tỉnh</span>
+                        <input type="text" name="quanHuyen" value="@quanHuyen" placeholder="VD: Ninh Kiều, Cái Răng..." required @(isOwner ? "" : "readonly") />
+                    </label>
+
+                    <label class="zz-account-field zz-account-field--wide">
+                        <span>Địa chỉ cụ thể</span>
+                        <textarea name="diaChiCuThe" rows="3" placeholder="Số nhà, tên đường, phường/xã..." @(isOwner ? "" : "readonly")>@diaChiCuThe</textarea>
+                    </label>
+                </div>
+
+                @if (isOwner)
+                {
+                    <div class="zz-account-actions">
+                        <button type="submit" class="zz-account-primary-btn">Lưu thông tin</button>
+                        <a asp-action="ForgotPassword" class="zz-account-ghost-btn">Quên mật khẩu</a>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</section>
